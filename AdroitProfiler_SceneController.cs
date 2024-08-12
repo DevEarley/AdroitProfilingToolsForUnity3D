@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class AdroitProfiler_SceneBehaviour : MonoBehaviour
+public class AdroitProfiler_SceneController : MonoBehaviour
 {
 
     public List<string> scenes;

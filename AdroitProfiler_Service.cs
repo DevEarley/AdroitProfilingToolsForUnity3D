@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 
 public static class AdroitProfiler_Service
@@ -19,27 +20,50 @@ public static class AdroitProfiler_Service
         return hours + ":" + minutes + ":" + seconds + ":" + milliseconds;
     }
 
-    public static void UpdateMetric(out float TimerFor_n_TimePerFrame, out float MaxInThis_n_TimePerFrame, float TimerFor_n_TimePerFrame_IN, float MaxInThis_n_TimePerFrame_IN, float _TimeThisFrame, float MaxTimeForTimer_n_TimePerFrame)
+
+    public static bool CheckTimer(out float TimerFor_n_TimePerFrame_OUT, float TimerFor_n_TimePerFrame_IN, float MaxTimeForTimer_n_TimePerFrame)
     {
-        TimerFor_n_TimePerFrame = TimerFor_n_TimePerFrame_IN;
-        MaxInThis_n_TimePerFrame = MaxInThis_n_TimePerFrame_IN;
-        if (TimerFor_n_TimePerFrame > MaxTimeForTimer_n_TimePerFrame)
+        TimerFor_n_TimePerFrame_OUT = TimerFor_n_TimePerFrame_IN;
+       
+        if (TimerFor_n_TimePerFrame_OUT > MaxTimeForTimer_n_TimePerFrame)
         {
-            TimerFor_n_TimePerFrame = 0;
-            MaxInThis_n_TimePerFrame = 0;
+            TimerFor_n_TimePerFrame_OUT = 0;
+            return true;
         }
-        if (_TimeThisFrame > MaxInThis_n_TimePerFrame)
-        {
-            MaxInThis_n_TimePerFrame = _TimeThisFrame;
-        }
+        return false;
     }
 
-    public static void UpdateFPSForTimespan(float newFrameTime, out float total_OUT,float total_IN, out int numberOfFramesInThisTimespan, int numberOfFramesInThisTimespan_IN, out int averageForThisTimespan)
+    public static float UpdateMetric(  float MaxInThis_n_TimePerFrame_IN, float _TimeThisFrame)
     {
-        numberOfFramesInThisTimespan = numberOfFramesInThisTimespan_IN + 1;
+        if (_TimeThisFrame > MaxInThis_n_TimePerFrame_IN)
+        {
+            return _TimeThisFrame;
+        }
+        return MaxInThis_n_TimePerFrame_IN;
+    }
+
+    public static void UpdateFPSForTimespan(float newFrameTime, out float total_OUT,float total_IN, out int numberOfFramesInThisTimespan_OUT, int numberOfFramesInThisTimespan_IN, out int averageForThisTimespan_OUT)
+    {
+        numberOfFramesInThisTimespan_OUT = numberOfFramesInThisTimespan_IN + 1;
         total_OUT = total_IN + newFrameTime;
-        if (numberOfFramesInThisTimespan == 0) numberOfFramesInThisTimespan = 1;
-        averageForThisTimespan = Mathf.CeilToInt(total_OUT / numberOfFramesInThisTimespan);
+        if (numberOfFramesInThisTimespan_OUT == 0) numberOfFramesInThisTimespan_OUT = 1;
+        var average = (total_OUT / numberOfFramesInThisTimespan_OUT);
+        averageForThisTimespan_OUT = Mathf.CeilToInt(1.0f / (0.001f * average));
+    }
+
+    public static string UpdateGPUStats(
+      long _gcMemoryRecorder_lastValue,
+      long systemMemoryRecorder_lastValue,
+      long drawCallsCountRecorder_lastValue,
+      long trisCountRecorder_lastValue
+      )
+    {
+        var sb = new StringBuilder(500);
+        sb.AppendLine($"GC Memory: {_gcMemoryRecorder_lastValue / (1024 * 1024)} MB");
+        sb.AppendLine($"System Memory: {systemMemoryRecorder_lastValue / (1024 * 1024)} MB");
+        sb.AppendLine($"Draw Calls: {drawCallsCountRecorder_lastValue}");
+        sb.AppendLine($"Triangles: {trisCountRecorder_lastValue} ");
+        return sb.ToString();
     }
 
 }

@@ -7,123 +7,124 @@ using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
-[CustomEditor(typeof(Grid))]
+[CustomEditor(typeof(AdroitProfiler_GameObjectController))]
 public class AdroitProfiler_GameObjectController_Buttons : Editor
 {
 
     override public void OnInspectorGUI()
     {
-        if (EditorApplication.isPlaying == false) return;
-            AdroitProfiler_GameObjectController GOController = (AdroitProfiler_GameObjectController)target;
-        if (GUILayout.Button("Duplicate Slot #1"))
+        AdroitProfiler_GameObjectController GOController = (AdroitProfiler_GameObjectController)target;
+        if (EditorApplication.isPlaying == true)
         {
-            GOController.DuplicateSlot(1);
+            if (GUILayout.Button("Duplicate Slot #1"))
+            {
+                GOController.DuplicateSlot(0);
+            }
+            if (GUILayout.Button("Duplicate Slot #2"))
+            {
+                GOController.DuplicateSlot(1);
+            }
+            if (GUILayout.Button("Duplicate Slot #3"))
+            {
+                GOController.DuplicateSlot(2);
+            }
+            if (GUILayout.Button("Duplicate Slot #4"))
+            {
+                GOController.DuplicateSlot(3);
+            }
+            if (GUILayout.Button("Duplicate Slot #5"))
+            {
+                GOController.DuplicateSlot(4);
+            }
+            if (GUILayout.Button("Duplicate Slot #6"))
+            {
+                GOController.DuplicateSlot(5);
+            }
+            if (GUILayout.Button("Duplicate Slot #7"))
+            {
+                GOController.DuplicateSlot(6);
+            }
+            if (GUILayout.Button("Duplicate Slot #8"))
+            {
+                GOController.DuplicateSlot(7);
+            }
+            if (GUILayout.Button("Clear Duplicates"))
+            {
+                GOController.ClearDuplicates();
+            }
+            if (GUILayout.Button("Turn On All Slots"))
+            {
+                GOController.TurnOnAllSlots();
+            }
+            if (GUILayout.Button("Turn Off All Slots"))
+            {
+                GOController.TurnOffAllSlots();
+            }
+            if (GUILayout.Button("Set Slot 1"))
+            {
+                GOController.SetSlot(0);
+            }
+            if (GUILayout.Button("Set Slot 2"))
+            {
+                GOController.SetSlot(1);
+            }
+            if (GUILayout.Button("Set Slot 3"))
+            {
+                GOController.SetSlot(2);
+            }
+            if (GUILayout.Button("Set Slot 4"))
+            {
+                GOController.SetSlot(3);
+            }
+            if (GUILayout.Button("Set Slot 5"))
+            {
+                GOController.SetSlot(4);
+            }
+            if (GUILayout.Button("Set Slot 6"))
+            {
+                GOController.SetSlot(5);
+            }
+            if (GUILayout.Button("Set Slot 7"))
+            {
+                GOController.SetSlot(6);
+            }
+            if (GUILayout.Button("Set Slot 8"))
+            {
+                GOController.SetSlot(7);
+            }
+            if (GUILayout.Button("Toggle Slot 1"))
+            {
+                GOController.ToggleSlot(0);
+            }
+            if (GUILayout.Button("Toggle Slot 2"))
+            {
+                GOController.ToggleSlot(1);
+            }
+            if (GUILayout.Button("Toggle Slot 3"))
+            {
+                GOController.ToggleSlot(2);
+            }
+            if (GUILayout.Button("Toggle Slot 4"))
+            {
+                GOController.ToggleSlot(3);
+            }
+            if (GUILayout.Button("Toggle Slot 5"))
+            {
+                GOController.ToggleSlot(4);
+            }
+            if (GUILayout.Button("Toggle Slot 6"))
+            {
+                GOController.ToggleSlot(5);
+            }
+            if (GUILayout.Button("Toggle Slot 7"))
+            {
+                GOController.ToggleSlot(6);
+            }
+            if (GUILayout.Button("Toggle Slot 8"))
+            {
+                GOController.ToggleSlot(7);
+            }
         }
-        if (GUILayout.Button("Duplicate Slot #2"))
-        {
-            GOController.DuplicateSlot(2);
-        }
-        if (GUILayout.Button("Duplicate Slot #3"))
-        {
-            GOController.DuplicateSlot(3);
-        }
-        if (GUILayout.Button("Duplicate Slot #4"))
-        {
-            GOController.DuplicateSlot(4);
-        }
-        if (GUILayout.Button("Duplicate Slot #5"))
-        {
-            GOController.DuplicateSlot(5);
-        }
-        if (GUILayout.Button("Duplicate Slot #6"))
-        {
-            GOController.DuplicateSlot(6);
-        }
-        if (GUILayout.Button("Duplicate Slot #7"))
-        {
-            GOController.DuplicateSlot(7);
-        }
-        if (GUILayout.Button("Duplicate Slot #8"))
-        {
-            GOController.DuplicateSlot(8);
-        }
-        if (GUILayout.Button("Clear Duplicates"))
-        {
-            GOController.ClearDuplicates();
-        }
-        if (GUILayout.Button("Turn On All Slots"))
-        {
-            GOController.TurnOnAllSlots();
-        }
-        if (GUILayout.Button("Turn Off All Slots"))
-        {
-            GOController.TurnOffAllSlots();
-        }
-        if (GUILayout.Button("Set Slot 1"))
-        {
-            GOController.SetSlot(0);
-        }
-        if (GUILayout.Button("Set Slot 2"))
-        {
-            GOController.SetSlot(1);
-        }
-        if (GUILayout.Button("Set Slot 3"))
-        {
-            GOController.SetSlot(2);
-        }
-        if (GUILayout.Button("Set Slot 4"))
-        {
-            GOController.SetSlot(3);
-        }
-        if (GUILayout.Button("Set Slot 5"))
-        {
-            GOController.SetSlot(4);
-        }
-        if (GUILayout.Button("Set Slot 6"))
-        {
-            GOController.SetSlot(5);
-        }
-        if (GUILayout.Button("Set Slot 7"))
-        {
-            GOController.SetSlot(6);
-        }
-        if (GUILayout.Button("Set Slot 8"))
-        {
-            GOController.SetSlot(7);
-        }
-        if (GUILayout.Button("Toggle Slot 1"))
-        {
-            GOController.ToggleSlot(0);
-        }
-        if (GUILayout.Button("Toggle Slot 2"))
-        {
-            GOController.ToggleSlot(1);
-        }
-        if (GUILayout.Button("Toggle Slot 3"))
-        {
-            GOController.ToggleSlot(2);
-        }
-        if (GUILayout.Button("Toggle Slot 4"))
-        {
-            GOController.ToggleSlot(3);
-        }
-        if (GUILayout.Button("Toggle Slot 5"))
-        {
-            GOController.ToggleSlot(4);
-        }
-        if (GUILayout.Button("Toggle Slot 6"))
-        {
-            GOController.ToggleSlot(5);
-        }
-        if (GUILayout.Button("Toggle Slot 7"))
-        {
-            GOController.ToggleSlot(6);
-        }
-        if (GUILayout.Button("Toggle Slot 8"))
-        {
-            GOController.ToggleSlot(7);
-        }
-
         DrawDefaultInspector();
     }
 }
@@ -133,12 +134,19 @@ public class AdroitProfiler_GameObjectController_Buttons : Editor
 public class AdroitProfiler_GameObjectController : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_GameObjectList;
-    public List<GameObject> Slots = new List<GameObject>(8);
-    public List<GameObject> Duplicates;
+
+    [HideInInspector]
+    public Dictionary<int,GameObject> Slots = new Dictionary<int,GameObject>();
+    private List<GameObject> Duplicates = new List<GameObject>();
+    [HideInInspector]
     public GameObject SelectedGameObject;
-    public List<GameObject> GameObjectList = new List<GameObject>(15);
+    [HideInInspector]
+    public GameObject RootGameObject;
+    private List<GameObject> GameObjectList = new List<GameObject>(15);
     private int GameObjectListOffset = 0;
+    public float DuplicationOffset = 1.0f;
     private bool SettingSlot = false;
+    private int CurrentSlot = 0;
     void Start()
     {
         TMProGUI_GameObjectList.text = "";
@@ -152,63 +160,114 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
             {
                 GameObjectListOffset--;
                 if (GameObjectListOffset < 0) GameObjectListOffset = 0;
-                ShowListOfGameObjects();
+                ShowListOfGameObjects(RootGameObject);
+
             }
             else if (Input.GetKeyUp(KeyCode.DownArrow))
             {
                 GameObjectListOffset++;
                 if (GameObjectListOffset > GameObjectList.Count - 1) GameObjectListOffset = GameObjectList.Count - 1;
-                ShowListOfGameObjects();
+                ShowListOfGameObjects(RootGameObject);
+
+            }
+            else if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                GameObjectListOffset = 0;
+                ShowListOfGameObjects(SelectedGameObject);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                GameObjectListOffset = 0;
+                SelectParentOrNull();
             }
             SelectedGameObject = GameObjectList.FirstOrDefault();
         }
-    }
-    public void DuplicateSlot(int number)
-    {
-        if (Slots[number])
-        {
-            var duplicate = GameObject.Instantiate(Slots[number]);
-            var mesh = duplicate.GetComponent<MeshRenderer>();
-            var skinnedmesh = duplicate.GetComponent<SkinnedMeshRenderer>();
-            if(skinnedmesh != null)
-            {
-                duplicate.transform.position += new Vector3(skinnedmesh.bounds.size.x,0, skinnedmesh.bounds.size.z);
 
-            }
-            else if(mesh != null)
+        void SelectParentOrNull()
+        {
+            if (RootGameObject==null || RootGameObject.transform.parent == null)
             {
-                duplicate.transform.position += new Vector3(mesh.bounds.size.x, 0, mesh.bounds.size.z);
+                ShowListOfGameObjects(null);
             }
             else
             {
-             duplicate.transform.position += Vector3.one;
+                ShowListOfGameObjects(RootGameObject.transform.parent.gameObject);
             }
+        }
+    }   
+
+
+    public void DuplicateSlot(int number)
+    {
+        if (Slots.ContainsKey(number))
+        {
+            var offset = Vector3.zero;
+            var prefab = Slots[number];
+            var mesh = prefab.GetComponent<MeshRenderer>();
+            var skinnedmesh = prefab.GetComponent<SkinnedMeshRenderer>();
+            if (skinnedmesh != null)
+            {
+                offset = new Vector3(skinnedmesh.bounds.size.x, 0, skinnedmesh.bounds.size.z);
+
+            }
+            else if (mesh != null)
+            {
+                offset = new Vector3(mesh.bounds.size.x, 0, mesh.bounds.size.z);
+            }
+            else
+            {
+                offset = Vector3.one * DuplicationOffset;
+            }
+            var duplicate = GameObject.Instantiate(Slots[number], offset * (Duplicates.Count+1) , Quaternion.identity);
             Duplicates.Add(duplicate);
         }
     }
 
     public void SetSlot(int number)
     {
-        if(SettingSlot == true && Slots[number])
+        if (SettingSlot == true )
+        {
+            SetSlotForNumber(number);
+        }
+        else if (SettingSlot == false)
+        {
+            CurrentSlot = number;
+            SettingSlot = true;
+            ShowListOfGameObjects(null);
+        }
+    }
+
+    private void SetSlotForNumber(int number)
+    {
+        if (Slots.ContainsKey(number))
         {
             Slots[number] = SelectedGameObject;
         }
-        if(SettingSlot == false)
+        else
         {
-            ShowListOfGameObjects();
+            Slots.Add(number, SelectedGameObject);
+
         }
+        SettingSlot = false;
+        ShowSlots();
+    }
+
+    private void ShowSlots()
+    {
+        TMProGUI_GameObjectList.text = "";
+        Slots.ToList().ForEach(x => TMProGUI_GameObjectList.text += x.Value.name + "\n");
     }
 
     public void ToggleSlot(int number)
     {
-        if (Slots[number])
+        if (number < Slots.Count)
         {
             Slots[number].SetActive(!Slots[number].activeInHierarchy);
         }
     }
     public void TurnOffSlot(int number)
     {
-        if (Slots[number])
+        if (number < Slots.Count)
         {
             Slots[number].SetActive(false);
         }
@@ -216,7 +275,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     public void TurnOnSlot(int number)
     {
-        if (Slots[number])
+        if (number < Slots.Count)
         {
             Slots[number].SetActive(true);
         }
@@ -233,7 +292,10 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
         TurnOnSlot(6);
         TurnOnSlot(7);
     }
-
+    public void ConfirmSlot()
+    {
+        SetSlotForNumber(CurrentSlot);
+    }
     public void TurnOffAllSlots()
     {
         TurnOffSlot(0);
@@ -248,32 +310,48 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     public void ClearDuplicates()
     {
-        Duplicates.ForEach(duplicate => {
-            GameObject.Destroy(duplicate);
+        Duplicates.ForEach(duplicate =>
+        {
+            if(duplicate != null) {
+            Destroy(duplicate);
+            }
+            duplicate = null;
         });
+        Duplicates.Clear();
     }
 
-    private void ShowListOfGameObjects()
+    private void ShowListOfGameObjects(GameObject newRoot)
     {
-        UpdateListOfGameObjects();
-        TMProGUI_GameObjectList.text = "";
+        
+        UpdateListOfGameObjects( newRoot);
+        TMProGUI_GameObjectList.text = "> ";
+
         GameObjectList.ForEach(go =>
         {
             if (go == null) return;
-            if(go.transform.parent != null)
-            { 
-                TMProGUI_GameObjectList.text += go.transform.parent.gameObject.name + " / " + go.name;
+            if (go.transform.parent != null)
+            {
+                TMProGUI_GameObjectList.text += go.transform.parent.gameObject.name + " / " + go.name + "\n";
             }
             else
             {
-                TMProGUI_GameObjectList.text += "scene_root / " + go.name;
+                TMProGUI_GameObjectList.text += "scene_root / " + go.name + "\n";
             }
         });
     }
 
-    private void UpdateListOfGameObjects()
+    private void UpdateListOfGameObjects(GameObject newRoot)
     {
+        RootGameObject = newRoot;
         var scene = SceneManager.GetActiveScene();
-        GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).Take(15).ToList();
+        if(RootGameObject == null)
+        {
+            GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).Take(15).ToList();
+        }
+        else
+        {
+            GameObjectList = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent== RootGameObject.transform).Skip(GameObjectListOffset).Take(15).ToList();
+        }
+        
     }
 }

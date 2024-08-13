@@ -2,16 +2,29 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum AdroitProfiler_UIBehaviour_State
+{
+    TimePerFrame,
+    Summary,
+    GC,
+    SystemMemory,
+    PolyCount,
+    OverDraw,
+    None
+}
+
 [RequireComponent(typeof(AdroitProfiler_State))]
 public class AdroitProfiler_UIBehaviour : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_FPS;
+    public TextMeshProUGUI TMProGUI_GPU;
     public TextMeshProUGUI TMProGUI_TenthSecMax;
     public TextMeshProUGUI TMProGUI_QuarterSecMax;
     public TextMeshProUGUI TMProGUI_HalfSecMax;
     public TextMeshProUGUI TMProGUI_5SecMax;
     public TextMeshProUGUI TMProGUI_10SecMax;
 
+    private AdroitProfiler_UIBehaviour_State AdroitProfiler_UIBehaviour_State;
     private AdroitProfiler_State AdroitProfiler_State;
 
     private void Start()
@@ -35,15 +48,64 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     }
     void LateUpdate()
     {
-         UpdateTimeAndCurrentFrame();
-         UpdateUIWithTime("Tenth Second", AdroitProfiler_State.MaxInThis_TenthSecond_TimePerFrame, AdroitProfiler_State.AverageFPSFor_TenthSecond, TMProGUI_TenthSecMax);
-         UpdateUIWithTime("Quarter Second", AdroitProfiler_State.MaxInThis_QuarterSecond_TimePerFrame, AdroitProfiler_State.AverageFPSFor_QuarterSecond, TMProGUI_QuarterSecMax);
-         UpdateUIWithTime("Half Second", AdroitProfiler_State.MaxInThis_HalfSecond_TimePerFrame, AdroitProfiler_State.AverageFPSFor_HalfSecond, TMProGUI_HalfSecMax);
-         UpdateUIWithTime("5 Seconds", AdroitProfiler_State.MaxInThis_HalfSecond_TimePerFrame, AdroitProfiler_State.AverageFPSFor_5Seconds, TMProGUI_5SecMax);
-         UpdateUIWithTime("10 Seconds", AdroitProfiler_State.MaxInThis_HalfSecond_TimePerFrame, AdroitProfiler_State.AverageFPSFor_10Seconds, TMProGUI_10SecMax);
+        TMProGUI_GPU.text = AdroitProfiler_State.GPUStats;
+        switch (AdroitProfiler_UIBehaviour_State)
+        {
+            case AdroitProfiler_UIBehaviour_State.Summary:
+                UpdateTimeAndCurrentFrame();
+                Update_TimePerFrame_UIWithTime("Tenth Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond, AdroitProfiler_State.AverageFPSFor_TenthSecond, TMProGUI_TenthSecMax);
+                Update_TimePerFrame_UIWithTime("Quarter Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, AdroitProfiler_State.AverageFPSFor_QuarterSecond, TMProGUI_QuarterSecMax);
+                Update_TimePerFrame_UIWithTime("Half Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond, AdroitProfiler_State.AverageFPSFor_HalfSecond, TMProGUI_HalfSecMax);
+                Update_TimePerFrame_UIWithTime("5 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds, AdroitProfiler_State.AverageFPSFor_5Seconds, TMProGUI_5SecMax);
+                Update_TimePerFrame_UIWithTime("10 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds, AdroitProfiler_State.AverageFPSFor_10Seconds, TMProGUI_10SecMax);
+                break;
+            case AdroitProfiler_UIBehaviour_State.GC:
+                UpdateTimeAndCurrentFrame();
+                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.GCMemory_Metrics.MaxValueInLast_TenthSecond, TMProGUI_TenthSecMax);
+                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.GCMemory_Metrics.MaxValueInLast_QuarterSecond, TMProGUI_QuarterSecMax);
+                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.GCMemory_Metrics.MaxValueInLast_HalfSecond,  TMProGUI_HalfSecMax);
+                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.GCMemory_Metrics.MaxValueInLast_5Seconds, TMProGUI_5SecMax);
+                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.GCMemory_Metrics.MaxValueInLast_10Seconds,  TMProGUI_10SecMax);
+                break;
+            case AdroitProfiler_UIBehaviour_State.SystemMemory:
+                UpdateTimeAndCurrentFrame();
+                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond,  TMProGUI_TenthSecMax);
+                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond,  TMProGUI_QuarterSecMax);
+                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond, TMProGUI_HalfSecMax);
+                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds,  TMProGUI_5SecMax);
+                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds,TMProGUI_10SecMax);
+                break;
+            case AdroitProfiler_UIBehaviour_State.TimePerFrame:
+                UpdateTimeAndCurrentFrame();
+                Update_TimePerFrame_UIWithTime("Tenth Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond, AdroitProfiler_State.AverageFPSFor_TenthSecond, TMProGUI_TenthSecMax);
+                Update_TimePerFrame_UIWithTime("Quarter Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, AdroitProfiler_State.AverageFPSFor_QuarterSecond, TMProGUI_QuarterSecMax);
+                Update_TimePerFrame_UIWithTime("Half Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond, AdroitProfiler_State.AverageFPSFor_HalfSecond, TMProGUI_HalfSecMax);
+                Update_TimePerFrame_UIWithTime("5 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds, AdroitProfiler_State.AverageFPSFor_5Seconds, TMProGUI_5SecMax);
+                Update_TimePerFrame_UIWithTime("10 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds, AdroitProfiler_State.AverageFPSFor_10Seconds, TMProGUI_10SecMax);
+                break;
+            case AdroitProfiler_UIBehaviour_State.PolyCount:
+                UpdateTimeAndCurrentFrame();
+                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond,  TMProGUI_TenthSecMax);
+                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, TMProGUI_QuarterSecMax);
+                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond,  TMProGUI_HalfSecMax);
+                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds,TMProGUI_5SecMax);
+                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds,  TMProGUI_10SecMax);
+                break;
+            case AdroitProfiler_UIBehaviour_State.OverDraw:
+                UpdateTimeAndCurrentFrame();
+                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond, TMProGUI_TenthSecMax);
+                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, TMProGUI_QuarterSecMax);
+                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond,TMProGUI_HalfSecMax);
+                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds, TMProGUI_5SecMax);
+                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds, TMProGUI_10SecMax);
+                break;
+        }
     }
-    
-   
+
+    public void UpdateState(AdroitProfiler_UIBehaviour_State _AdroitProfiler_UIBehaviour_State)
+    {
+        AdroitProfiler_UIBehaviour_State = _AdroitProfiler_UIBehaviour_State;
+    }
 
     private void UpdateTimeAndCurrentFrame()
     {
@@ -53,10 +115,16 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
         TMProGUI_FPS.text = text;
     }
 
-    private void UpdateUIWithTime(string name, float time, int FPS, TextMeshProUGUI TMProGUI_label)
+    private void Update_TimePerFrame_UIWithTime(string name, float time, int FPS, TextMeshProUGUI TMProGUI_label)
     {
         var text = "";
-        text += name + ": " + time.ToString("000") + " ms | "+ FPS.ToString("000") + "FPS";
-        TMProGUI_label.text = text; 
+        text += name + ": " + time.ToString("000") + " ms | " + FPS.ToString("000") + "FPS";
+        TMProGUI_label.text = text;
+    }
+    private void Update_Metric_UIWithTime(string name, float value, TextMeshProUGUI TMProGUI_label)
+    {
+        var text = "";
+        text += name + ": " + value ;
+        TMProGUI_label.text = text;
     }
 }

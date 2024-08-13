@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AdroitProfiler_State))]
-public class AdroitProfiler_ProfileController : MonoBehaviour
+public class AdroitProfiler_Logger : MonoBehaviour
 {
 
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -12,7 +12,13 @@ public class AdroitProfiler_ProfileController : MonoBehaviour
         private static extern void downloadToFile(string content, string filename);
 #endif
 
-    public readonly string ProfileHeader = "Run,Time, Scene Name, Event Description, LFT: 10s, FPS: 10s, LFT: 5s, FPS: 5s, LFT: 0.5s, FPS: 0.5s, LFT: 0.25s, FPS: 0.25s, LFT: 0.1s, FPS: 0.1s, \n";
+    public readonly static string ProfileHeader_LFT = "Run,Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
+    public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
+    public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
+    public readonly static string ProfileHeader_GC = "GC: 10s, GC: 5s, GC: 0.5s, GC: 0.25s, GC: 0.1s, ";
+    public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
+    public readonly static string ProfileHeader_PolyCount = "Polys: 10s, Polys: 5s, Polys: 0.5s, Polys: 0.25s, Polys: 0.1s, \n ";
+    public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_SystemMemory + ProfileHeader_GC + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
     public List<string> CurrentRun = new List<string>();
     
     public List<List<string>> Runs = new List<List<string>>();
@@ -32,7 +38,7 @@ public class AdroitProfiler_ProfileController : MonoBehaviour
         if (InConversation != DialogueManager.instance.isConversationActive)
         {
             InConversation = DialogueManager.instance.isConversationActive;
-            CapturePerformanceForEvent(DialogueManager.instance.conversationModel.conversationTitle, "RUN" );
+            CapturePerformanceForEvent(DialogueManager.instance.conversationModel.conversationTitle );
            
         }
     }
@@ -50,7 +56,7 @@ public class AdroitProfiler_ProfileController : MonoBehaviour
 
     private static void OnSceneLoaded_Static(Scene scene, LoadSceneMode mode)
     {
-        var _this = GameObject.FindObjectOfType<AdroitProfiler_ProfileController>();
+        var _this = GameObject.FindObjectOfType<AdroitProfiler_Logger>();
         _this.OnScenLoaded(scene, mode);
     }
 
@@ -65,27 +71,52 @@ public class AdroitProfiler_ProfileController : MonoBehaviour
         CurrentRun = new List<string>();
     }
 
-    public void CapturePerformanceForEvent(string eventDescription, string runDescription)
+    public void CapturePerformanceForEvent(string eventDescription)
     {
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.time);
         var line = "";
-        line += runDescription + ", ";
+        line += AdroitProfiler.RunName + ", ";
         line += formattedTime + ",";
         line += SceneManager.GetActiveScene().name+", ";
         if(eventDescription == "" || eventDescription == null){
             eventDescription = "Dialog Event @ "+ formattedTime;
         }
         line += eventDescription+ ", ";
-        line += AdroitProfiler.MaxInThis_10Seconds_TimePerFrame + ", ";
+        line += AdroitProfiler.TimePerFrame_Metrics.MaxValueInLast_10Seconds + ", ";
+        line += AdroitProfiler.TimePerFrame_Metrics.MaxValueInLast_5Seconds + "  , " ;
+        line += AdroitProfiler.TimePerFrame_Metrics.MaxValueInLast_TenthSecond + " , ";
+        line += AdroitProfiler.TimePerFrame_Metrics.MaxValueInLast_HalfSecond + " , ";
+        line += AdroitProfiler.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond + " , ";
+
         line += AdroitProfiler.AverageFPSFor_10Seconds + ", ";
-        line += AdroitProfiler.MaxInThis_5Seconds_TimePerFrame + "  , " ;
         line += AdroitProfiler.AverageFPSFor_5Seconds + ", ";
-        line += AdroitProfiler.MaxInThis_HalfSecond_TimePerFrame + " , ";
         line += AdroitProfiler.AverageFPSFor_HalfSecond + ", ";
-        line += AdroitProfiler.MaxInThis_QuarterSecond_TimePerFrame + " , ";
         line += AdroitProfiler.AverageFPSFor_QuarterSecond + ", ";
-        line += AdroitProfiler.MaxInThis_TenthSecond_TimePerFrame + " , ";
         line += AdroitProfiler.AverageFPSFor_TenthSecond + ", ";
+
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_10Seconds + ", ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_5Seconds + "  , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_TenthSecond + " , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_HalfSecond + " , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_QuarterSecond + " , ";
+
+        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_10Seconds + ", ";
+        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_5Seconds + "  , ";
+        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_TenthSecond + " , ";
+        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_HalfSecond + " , ";
+        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_QuarterSecond + " , ";
+
+        line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_10Seconds + ", ";
+        line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_5Seconds + "  , ";
+        line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_TenthSecond + " , ";
+        line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_HalfSecond + " , ";
+        line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_QuarterSecond + " , ";
+
+        line += AdroitProfiler.PolyCount_Metrics.MaxValueInLast_10Seconds + ", ";
+        line += AdroitProfiler.PolyCount_Metrics.MaxValueInLast_5Seconds + "  , ";
+        line += AdroitProfiler.PolyCount_Metrics.MaxValueInLast_TenthSecond + " , ";
+        line += AdroitProfiler.PolyCount_Metrics.MaxValueInLast_HalfSecond + " , ";
+        line += AdroitProfiler.PolyCount_Metrics.MaxValueInLast_QuarterSecond + " , ";
 
         line += "\n";
         CurrentRun.Add(line);

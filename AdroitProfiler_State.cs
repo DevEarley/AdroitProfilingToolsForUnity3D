@@ -1,26 +1,40 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AdroitProfiler_State : MonoBehaviour
 {
+    [HideInInspector]
     public float TimeThisFrame = 0;
-
+    [HideInInspector]
     public float MaxInThis_TenthSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float MaxInThis_QuarterSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float MaxInThis_HalfSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float MaxInThis_5Seconds_TimePerFrame = 0;
+    [HideInInspector]
     public float MaxInThis_10Seconds_TimePerFrame = 0;
-
+    [HideInInspector]
     public float TimerFor_TenthSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float TimerFor_QuarterSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float TimerFor_HalfSecond_TimePerFrame = 0;
+    [HideInInspector]
     public float TimerFor_5Seconds_TimePerFrame = 0;
+    [HideInInspector]
     public float TimerFor_10Seconds_TimePerFrame = 0;
-
+    [HideInInspector]
     public int AverageFPSFor_TenthSecond = 0;
+    [HideInInspector]
     public int AverageFPSFor_QuarterSecond = 0;
+    [HideInInspector]
     public int AverageFPSFor_HalfSecond = 0;
-    public int AverageFPSFor_5Seconds= 0;
-    public int AverageFPSFor_10Seconds= 0;
+    [HideInInspector]
+    public int AverageFPSFor_5Seconds = 0;
+    [HideInInspector]
+    public int AverageFPSFor_10Seconds = 0;
 
     private float TotalTimeFor_TenthSecond = 0;
     private float TotalTimeFor_QuarterSecond = 0;
@@ -34,6 +48,20 @@ public class AdroitProfiler_State : MonoBehaviour
     private int NumberOfFramesThis_5Seconds = 0;
     private int NumberOfFramesThis_10Seconds = 0;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    [RuntimeInitializeOnLoadMethod]
+    private static void Init()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //RESET STATE
+    }
     private void Update()
     {
         TimerFor_TenthSecond_TimePerFrame += Time.deltaTime;
@@ -49,17 +77,17 @@ public class AdroitProfiler_State : MonoBehaviour
     private void UpdateAverages()
     {
         AdroitProfiler_Service.UpdateFPSForTimespan(
-            TimeThisFrame, 
+            TimeThisFrame,
             out TotalTimeFor_TenthSecond,
             TotalTimeFor_TenthSecond,
-            out NumberOfFramesThis_TenthSecond, 
+            out NumberOfFramesThis_TenthSecond,
             NumberOfFramesThis_TenthSecond,
             out AverageFPSFor_TenthSecond);
         AdroitProfiler_Service.UpdateFPSForTimespan(
             TimeThisFrame,
-            out TotalTimeFor_QuarterSecond, 
+            out TotalTimeFor_QuarterSecond,
             TotalTimeFor_QuarterSecond,
-            out NumberOfFramesThis_QuarterSecond, 
+            out NumberOfFramesThis_QuarterSecond,
             NumberOfFramesThis_QuarterSecond,
             out AverageFPSFor_QuarterSecond);
         AdroitProfiler_Service.UpdateFPSForTimespan(
@@ -70,15 +98,15 @@ public class AdroitProfiler_State : MonoBehaviour
             NumberOfFramesThis_HalfSecond,
             out AverageFPSFor_HalfSecond);
         AdroitProfiler_Service.UpdateFPSForTimespan(
-            TimeThisFrame, 
+            TimeThisFrame,
             out TotalTimeFor_5Seconds,
             TotalTimeFor_5Seconds,
-            out NumberOfFramesThis_5Seconds, 
+            out NumberOfFramesThis_5Seconds,
             NumberOfFramesThis_5Seconds,
             out AverageFPSFor_5Seconds);
         AdroitProfiler_Service.UpdateFPSForTimespan(
-            TimeThisFrame, 
-            out TotalTimeFor_10Seconds, 
+            TimeThisFrame,
+            out TotalTimeFor_10Seconds,
             TotalTimeFor_10Seconds,
             out NumberOfFramesThis_10Seconds,
             NumberOfFramesThis_10Seconds,

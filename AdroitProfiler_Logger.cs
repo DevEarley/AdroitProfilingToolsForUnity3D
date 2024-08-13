@@ -1,11 +1,16 @@
 using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AdroitProfiler_State))]
 public class AdroitProfiler_Logger : MonoBehaviour
 {
+
+    [DllImport("__Internal")]
+    private static extern void saveJsonLog(string jsonLogData);
+
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")]

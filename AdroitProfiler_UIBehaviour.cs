@@ -47,6 +47,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     }
     void LateUpdate()
     {
+        var MBD = (1024) * (1024);
         TMProGUI_GPU.text = AdroitProfiler_State.GPUStats;
         switch (AdroitProfiler_UIBehaviour_State)
         {
@@ -60,11 +61,11 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
                 break;
             case AdroitProfiler_UIBehaviour_State.SystemMemory:
                 UpdateTimeAndCurrentFrame();
-                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_TenthSecond,  TMProGUI_TenthSecMax);
-                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_QuarterSecond,  TMProGUI_QuarterSecMax);
-                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_HalfSecond, TMProGUI_HalfSecMax);
-                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_5Seconds,  TMProGUI_5SecMax);
-                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_10Seconds,TMProGUI_10SecMax);
+                Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_TenthSecond / MBD,  TMProGUI_TenthSecMax);
+                Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_QuarterSecond/ MBD,  TMProGUI_QuarterSecMax);
+                Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_HalfSecond/ MBD, TMProGUI_HalfSecMax);
+                Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_5Seconds/ MBD,  TMProGUI_5SecMax);
+                Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_10Seconds/ MBD, TMProGUI_10SecMax);
                 break;
             case AdroitProfiler_UIBehaviour_State.TimePerFrame:
                 UpdateTimeAndCurrentFrame();

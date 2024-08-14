@@ -68,9 +68,11 @@ public class AdroitProfiler_State : MonoBehaviour
     public int AverageFPSFor_10Seconds = 0;
 
     ProfilerRecorder systemMemoryRecorder;
-    ProfilerRecorder gcMemoryRecorder;
+    private long systemMemoryRecorder_lastValue;
     ProfilerRecorder drawCallsCountRecorder;
+    private long drawCallsCountRecorder_lastValue;
     ProfilerRecorder polyCountRecorder;
+    private long polyCountRecorder_lastValue;
 
 
     private float TotalTimeFor_TenthSecond = 0;
@@ -111,10 +113,13 @@ public class AdroitProfiler_State : MonoBehaviour
         TimerFor_5Seconds += Time.deltaTime;
         TimerFor_10Seconds += Time.deltaTime;
         TimeThisFrame = Time.deltaTime * 1000.0f;
+        systemMemoryRecorder_lastValue = systemMemoryRecorder.LastValue;
+        drawCallsCountRecorder_lastValue = drawCallsCountRecorder.LastValue;
+        polyCountRecorder_lastValue = polyCountRecorder.LastValue;
+        UpdateGPUStats();
         CheckTimers();
         UpdateMetrics();
         UpdateAverages();
-        UpdateGPUStats();
     }
 
     private void UpdateAverages()
@@ -158,6 +163,7 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void UpdateMetrics()
     {
+  
 
         TimePerFrame_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_TenthSecond, TimeThisFrame);
         TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, TimeThisFrame);
@@ -165,25 +171,23 @@ public class AdroitProfiler_State : MonoBehaviour
         TimePerFrame_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_5Seconds, TimeThisFrame);
         TimePerFrame_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_10Seconds, TimeThisFrame);
 
-        SystemMemory_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_TenthSecond, systemMemoryRecorder.LastValue);
-        SystemMemory_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_QuarterSecond, systemMemoryRecorder.LastValue);
-        SystemMemory_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_HalfSecond, systemMemoryRecorder.LastValue);
-        SystemMemory_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_5Seconds, systemMemoryRecorder.LastValue);
-        SystemMemory_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_10Seconds, systemMemoryRecorder.LastValue);
+        SystemMemory_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_TenthSecond, systemMemoryRecorder_lastValue);
+        SystemMemory_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_QuarterSecond, systemMemoryRecorder_lastValue);
+        SystemMemory_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_HalfSecond, systemMemoryRecorder_lastValue);
+        SystemMemory_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_5Seconds, systemMemoryRecorder_lastValue);
+        SystemMemory_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(SystemMemory_Metrics.MaxValueInLast_10Seconds, systemMemoryRecorder_lastValue);
 
-        DrawCalls_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_TenthSecond, drawCallsCountRecorder.LastValue);
-        DrawCalls_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_QuarterSecond, drawCallsCountRecorder.LastValue);
-        DrawCalls_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_HalfSecond, drawCallsCountRecorder.LastValue);
-        DrawCalls_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_5Seconds, drawCallsCountRecorder.LastValue);
-        DrawCalls_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_10Seconds, drawCallsCountRecorder.LastValue);
+        DrawCalls_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_TenthSecond, drawCallsCountRecorder_lastValue);
+        DrawCalls_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_QuarterSecond, drawCallsCountRecorder_lastValue);
+        DrawCalls_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_HalfSecond, drawCallsCountRecorder_lastValue);
+        DrawCalls_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_5Seconds, drawCallsCountRecorder_lastValue);
+        DrawCalls_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(DrawCalls_Metrics.MaxValueInLast_10Seconds, drawCallsCountRecorder_lastValue);
 
-        PolyCount_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_TenthSecond, polyCountRecorder.LastValue);
-        PolyCount_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_QuarterSecond, polyCountRecorder.LastValue);
-        PolyCount_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_HalfSecond, polyCountRecorder.LastValue);
-        PolyCount_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_5Seconds, polyCountRecorder.LastValue);
-        PolyCount_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_10Seconds, polyCountRecorder.LastValue);
-
-
+        PolyCount_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_TenthSecond, polyCountRecorder_lastValue);
+        PolyCount_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_QuarterSecond, polyCountRecorder_lastValue);
+        PolyCount_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_HalfSecond, polyCountRecorder_lastValue);
+        PolyCount_Metrics.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_5Seconds, polyCountRecorder_lastValue);
+        PolyCount_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_10Seconds, polyCountRecorder_lastValue);
     }
 
     private void CheckTimers()
@@ -237,7 +241,7 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void UpdateGPUStats()
     {
-        GPUStats = AdroitProfiler_Service.UpdateGPUStats(systemMemoryRecorder.LastValue, drawCallsCountRecorder.LastValue, polyCountRecorder.LastValue);
+        GPUStats = AdroitProfiler_Service.UpdateGPUStats(systemMemoryRecorder_lastValue, drawCallsCountRecorder_lastValue, polyCountRecorder_lastValue);
 
     }
 

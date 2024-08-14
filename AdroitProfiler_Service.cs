@@ -4,11 +4,11 @@ using UnityEngine;
 public static class AdroitProfiler_Service
 {
     public static readonly int _targetFrameRate = 20;
-    public static readonly float MaxTimeForTimer_TenthSecond_TimePerFrame = 0.1f;
-    public static readonly float MaxTimeForTimer_QuarterSecond_TimePerFrame = 0.25f;
-    public static readonly float MaxTimeForTimer_HalfSecond_TimePerFrame = 0.5f;
-    public static readonly float MaxTimeForTimer_5Seconds_TimePerFrame = 5.0f;
-    public static readonly float MaxTimeForTimer_10Seconds_TimePerFrame = 10.0f;
+    public static readonly float MaxTimeForTimer_TenthSecond = 0.1f;
+    public static readonly float MaxTimeForTimer_QuarterSecond = 0.25f;
+    public static readonly float MaxTimeForTimer_HalfSecond = 0.5f;
+    public static readonly float MaxTimeForTimer_5Seconds = 5.0f;
+    public static readonly float MaxTimeForTimer_10Seconds = 10.0f;
 
     public static string FormatTime(float timeInSeconds)
     {
@@ -33,11 +33,11 @@ public static class AdroitProfiler_Service
         return false;
     }
 
-    public static float UpdateMetric(  float MaxInThis_n_TimePerFrame_IN, float _TimeThisFrame)
+    public static float UpdateMetric(  float MaxInThis_n_TimePerFrame_IN, float LatestValue)
     {
-        if (_TimeThisFrame > MaxInThis_n_TimePerFrame_IN)
+        if (LatestValue > MaxInThis_n_TimePerFrame_IN)
         {
-            return _TimeThisFrame;
+            return LatestValue;
         }
         return MaxInThis_n_TimePerFrame_IN;
     }
@@ -52,14 +52,13 @@ public static class AdroitProfiler_Service
     }
 
     public static string UpdateGPUStats(
-      long _gcMemoryRecorder_lastValue,
       long systemMemoryRecorder_lastValue,
       long drawCallsCountRecorder_lastValue,
       long trisCountRecorder_lastValue
       )
     {
         var sb = new StringBuilder(500);
-        sb.AppendLine($"GC Memory: {_gcMemoryRecorder_lastValue / (1024 * 1024)} MB");
+     
         sb.AppendLine($"System Memory: {systemMemoryRecorder_lastValue / (1024 * 1024)} MB");
         sb.AppendLine($"Draw Calls: {drawCallsCountRecorder_lastValue}");
         sb.AppendLine($"Triangles: {trisCountRecorder_lastValue} ");

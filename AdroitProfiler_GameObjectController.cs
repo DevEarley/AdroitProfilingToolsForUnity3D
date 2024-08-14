@@ -134,6 +134,20 @@ public class AdroitProfiler_GameObjectController_Buttons : Editor
 public class AdroitProfiler_GameObjectController : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_GameObjectList;
+    public bool SkipInstructions = true;
+    /*
+    TODO:
+
+    Add the following to "Instruction Panel UI". Is there a way to do this automatically some how? Autoclicking the screen?
+
+        var AdroitProfiler_GameObjectController = FindObjectOfType<AdroitProfiler_GameObjectController>();
+        if(AdroitProfiler_GameObjectController!= null && AdroitProfiler_GameObjectController.SkipInstructions == true)
+        {
+            HideInstruction();
+        }
+
+
+    */
 
     [HideInInspector]
     public Dictionary<int,GameObject> Slots = new Dictionary<int,GameObject>();
@@ -346,11 +360,11 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
         var scene = SceneManager.GetActiveScene();
         if(RootGameObject == null)
         {
-            GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).Take(15).ToList();
+            GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).ToList();
         }
         else
         {
-            GameObjectList = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent== RootGameObject.transform).Skip(GameObjectListOffset).Take(15).ToList();
+            GameObjectList = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent== RootGameObject.transform).Skip(GameObjectListOffset).ToList();
         }
         
     }

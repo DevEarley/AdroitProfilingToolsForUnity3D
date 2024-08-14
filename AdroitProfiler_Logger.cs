@@ -1,6 +1,7 @@
 using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,10 +21,9 @@ public class AdroitProfiler_Logger : MonoBehaviour
     public readonly static string ProfileHeader_LFT = "Run,Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
     public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
     public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
-    public readonly static string ProfileHeader_GC = "GC: 10s, GC: 5s, GC: 0.5s, GC: 0.25s, GC: 0.1s, ";
     public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
     public readonly static string ProfileHeader_PolyCount = "Polys: 10s, Polys: 5s, Polys: 0.5s, Polys: 0.25s, Polys: 0.1s, \n ";
-    public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_SystemMemory + ProfileHeader_GC + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
+    public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_SystemMemory  + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
     public List<string> CurrentRun = new List<string>();
     
     public List<List<string>> Runs = new List<List<string>>();
@@ -78,6 +78,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
 
     public void CapturePerformanceForEvent(string eventDescription)
     {
+        var MBDivisor = (1024 * 1024);
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.time);
         var line = "";
         line += AdroitProfiler.RunName + ", ";
@@ -99,17 +100,11 @@ public class AdroitProfiler_Logger : MonoBehaviour
         line += AdroitProfiler.AverageFPSFor_QuarterSecond + ", ";
         line += AdroitProfiler.AverageFPSFor_TenthSecond + ", ";
 
-        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_10Seconds + ", ";
-        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_5Seconds + "  , ";
-        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_TenthSecond + " , ";
-        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_HalfSecond + " , ";
-        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_QuarterSecond + " , ";
-
-        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_10Seconds + ", ";
-        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_5Seconds + "  , ";
-        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_TenthSecond + " , ";
-        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_HalfSecond + " , ";
-        line += AdroitProfiler.GCMemory_Metrics.MaxValueInLast_QuarterSecond + " , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_10Seconds / MBDivisor + "MB , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_5Seconds / MBDivisor + "MB , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_TenthSecond / MBDivisor + "MB , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_HalfSecond / MBDivisor + "MB , ";
+        line += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_QuarterSecond / MBDivisor + "MB , ";
 
         line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_10Seconds + ", ";
         line += AdroitProfiler.DrawCalls_Metrics.MaxValueInLast_5Seconds + "  , ";
@@ -131,8 +126,15 @@ public class AdroitProfiler_Logger : MonoBehaviour
 
     public void SaveLogs()
     {
-        string jsonLogData = ProfileHeader;
-        CurrentRun.ForEach(x => { jsonLogData += x; });
+        string jsonLogData = "";
+        Runs.ForEach(run =>
+        {
+            jsonLogData += ProfileHeader;
+            run.ForEach(x =>
+            { 
+                jsonLogData += x;
+            }); 
+        });
         Debug.Log("Saved JSON Data from Unity Project: " + jsonLogData);
 #if UNITY_WEBGL && !UNITY_EDITOR
             downloadToFile(jsonLogData, "AdroitProfilier_Log");

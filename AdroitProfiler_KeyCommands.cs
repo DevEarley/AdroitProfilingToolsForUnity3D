@@ -19,27 +19,37 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         AdroitProfiler_Logger = gameObject.GetComponent<AdroitProfiler_Logger>();
         AdroitProfiler_UIBehaviour = gameObject.GetComponent<AdroitProfiler_UIBehaviour>();
         AdroitProfiler_GameObjectController = gameObject.GetComponent<AdroitProfiler_GameObjectController>();
-        Instructions.text = "Show Key Commands: Shift+K\r\n" + "" +
-            "Toggle slots: Shift + 1,2,3 ... 8\r\n" + "" +
-            "Set slots: Alt + 1,2,3 ... 8\r\n" +
-            "Duplicate: Shift + Alt + 1,2,3 ... 8\r\n" +
-            "Turn on all slots: Shift + 9\r\n" +
-            "Turn off all slots: Shift + 0\r\n" +
+        Instructions.text = "Show Key Commands: K\r\n" + "" +
+            "Set slots: [ + 1,2,3 ... 8\r\n" +
+            "Toggle slots: ] + 1,2,3 ... 8\r\n" + "" +
+            "Duplicate: [ + ] + 1,2,3 ... 8\r\n" +
+            "Turn on all slots: [ + 9\r\n" +
+            "Turn off all slots: [ + 0\r\n" +
             "Confirm game object: Enter\r\n" +
-            "Capture Metric: Shift + C\r\n" +
-            "Clear Duplicates: Shift + X\r\n" +
-            "Save Logs: Shift + L\r\n";
+            "Capture Metric: [ + C\r\n" +
+            "Clear Duplicates: [ + X\r\n" +
+            "Save Logs: [ + L\r\n" +
+            "Show Time Per Frame Metrics: [ + T\r\n" +
+            "Show Sys Memory Metrics: [ + M\r\n" +
+            "Show Draw Metrics: [ + R\r\n" +
+            "Show Poly Count Metrics: [ + P\r\n";
     }
 
     void Update()
     {
-
-        var pressingShift = Input.GetKey(KeyCode.LeftShift);
-        var pressingAlt = Input.GetKey(KeyCode.LeftAlt);
+     
+        var pressingShift = Input.GetKey(KeyCode.LeftBracket);
+        var pressingAlt = Input.GetKey(KeyCode.RightBracket);
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
             AdroitProfiler_GameObjectController.ConfirmSlot();
+        }
+        else if ( Input.GetKeyDown(KeyCode.K))
+        {
+            var isActive = Instructions.gameObject.activeSelf;
+            Instructions.gameObject.SetActive(isActive == false);
+            Instructions_Short.SetActive(isActive == true);
         }
         //shift and alt
         else if (pressingAlt && pressingShift && Input.GetKeyDown(KeyCode.Alpha1))
@@ -91,10 +101,7 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.TimePerFrame);
         }
-        else if (pressingShift && Input.GetKeyDown(KeyCode.G))
-        {
-            AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.GC);
-        }
+      
         else if (pressingShift && Input.GetKeyDown(KeyCode.M))
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.SystemMemory);
@@ -103,43 +110,38 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.PolyCount);
         }
-        else if (pressingShift && Input.GetKeyDown(KeyCode.V))
+        else if (pressingShift && Input.GetKeyDown(KeyCode.R))
         {
-            AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.OverDraw);
+            AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.DrawCalls);
         }
-        else if (pressingShift && Input.GetKeyDown(KeyCode.K))
-        {
-            var isActive = Instructions.gameObject.activeSelf;
-            Instructions.gameObject.SetActive(isActive == false);
-            Instructions_Short.SetActive(isActive == true);
-        }
+       
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(0);
+            AdroitProfiler_GameObjectController.SetSlot(0);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha2))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(1);
+            AdroitProfiler_GameObjectController.SetSlot(1);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha3))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(2);
+            AdroitProfiler_GameObjectController.SetSlot(2);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha4))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(3);
+            AdroitProfiler_GameObjectController.SetSlot(3);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha5))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(4);
+            AdroitProfiler_GameObjectController.SetSlot(4);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha6))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(5);
+            AdroitProfiler_GameObjectController.SetSlot(5);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha7))
         {
-            AdroitProfiler_GameObjectController.ToggleSlot(6);
+            AdroitProfiler_GameObjectController.SetSlot(6);
         }
         else if (pressingShift&& Input.GetKeyDown(KeyCode.Alpha8))
         {
@@ -157,35 +159,35 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
        
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha1))
         {
-            AdroitProfiler_GameObjectController.SetSlot(0);
+            AdroitProfiler_GameObjectController.ToggleSlot(0);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha2))
         {
-            AdroitProfiler_GameObjectController.SetSlot(1);
+            AdroitProfiler_GameObjectController.ToggleSlot(1);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha3))
         {
-            AdroitProfiler_GameObjectController.SetSlot(2);
+            AdroitProfiler_GameObjectController.ToggleSlot(2);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha4))
         {
-            AdroitProfiler_GameObjectController.SetSlot(3);
+            AdroitProfiler_GameObjectController.ToggleSlot(3);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha5))
         {
-            AdroitProfiler_GameObjectController.SetSlot(4);
+            AdroitProfiler_GameObjectController.ToggleSlot(4);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha6))
         {
-            AdroitProfiler_GameObjectController.SetSlot(5);
+            AdroitProfiler_GameObjectController.ToggleSlot(5);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha7))
         {
-            AdroitProfiler_GameObjectController.SetSlot(6);
+            AdroitProfiler_GameObjectController.ToggleSlot(6);
         }
         else if (pressingAlt&& Input.GetKeyDown(KeyCode.Alpha8))
         {
-            AdroitProfiler_GameObjectController.SetSlot(7);
+            AdroitProfiler_GameObjectController.ToggleSlot(7);
         }
        
      

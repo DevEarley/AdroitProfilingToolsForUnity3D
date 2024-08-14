@@ -37,6 +37,21 @@ public class AdroitProfiler_State : MonoBehaviour
     [HideInInspector]
     public float TimeThisFrame = 0;
 
+    public bool SkipInstructions = true;
+
+    /*
+    TODO:
+
+    Add the following to "Instruction Panel UI". Is there a way to do this automatically some how? Autoclicking the screen?
+
+        var AdroitProfiler_GameObjectController = FindObjectOfType<AdroitProfiler_GameObjectController>();
+        if(AdroitProfiler_GameObjectController!= null && AdroitProfiler_GameObjectController.SkipInstructions == true)
+        {
+            HideInstruction();
+        }
+    */
+ 
+
     public string RunName = "RUN";
     public string GPUStats = "";
 

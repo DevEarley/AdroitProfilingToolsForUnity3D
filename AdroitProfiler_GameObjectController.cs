@@ -134,38 +134,31 @@ public class AdroitProfiler_GameObjectController_Buttons : Editor
 public class AdroitProfiler_GameObjectController : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_GameObjectList;
-    public bool SkipInstructions = true;
-    /*
-    TODO:
 
-    Add the following to "Instruction Panel UI". Is there a way to do this automatically some how? Autoclicking the screen?
-
-        var AdroitProfiler_GameObjectController = FindObjectOfType<AdroitProfiler_GameObjectController>();
-        if(AdroitProfiler_GameObjectController!= null && AdroitProfiler_GameObjectController.SkipInstructions == true)
-        {
-            HideInstruction();
-        }
-
-
-    */
-
+  
     [HideInInspector]
-    public Dictionary<int,GameObject> Slots = new Dictionary<int,GameObject>();
+    public Dictionary<int, GameObject> Slots = new Dictionary<int, GameObject>();
+
     private List<GameObject> Duplicates = new List<GameObject>();
+
     [HideInInspector]
     public GameObject SelectedGameObject;
+
     [HideInInspector]
     public GameObject RootGameObject;
+
     private List<GameObject> GameObjectList = new List<GameObject>(15);
+
     private int GameObjectListOffset = 0;
     public float DuplicationOffset = 1.0f;
     private bool SettingSlot = false;
     private int CurrentSlot = 0;
+
     void Start()
     {
         TMProGUI_GameObjectList.text = "";
-
     }
+
     private void Update()
     {
         if (SettingSlot)
@@ -209,7 +202,6 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
             }
         }
     }   
-
 
     public void DuplicateSlot(int number)
     {
@@ -306,10 +298,12 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
         TurnOnSlot(6);
         TurnOnSlot(7);
     }
+
     public void ConfirmSlot()
     {
         SetSlotForNumber(CurrentSlot);
     }
+
     public void TurnOffAllSlots()
     {
         TurnOffSlot(0);
@@ -336,7 +330,6 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private void ShowListOfGameObjects(GameObject newRoot)
     {
-        
         UpdateListOfGameObjects( newRoot);
         TMProGUI_GameObjectList.text = "> ";
 
@@ -363,9 +356,8 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
             GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).ToList();
         }
         else
-        {
+        {//offset does not match the size of the array
             GameObjectList = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent== RootGameObject.transform).Skip(GameObjectListOffset).ToList();
         }
-        
     }
 }

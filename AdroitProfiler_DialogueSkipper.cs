@@ -24,10 +24,13 @@ public class AdroitProfiler_DialogueSkipper : MonoBehaviour
     void Update()
     {
         if (DialogueManager.instance == null) return;
-        var objects = FindObjectsOfType<StandardUIResponseButton>().Where(x=>x.gameObject.activeInHierarchy);
-        if (objects.Count() > 0)
-        {
-            objects.First().OnClick();
+        if (DialogueManager.instance.isConversationActive)
+        { 
+            var objects = FindObjectsOfType<StandardUIResponseButton>().Where(x=>x.gameObject.activeInHierarchy);
+            if (objects!=null && objects.Count() > 0 && objects.First() != null)
+            {
+                objects.First().OnClick();
+            }
         }
         //if (SkipConversation == true 
         //    && DialogueManager.instance.ConversationController != null 

@@ -52,14 +52,13 @@ public static class AdroitProfiler_Service
     }
 
     public static string UpdateGPUStats(
-      long systemMemoryRecorder_lastValue,
       long drawCallsCountRecorder_lastValue,
       long trisCountRecorder_lastValue
       )
     {
         var sb = new StringBuilder(500);
      
-        sb.AppendLine($"System Memory: {systemMemoryRecorder_lastValue / (1024 * 1024)} MB");
+        //sb.AppendLine($"System Memory: {systemMemoryRecorder_lastValue / (1024 * 1024)} MB");
         sb.AppendLine($"Draw Calls: {drawCallsCountRecorder_lastValue}");
         sb.AppendLine($"Triangles: {trisCountRecorder_lastValue} ");
         return sb.ToString();

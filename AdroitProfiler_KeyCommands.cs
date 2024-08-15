@@ -33,9 +33,10 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
             "Clear Duplicates: [ + X\r\n" +
             "Save Logs: [ + L\r\n" +
             "Show Time Per Frame Metrics: [ + T\r\n" +
-           // "Show Sys Memory Metrics: [ + M\r\n" +
+            // "Show Sys Memory Metrics: [ + M\r\n" +
             "Show Draw Metrics: [ + R\r\n" +
-            "Show Poly Count Metrics: [ + P\r\n";
+            "Show Poly Count Metrics: [ + P\r\n" +
+            "Toggle Profiler: [ + Q";
     }
 
     void Update()
@@ -43,15 +44,17 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
      
         var pressingLeftBracket = Input.GetKey(KeyCode.LeftBracket);
         var pressingRightBracket = Input.GetKey(KeyCode.RightBracket);
-        if (pressingLeftBracket && pressingRightBracket && Input.GetKeyDown(KeyCode.Return))
+        if (pressingLeftBracket  && Input.GetKeyDown(KeyCode.Q))
         {
-            AdroitProfiler_State.Paused = !AdroitProfiler_State.Paused; 
+            AdroitProfiler_State.Paused = !AdroitProfiler_State.Paused;
+            return;
         }
+        if (AdroitProfiler_State.Paused) return;
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             AdroitProfiler_GameObjectController.ConfirmSlot();
         }
-        else if ( Input.GetKeyDown(KeyCode.K))
+        else if (Input.GetKeyDown(KeyCode.K))
         {
             var isActive = Instructions.gameObject.activeSelf;
             Instructions.gameObject.SetActive(isActive == false);
@@ -128,78 +131,78 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.DrawCalls);
         }
-       
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha1))
+
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha1))
         {
             AdroitProfiler_GameObjectController.SetSlot(0);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha2))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha2))
         {
             AdroitProfiler_GameObjectController.SetSlot(1);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha3))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha3))
         {
             AdroitProfiler_GameObjectController.SetSlot(2);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha4))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha4))
         {
             AdroitProfiler_GameObjectController.SetSlot(3);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha5))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha5))
         {
             AdroitProfiler_GameObjectController.SetSlot(4);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha6))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha6))
         {
             AdroitProfiler_GameObjectController.SetSlot(5);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha7))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha7))
         {
             AdroitProfiler_GameObjectController.SetSlot(6);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha8))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha8))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(7);
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha9))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha9))
         {
             AdroitProfiler_GameObjectController.TurnOnAllSlots();
         }
-        else if (pressingLeftBracket&& Input.GetKeyDown(KeyCode.Alpha0))
+        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Alpha0))
         {
             AdroitProfiler_GameObjectController.TurnOffAllSlots();
         }
         //alt
-       
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha1))
+
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha1))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(0);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha2))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha2))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(1);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha3))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha3))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(2);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha4))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha4))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(3);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha5))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha5))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(4);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha6))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha6))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(5);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha7))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha7))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(6);
         }
-        else if (pressingRightBracket&& Input.GetKeyDown(KeyCode.Alpha8))
+        else if (pressingRightBracket && Input.GetKeyDown(KeyCode.Alpha8))
         {
             AdroitProfiler_GameObjectController.ToggleSlot(7);
         }

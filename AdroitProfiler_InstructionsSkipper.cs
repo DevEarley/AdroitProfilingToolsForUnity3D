@@ -24,7 +24,7 @@ public class AdroitProfiler_InstructionsSkipper : MonoBehaviour
     {
         var instructionPanels = FindObjectsOfType<InstructionalPanelUI>().ToList();
         instructionPanels.ForEach(instructionPanel => {
-            instructionPanel.gameObject.SetActive(false);
+           // instructionPanel.gameObject.SetActive(false);
         });
     }
 }

@@ -73,8 +73,7 @@ public class AdroitProfiler_State : MonoBehaviour
     [HideInInspector]
     public int AverageFPSFor_10Seconds = 0;
 
-    ProfilerRecorder systemMemoryRecorder;
-    private long systemMemoryRecorder_lastValue;
+
     ProfilerRecorder drawCallsCountRecorder;
     private long drawCallsCountRecorder_lastValue;
     ProfilerRecorder polyCountRecorder;
@@ -122,6 +121,7 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void Update()
     {
+        if (Time.timeScale != 1.0) Paused = true;
         if (Paused) return;
         TimerFor_TenthSecond += Time.deltaTime;
         TimerFor_QuarterSecond += Time.deltaTime;
@@ -129,7 +129,7 @@ public class AdroitProfiler_State : MonoBehaviour
         TimerFor_5Seconds += Time.deltaTime;
         TimerFor_10Seconds += Time.deltaTime;
         TimeThisFrame = Time.deltaTime * 1000.0f;
-        systemMemoryRecorder_lastValue = systemMemoryRecorder.LastValue;
+        //systemMemoryRecorder_lastValue = systemMemoryRecorder.LastValue;
         drawCallsCountRecorder_lastValue = drawCallsCountRecorder.LastValue;
         polyCountRecorder_lastValue = polyCountRecorder.LastValue;
         UpdateGPUStats();
@@ -210,7 +210,7 @@ public class AdroitProfiler_State : MonoBehaviour
     {
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_TenthSecond, TimerFor_TenthSecond, AdroitProfiler_Service.MaxTimeForTimer_TenthSecond))
         {
-            onTenthReset();
+            if(onTenthReset!=null)onTenthReset();
             NumberOfFramesThis_TenthSecond = 0;
             TotalTimeFor_TenthSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_TenthSecond = 0;
@@ -220,7 +220,7 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_QuarterSecond, TimerFor_QuarterSecond, AdroitProfiler_Service.MaxTimeForTimer_QuarterSecond))
         {
-            onQuarterReset();
+            if (onQuarterReset != null) onQuarterReset();
             TotalTimeFor_QuarterSecond = 0;
             NumberOfFramesThis_QuarterSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = 0;
@@ -230,7 +230,7 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_HalfSecond, TimerFor_HalfSecond, AdroitProfiler_Service.MaxTimeForTimer_HalfSecond))
         {
-            onHalfReset();
+            if (onHalfReset != null) onHalfReset();
             TotalTimeFor_HalfSecond = 0;
             NumberOfFramesThis_HalfSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_HalfSecond = 0;
@@ -240,7 +240,7 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_5Seconds, TimerFor_5Seconds, AdroitProfiler_Service.MaxTimeForTimer_5Seconds))
         {
-            on5sReset();
+            if (on5sReset != null) on5sReset();
             TotalTimeFor_5Seconds = 0;
             NumberOfFramesThis_5Seconds = 0;
             TimePerFrame_Metrics.MaxValueInLast_5Seconds = 0;
@@ -250,7 +250,7 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_10Seconds, TimerFor_10Seconds, AdroitProfiler_Service.MaxTimeForTimer_10Seconds))
         {
-            on10sReset();
+            if (on10sReset != null) on10sReset();
             TotalTimeFor_10Seconds = 0;
             NumberOfFramesThis_10Seconds = 0;
             TimePerFrame_Metrics.MaxValueInLast_10Seconds = 0;
@@ -262,7 +262,7 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void UpdateGPUStats()
     {
-        GPUStats = AdroitProfiler_Service.UpdateGPUStats(systemMemoryRecorder_lastValue, drawCallsCountRecorder_lastValue, polyCountRecorder_lastValue);
+        GPUStats = AdroitProfiler_Service.UpdateGPUStats( drawCallsCountRecorder_lastValue, polyCountRecorder_lastValue);
 
     }
 

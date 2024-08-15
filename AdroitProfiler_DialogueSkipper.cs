@@ -3,6 +3,8 @@ using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using PixelCrushers.DialogueSystem.ChatMapper;
+using System.Linq;
+
 [RequireComponent(typeof(AdroitProfiler_Logger))]
 
 public class AdroitProfiler_DialogueSkipper : MonoBehaviour
@@ -22,16 +24,27 @@ public class AdroitProfiler_DialogueSkipper : MonoBehaviour
     void Update()
     {
         if (DialogueManager.instance == null) return;
+        var objects = FindObjectsOfType<StandardUIResponseButton>().Where(x=>x.gameObject.activeInHierarchy);
+        if (objects.Count() > 0)
+        {
+            objects.First().OnClick();
+        }
+        //if (SkipConversation == true 
+        //    && DialogueManager.instance.ConversationController != null 
+        //    && DialogueManager.instance.ConversationController.currentState != null
+        //    && DialogueManager.instance.ConversationController.currentState.HasPCResponses == true
+        //    && DialogueManager.instance.ConversationController.currentState.hasForceAutoResponse == false)
+        //{
+        //    Debug.Log("hasPCResponses | " + DialogueManager.instance.ConversationController.currentState.HasPCResponses);
+        //    DialogueManager.instance.ConversationController.SetCurrentResponse(DialogueManager.instance.ConversationController.currentState.pcResponses.First());
+        //    DialogueManager.instance.ConversationController.GotoCurrentResponse();
+
+        //}
         if (InConversation != DialogueManager.instance.isConversationActive)
         {
-            if (SkipConversation == true)
-            {
-                DialogueManager.instance.ConversationController.GotoFirstResponse();
-            }
-
             if (CaptureConversation == false) return;
             InConversation = DialogueManager.instance.isConversationActive;
-            if (DialogueManager.instance.conversationModel.conversationTitle != null)
+            if (DialogueManager.instance.conversationModel!= null && DialogueManager.instance.conversationModel.conversationTitle != null)
             {
                 LastEventName = DialogueManager.instance.conversationModel.conversationTitle;
             }

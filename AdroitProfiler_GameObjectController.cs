@@ -149,7 +149,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private List<GameObject> ListOfTheRootsChildren = new List<GameObject>();
     private List<GameObject> GameObjectList = new List<GameObject>();
-
+    private AdroitProfiler_State AdroitProfiler_State;
     private int GameObjectListOffset = 0;
     public float DuplicationOffset = 1.0f;
     private bool SettingSlot = false;
@@ -158,10 +158,12 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
     void Start()
     {
         TMProGUI_GameObjectList.text = "";
+        AdroitProfiler_State = gameObject.GetComponent<AdroitProfiler_State>();
     }
 
     private void Update()
     {
+        if (AdroitProfiler_State.Paused) return;
         if (SettingSlot)
         {
             if (Input.GetKeyUp(KeyCode.UpArrow))
@@ -302,6 +304,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     public void ConfirmSlot()
     {
+        if (SettingSlot == false) return;
         SetSlotForNumber(CurrentSlot);
     }
 

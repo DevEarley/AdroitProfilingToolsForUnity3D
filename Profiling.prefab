@@ -127,6 +127,9 @@ GameObject:
   - component: {fileID: 3454020974776357012}
   - component: {fileID: 2682076050799138464}
   - component: {fileID: 2432884161169741837}
+  - component: {fileID: 2712568741298916807}
+  - component: {fileID: 7939575175877195723}
+  - component: {fileID: 818185950245957136}
   m_Layer: 0
   m_Name: Profiling
   m_TagString: Untagged
@@ -163,6 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeThisFrame: 0
+  SkipInstructions: 1
   RunName: RUN
   GPUStats: 
   TimerFor_TenthSecond: 0
@@ -175,6 +179,7 @@ MonoBehaviour:
   AverageFPSFor_HalfSecond: 0
   AverageFPSFor_5Seconds: 0
   AverageFPSFor_10Seconds: 0
+  Paused: 0
 --- !u!114 &1675708891661755136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9db4671dd8312b4285b5a5cf8b70bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentRun: []
+  CurrentRuntIndex: 0
 --- !u!114 &3244675283156790143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +259,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Instructions: {fileID: 253677719495385141}
   Instructions_Short: {fileID: 2768078573144693653}
+--- !u!114 &2712568741298916807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 425f26aa4ff187449a5f660b93416f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Heartbeat_Timing: 0
+--- !u!114 &7939575175877195723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae38f5732da6e647a618578547af135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &818185950245957136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7c5d47e1afcb44a811adc4b19e7aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkipConversation: 1
+  CaptureConversation: 1
 --- !u!1 &285528042371644192
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,7 +771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Show Key Commands: Shift+K
+  m_text: 'Show Key Commands: K
 
 
 '
@@ -967,11 +1011,11 @@ RectTransform:
   m_Father: {fileID: 4338945597171871225}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: -304}
-  m_SizeDelta: {x: 200, y: 35}
-  m_Pivot: {x: 1, y: 1}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -2.7000122, y: 2.399994}
+  m_SizeDelta: {x: 200, y: 103.850006}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &4453009503689919573
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1063,7 +1107,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: -0.19442749}
+  m_margin: {x: 0, y: 0, z: 0, w: 9.183945}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1135,7 +1179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Show Key Commands: Shift+K
+  m_text: 'Show Key Commands: K
 
 
 '

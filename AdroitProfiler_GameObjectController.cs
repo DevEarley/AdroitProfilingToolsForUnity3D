@@ -147,7 +147,8 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
     [HideInInspector]
     public GameObject RootGameObject;
 
-    private List<GameObject> GameObjectList = new List<GameObject>(15);
+    private List<GameObject> ListOfTheRootsChildren = new List<GameObject>();
+    private List<GameObject> GameObjectList = new List<GameObject>();
 
     private int GameObjectListOffset = 0;
     public float DuplicationOffset = 1.0f;
@@ -173,7 +174,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
             else if (Input.GetKeyUp(KeyCode.DownArrow))
             {
                 GameObjectListOffset++;
-                if (GameObjectListOffset > GameObjectList.Count - 1) GameObjectListOffset = GameObjectList.Count - 1;
+                if (GameObjectListOffset > ListOfTheRootsChildren.Count - 1) GameObjectListOffset = ListOfTheRootsChildren.Count - 1;
                 ShowListOfGameObjects(RootGameObject);
 
             }
@@ -207,7 +208,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
     {
         if (Slots.ContainsKey(number))
         {
-            var offset = Vector3.zero;
+            Vector3 offset;
             var prefab = Slots[number];
             var mesh = prefab.GetComponent<MeshRenderer>();
             var skinnedmesh = prefab.GetComponent<SkinnedMeshRenderer>();
@@ -351,13 +352,15 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
     {
         RootGameObject = newRoot;
         var scene = SceneManager.GetActiveScene();
-        if(RootGameObject == null)
+        if (RootGameObject == null)
         {
-            GameObjectList = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).Skip(GameObjectListOffset).ToList();
+            ListOfTheRootsChildren = scene.GetRootGameObjects().Where(x => x.activeInHierarchy).ToList();
+            GameObjectList = ListOfTheRootsChildren.Skip(GameObjectListOffset).ToList();
         }
         else
-        {//offset does not match the size of the array
-            GameObjectList = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent== RootGameObject.transform).Skip(GameObjectListOffset).ToList();
+        {
+            ListOfTheRootsChildren = RootGameObject.GetComponentsInChildren<Transform>().Select(t => t.gameObject).Where(t => t.transform.parent == RootGameObject.transform).ToList();
+            GameObjectList = ListOfTheRootsChildren.Skip(GameObjectListOffset).ToList();
         }
     }
 }

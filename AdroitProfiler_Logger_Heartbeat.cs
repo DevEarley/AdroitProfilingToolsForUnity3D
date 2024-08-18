@@ -3,18 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static AdroitProfiler_State;
 
-public enum AdroitProfiler_Heartbeat_Timing
-{
-    Every10Seconds,
-    Every5Seconds,
-    EveryHalfSecond,
-    EveryQuarterSecond,
-    EveryTenthSecond,
-    None
-}
 [RequireComponent(typeof(AdroitProfiler_State))]
 [RequireComponent(typeof(AdroitProfiler_Logger))]
-public class AdroitProfiler_Heartbeat : MonoBehaviour
+public class AdroitProfiler_Logger_Heartbeat : MonoBehaviour
 {
     public AdroitProfiler_Heartbeat_Timing Heartbeat_Timing  = AdroitProfiler_Heartbeat_Timing.None;
     private AdroitProfiler_State AdroitProfiler_State;
@@ -27,49 +18,49 @@ public class AdroitProfiler_Heartbeat : MonoBehaviour
         switch (Heartbeat_Timing)
         {
             case AdroitProfiler_Heartbeat_Timing.EveryTenthSecond:
-                AdroitProfiler_State.onTenthReset = OnTenthReset;
+                AdroitProfiler_State.onTenth_Heartbeat_delegates.Add(OnTenthHeartbeat);
                 break;
             case AdroitProfiler_Heartbeat_Timing.EveryQuarterSecond:
-                AdroitProfiler_State.onQuarterReset = OnQuarterReset;
+                AdroitProfiler_State.onQuarter_Heartbeat_delegates.Add(OnQuarterHeartbeat);
                 break;
             case AdroitProfiler_Heartbeat_Timing.EveryHalfSecond:
-                AdroitProfiler_State.onHalfReset = OnHalfReset;
+                AdroitProfiler_State.onHalf_Heartbeat_delegates.Add(OnHalfHeartbeat);
                 break;
             case AdroitProfiler_Heartbeat_Timing.Every5Seconds:
-                AdroitProfiler_State.on5sReset = On5SecondReset;
+                AdroitProfiler_State.on5s_Heartbeat_delegates.Add(On5SecondHeartbeat);
                 break;
             case AdroitProfiler_Heartbeat_Timing.Every10Seconds:
-                AdroitProfiler_State.on10sReset = On10SecondReset;
+                AdroitProfiler_State.on10s_Heartbeat_delegates.Add(On10SecondHeartbeat);
                 break;
         }
     }
 
-    private void OnTenthReset()
+    private void OnTenthHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("OnTenthReset");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.1s Heartbeat | Logger");
     }
 
-    private void OnQuarterReset()
+    private void OnQuarterHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("OnQuarterReset");
-
-    }
-
-    private void OnHalfReset()
-    {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("OnHalfReset");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.25s Heartbeat | Logger");
 
     }
 
-    private void On5SecondReset()
+    private void OnHalfHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On5sReset");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.5s Heartbeat | Logger");
 
     }
 
-    private void On10SecondReset()
+    private void On5SecondHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On10sReset");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 5s Heartbeat | Logger");
+
+    }
+
+    private void On10SecondHeartbeat()
+    {
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 10s Heartbeat | Logger");
 
     }
 }

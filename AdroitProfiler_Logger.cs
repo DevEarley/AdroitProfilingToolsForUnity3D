@@ -63,7 +63,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
     {
         if (AdroitProfiler_State.Paused) { return; }
      //  var MBDivisor = (1024 * 1024);
-        var formattedTime = AdroitProfiler_Service.FormatTime(Time.time);
+        var formattedTime = AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad);
         var performanceEventLog = "";
         performanceEventLog += AdroitProfiler_State.RunName + ", ";
         performanceEventLog += formattedTime + ",";

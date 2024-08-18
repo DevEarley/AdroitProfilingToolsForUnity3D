@@ -44,20 +44,20 @@ public class AdroitProfiler_InstructionsSkipper : MonoBehaviour
         Busy = false;
 
     }
-    void OnApplicationPause(bool pauseStatus)
-    {
-        Debug.Log("OnApplicationPause");
-        if (Buttons != null)
-        {
-            FindObjectsOfType<Button>().Where(x => x.gameObject.activeInHierarchy && x.GetComponentInParent<InstructionalPanelUI>() != null).ToList().ForEach(button =>
-            {
-                var pdata = new PointerEventData(null);
-                pdata.button = PointerEventData.InputButton.Left;
-                button.OnPointerClick(pdata);
-                Debug.Log("OnApplicationPause | button.Select();");
-            });
-        }
-    }
+    //void OnApplicationPause(bool pauseStatus)
+    //{
+    //    Debug.Log("OnApplicationPause");
+    //    if (Buttons != null)
+    //    {
+    //        FindObjectsOfType<Button>().Where(x => x.gameObject.activeInHierarchy && x.GetComponentInParent<InstructionalPanelUI>() != null).ToList().ForEach(button =>
+    //        {
+    //            var pdata = new PointerEventData(null);
+    //            pdata.button = PointerEventData.InputButton.Left;
+    //            button.OnPointerClick(pdata);
+    //            Debug.Log("OnApplicationPause | button.Select();");
+    //        });
+    //    }
+    //}
     private static void _OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         var self_AdroitProfiler_InstructionsSkipper = FindObjectOfType<AdroitProfiler_InstructionsSkipper>();

@@ -32,7 +32,18 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     {
         AdroitProfiler_State = this.gameObject.GetComponent<AdroitProfiler_State>();
     }
+    public void ToggleUI()
+    {
+        if (ShowingUI == true)
+        {
+            HideUI();
+        }
+        else
+        {
+            ShowUI();
+        }
 
+    }
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -148,7 +159,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     {
         var text = "";
         text += "This Frame: " + AdroitProfiler_State.TimeThisFrame.ToString("000") + " ms \n\r";
-        text += "Current Time: " + AdroitProfiler_Service.FormatTime(Time.time) + "\n\r";
+        text += "Current Time: " + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + "\n\r";
         TMProGUI_FPS.text = text;
     }
 

@@ -39,7 +39,7 @@ public class AdroitProfiler_State : MonoBehaviour
     [HideInInspector]
     public float TimeThisFrame = 0;
 
-    public bool SkipInstructions = true;
+    public bool SkipInstructions = true; 
 
 
 
@@ -94,19 +94,23 @@ public class AdroitProfiler_State : MonoBehaviour
     private int NumberOfFramesThis_10Seconds = 0;
 
 
-    public delegate void OnTenthReset();
-    public OnTenthReset onTenthReset;
-    public delegate void OnQuarterReset();
-    public OnQuarterReset onQuarterReset;
+    public delegate void OnTenth_Heartbeat();
+    public List<OnTenth_Heartbeat> onTenth_Heartbeat_delegates =  new List<OnTenth_Heartbeat>();
 
-    public delegate void OnHalfReset();
-    public OnHalfReset onHalfReset;
+    public delegate void OnQuarter_Heartbeat();
+    public List<OnQuarter_Heartbeat> onQuarter_Heartbeat_delegates = new List<OnQuarter_Heartbeat>();
 
-    public delegate void On5sReset();
-    public On5sReset on5sReset;
+    public delegate void OnHalf_Heartbeat();
+    public List<OnHalf_Heartbeat> onHalf_Heartbeat_delegates = new List<OnHalf_Heartbeat>();
 
-    public delegate void On10sReset();
-    public On10sReset on10sReset;
+    public delegate void On5s_Heartbeat();
+    public List<On5s_Heartbeat> on5s_Heartbeat_delegates = new List<On5s_Heartbeat>();
+
+    public delegate void On10s_Heartbeat();
+    public List<On10s_Heartbeat> on10s_Heartbeat_delegates = new List<On10s_Heartbeat>();
+
+    public delegate void On1s_Heartbeat();
+    public List<On1s_Heartbeat> on1s_Heartbeat_delegates = new List<On1s_Heartbeat>();
 
 
     void Awake()
@@ -118,17 +122,17 @@ public class AdroitProfiler_State : MonoBehaviour
     }
 
    
-
+    
     private void Update()
     {
-        if (Time.timeScale != 1.0) Paused = true;
+        //Paused = Time.timeScale != 1.0;
         if (Paused) return;
-        TimerFor_TenthSecond += Time.deltaTime;
-        TimerFor_QuarterSecond += Time.deltaTime;
-        TimerFor_HalfSecond += Time.deltaTime;
-        TimerFor_5Seconds += Time.deltaTime;
-        TimerFor_10Seconds += Time.deltaTime;
-        TimeThisFrame = Time.deltaTime * 1000.0f;
+        TimerFor_TenthSecond += Time.unscaledDeltaTime;
+        TimerFor_QuarterSecond += Time.unscaledDeltaTime;
+        TimerFor_HalfSecond += Time.unscaledDeltaTime;
+        TimerFor_5Seconds += Time.unscaledDeltaTime;
+        TimerFor_10Seconds += Time.unscaledDeltaTime;
+        TimeThisFrame = Time.unscaledDeltaTime * 1000.0f;
         //systemMemoryRecorder_lastValue = systemMemoryRecorder.LastValue;
         drawCallsCountRecorder_lastValue = drawCallsCountRecorder.LastValue;
         polyCountRecorder_lastValue = polyCountRecorder.LastValue;
@@ -206,11 +210,14 @@ public class AdroitProfiler_State : MonoBehaviour
         PolyCount_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_10Seconds, polyCountRecorder_lastValue);
     }
 
+    public bool OneSecondSwitch= false;
+    public bool TwoSecondSwitch = false;
+
     private void CheckTimers()
     {
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_TenthSecond, TimerFor_TenthSecond, AdroitProfiler_Service.MaxTimeForTimer_TenthSecond))
         {
-            if(onTenthReset!=null)onTenthReset();
+            onTenth_Heartbeat_delegates.ForEach(x => x());
             NumberOfFramesThis_TenthSecond = 0;
             TotalTimeFor_TenthSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_TenthSecond = 0;
@@ -220,7 +227,7 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_QuarterSecond, TimerFor_QuarterSecond, AdroitProfiler_Service.MaxTimeForTimer_QuarterSecond))
         {
-            if (onQuarterReset != null) onQuarterReset();
+            onQuarter_Heartbeat_delegates.ForEach(x => x());
             TotalTimeFor_QuarterSecond = 0;
             NumberOfFramesThis_QuarterSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = 0;
@@ -230,7 +237,16 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_HalfSecond, TimerFor_HalfSecond, AdroitProfiler_Service.MaxTimeForTimer_HalfSecond))
         {
-            if (onHalfReset != null) onHalfReset();
+            if (OneSecondSwitch)
+            { 
+                OneSecondSwitch = false;
+                on1s_Heartbeat_delegates.ForEach(x => x());
+            }
+            else
+            {
+                OneSecondSwitch = true;
+            }
+            onHalf_Heartbeat_delegates.ForEach(x => x());
             TotalTimeFor_HalfSecond = 0;
             NumberOfFramesThis_HalfSecond = 0;
             TimePerFrame_Metrics.MaxValueInLast_HalfSecond = 0;
@@ -240,7 +256,8 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_5Seconds, TimerFor_5Seconds, AdroitProfiler_Service.MaxTimeForTimer_5Seconds))
         {
-            if (on5sReset != null) on5sReset();
+            on5s_Heartbeat_delegates.ForEach(x => x());
+
             TotalTimeFor_5Seconds = 0;
             NumberOfFramesThis_5Seconds = 0;
             TimePerFrame_Metrics.MaxValueInLast_5Seconds = 0;
@@ -250,7 +267,8 @@ public class AdroitProfiler_State : MonoBehaviour
         }
         if (AdroitProfiler_Service.CheckTimer(out TimerFor_10Seconds, TimerFor_10Seconds, AdroitProfiler_Service.MaxTimeForTimer_10Seconds))
         {
-            if (on10sReset != null) on10sReset();
+            on10s_Heartbeat_delegates.ForEach(x => x());
+
             TotalTimeFor_10Seconds = 0;
             NumberOfFramesThis_10Seconds = 0;
             TimePerFrame_Metrics.MaxValueInLast_10Seconds = 0;

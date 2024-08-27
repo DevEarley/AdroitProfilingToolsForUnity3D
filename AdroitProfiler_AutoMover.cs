@@ -34,11 +34,17 @@ public class AdroitProfiler_AutoMover_Heartbeat_Button : Editor
     }
 }
 #endif
-
+public enum AdroitProfiler_AutoMover_Configuration_MovementType
+{
+    MoveForward,
+    MoveBackwards,
+    TurnLeft,
+    TurnRight
+}
 [System.Serializable]
 public class AdroitProfiler_AutoMover_Configuration
 {
-    public KeyCode Key;
+    public AdroitProfiler_AutoMover_Configuration_MovementType Movement;
     public string StartInScene;
     public float Speed = 1.0f;
     public float StartTime;
@@ -89,10 +95,7 @@ public class AdroitProfiler_AutoMover : MonoBehaviour
         CurrentSceneName = scene.path;
         SetCamera();
         // Camera.transform.LookAt()
-        if (Configurations_CSV != null && Configurations.Count == 0)
-        {
-            GetConfigsFromSettingsFile();
-        }
+        
 
         Debug.Log("scene.path : " + scene.path);
 
@@ -164,19 +167,19 @@ public class AdroitProfiler_AutoMover : MonoBehaviour
     {
         if (Camera == null) return;
         Debug.Log("MoveForConfig | " + config.StartInScene);
-        switch (config.Key)
+        switch (config.Movement)
         {
-            case KeyCode.W:
+            case AdroitProfiler_AutoMover_Configuration_MovementType.MoveForward:
                 characterController.SimpleMove(Camera.transform.forward * config.Speed * Time.deltaTime);
                 break;
-            case KeyCode.A:
+            case AdroitProfiler_AutoMover_Configuration_MovementType.TurnLeft:
                 //characterController.SimpleMove(Camera.transform.right * config.Speed * Time.deltaTime);
                 Camera.transform.Rotate(Vector3.up, -1.0f*config.Speed * Time.deltaTime);
                 break;
-            case KeyCode.S:
+            case AdroitProfiler_AutoMover_Configuration_MovementType.MoveBackwards:
                 characterController.SimpleMove(-1.0f * Camera.transform.forward * config.Speed * Time.deltaTime);
                 break;
-            case KeyCode.D:
+            case AdroitProfiler_AutoMover_Configuration_MovementType.TurnRight:
                 Camera.transform.Rotate(Vector3.up, config.Speed * Time.deltaTime);
                 //characterController.SimpleMove(-1.0f * Camera.transform.right * config.Speed * Time.deltaTime);
                 break;
@@ -238,7 +241,22 @@ public class AdroitProfiler_AutoMover : MonoBehaviour
     {
         var config = new AdroitProfiler_AutoMover_Configuration();
         config.Speed = speed;
-        config.Key = keyCode;
+        switch (keyCode){
+            case KeyCode.W:
+                config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.MoveForward;
+                break;
+            case KeyCode.A:
+                config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.TurnLeft;
+                break;
+            case KeyCode.S:
+                config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.MoveBackwards;
+
+                break;
+            case KeyCode.D:
+                config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.TurnRight;
+                break;
+        }
+       
         config.StartInScene = CurrentSceneName;
         config.StartTime = track.x;
         config.EndTime = track.y;
@@ -253,35 +271,39 @@ public class AdroitProfiler_AutoMover : MonoBehaviour
         {
             var settings = profile_string.Split(",");
             if (settings.Length < 5) return;
-            var profile = new AdroitProfiler_AutoMover_Configuration();
+            var config = new AdroitProfiler_AutoMover_Configuration();
             switch (settings[0])
             {
                 case "w":
                 case "W":
-                    profile.Key = KeyCode.W;
+                    config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.MoveForward;
+
                     break;
 
                 case "a":
                 case "A":
-                    profile.Key = KeyCode.A;
+                    config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.TurnLeft;
+
                     break;
 
                 case "s":
                 case "S":
-                    profile.Key = KeyCode.S;
+                    config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.MoveBackwards;
+
                     break;
 
                 case "d":
                 case "D":
-                    profile.Key = KeyCode.D;
+                    config.Movement = AdroitProfiler_AutoMover_Configuration_MovementType.TurnRight;
+
 
                     break;
             }
-            profile.StartInScene = settings[1];
-            profile.Speed = float.Parse(settings[2]);
-            profile.StartTime = float.Parse(settings[3]);
-            profile.EndTime = float.Parse(settings[4]);
-            Configurations.Add(profile);
+            config.StartInScene = settings[1];
+            config.Speed = float.Parse(settings[2]);
+            config.StartTime = float.Parse(settings[3]);
+            config.EndTime = float.Parse(settings[4]);
+            Configurations.Add(config);
         }
     }
 
@@ -294,7 +316,21 @@ public class AdroitProfiler_AutoMover : MonoBehaviour
         foreach (var config in Configurations)
         {
             var line = "";
-            line += config.Key.ToString() + ",";
+            switch (config.Movement)
+            {
+                case AdroitProfiler_AutoMover_Configuration_MovementType.MoveForward:
+                    line += "W,";
+                    break;
+                case AdroitProfiler_AutoMover_Configuration_MovementType.TurnLeft:
+                    line += "A,";
+                    break;
+                case AdroitProfiler_AutoMover_Configuration_MovementType.MoveBackwards:
+                    line += "S,";
+                    break;
+                case AdroitProfiler_AutoMover_Configuration_MovementType.TurnRight:
+                    line += "D,";
+                    break;
+            }
             line += config.StartInScene + ",";
             line += config.Speed + ",";
             line += config.StartTime + ",";

@@ -231,6 +231,7 @@ public class AdroitProfiler_AutoClicker_Heartbeat : MonoBehaviour
 
     public void GetConfigurationsFromSettingsFile()
     {
+        Configurations.Clear();
         var Configurations_strings = Configurations_CSV.text.Split("\n");
         foreach (var profile_string in Configurations_strings)
         {

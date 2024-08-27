@@ -302,13 +302,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100190903366215853}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e7c5d47e1afcb44a811adc4b19e7aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SkipConversation: 1
   CaptureConversation: 1
+  Heartbeat_Timing: 1
 --- !u!114 &8584917605852231764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,18 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131d98cbad75a6c40bf6e8250e228ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Heartbeat_Timing: 3
+  Heartbeat_Timing: 2
   Configurations:
-  - Label: making diamond art
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: 87.6, y: 214.59}
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-  - Label: question
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: -6.1, y: 190.5}
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
   - Label: making diamond art
     Enabled: 1
     MousePosition: {x: 2, y: 2}
@@ -343,11 +334,16 @@ MonoBehaviour:
     MousePosition: {x: 2, y: 2}
     Offset: {x: -6.1, y: 191.73}
     StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-  - Label: Choice
+  - Label: Basketball prompt
     Enabled: 1
     MousePosition: {x: 2, y: 2}
-    Offset: {x: 144.1, y: 81.94}
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Offset: {x: -6.1, y: 168.8}
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+  - Label: Basketball prompt
+    Enabled: 1
+    MousePosition: {x: 2, y: 2}
+    Offset: {x: -6.1, y: 168.8}
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
   Configurations_CSV: {fileID: 4900000, guid: 5e185f4b9f3c1d3439a8836a4dffb5c5, type: 3}
   AutoClicker: {fileID: 0}
   SettingSlot: 0
@@ -380,14 +376,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b264198149e522488cda6c54b1844b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Heartbeat_Timing: 1
+  Heartbeat_Timing: 2
   Configurations_CSV: {fileID: 4900000, guid: 4d1e00890252146478f3e6b6cac6c203, type: 3}
   Configurations:
   - GameObjectPath: Player_Final_Gameplay
     Function: PassPall_forTesting
     Value: 
-    StartInScene: Assets/_Scenes/Gym_main_new
-    Time: 150
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Time: 165
     Sent: 0
   CurrentSceneName: 
 --- !u!114 &7890833797747345430
@@ -402,12 +398,287 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2709875335cf3db4ebec06a5f87db293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 100
-  TurnSpeed: 20
+  MoveSpeed: 200
+  TurnSpeed: 75
   Camera: {fileID: 0}
   characterController: {fileID: 0}
   Configurations_CSV: {fileID: 4900000, guid: dd8b8dce313b6e74982234cfe7bbf742, type: 3}
-  Configurations: []
+  Configurations:
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 38.00838
+    EndTime: 39.60947
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 39.93068
+    EndTime: 41.44247
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 41.64449
+    EndTime: 43.54026
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 201.6372
+    EndTime: 203.2622
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 203.3599
+    EndTime: 204.3811
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 421.8239
+    EndTime: 422.5536
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 423.0416
+    EndTime: 423.6044
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 423.75
+    EndTime: 424.9342
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 425.0547
+    EndTime: 425.9717
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 425.734
+    EndTime: 427.3004
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 427.2119
+    EndTime: 428.0014
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 427.6348
+    EndTime: 428.068
+  - Movement: 1
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 428.2346
+    EndTime: 428.7454
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 428.7454
+    EndTime: 430.1446
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 430.758
+    EndTime: 431.0694
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 431.0348
+    EndTime: 431.5676
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 431.5395
+    EndTime: 432.8345
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 432.6346
+    EndTime: 433.2201
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 433.05
+    EndTime: 434.4388
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 434.6697
+    EndTime: 435.5645
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 435.9586
+    EndTime: 436.6675
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 436.6188
+    EndTime: 437.1023
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 437.7011
+    EndTime: 438.4089
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 436.9694
+    EndTime: 440.1833
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 439.321
+    EndTime: 440.282
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 470.301
+    EndTime: 471.7098
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 711.1769
+    EndTime: 714.7343
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 715.314
+    EndTime: 715.5542
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 714.7343
+    EndTime: 715.9958
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 719.3978
+    EndTime: 723.2497
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 724.5833
+    EndTime: 726.285
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 737.6907
+    EndTime: 740.8539
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 741.0274
+    EndTime: 741.4131
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 744.4371
+    EndTime: 744.8572
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 744.923
+    EndTime: 746.4829
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 747.1649
+    EndTime: 747.2988
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 75
+    StartTime: 748.5651
+    EndTime: 748.6986
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
+    Speed: 200
+    StartTime: 746.5185
+    EndTime: 748.8887
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 75
+    StartTime: 23.88582
+    EndTime: 24.25862
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 200
+    StartTime: 24.52043
+    EndTime: 25.05344
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 75
+    StartTime: 25.12131
+    EndTime: 25.4586
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 200
+    StartTime: 26.00531
+    EndTime: 26.23083
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 75
+    StartTime: 26.33693
+    EndTime: 26.80248
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 200
+    StartTime: 27.83987
+    EndTime: 28.03932
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Gym_main_new.unity
+    Speed: 200
+    StartTime: 29.56445
+    EndTime: 29.71131
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 200
+    StartTime: 13.37138
+    EndTime: 14.0072
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 200
+    StartTime: 15.50732
+    EndTime: 16.43962
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 75
+    StartTime: 18.54263
+    EndTime: 18.71782
+  - Movement: 3
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 75
+    StartTime: 21.47716
+    EndTime: 22.46318
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 200
+    StartTime: 17.5745
+    EndTime: 22.84524
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 75
+    StartTime: 69.69579
+    EndTime: 70.26617
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 200
+    StartTime: 70.3342
+    EndTime: 71.13247
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 75
+    StartTime: 71.22173
+    EndTime: 71.78575
+  - Movement: 2
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 75
+    StartTime: 71.87719
+    EndTime: 72.30201
+  - Movement: 0
+    StartInScene: Assets/_Scenes/Bus_main_test.unity
+    Speed: 200
+    StartTime: 72.33936
+    EndTime: 72.8424
   IsRecording: 0
 --- !u!1 &285528042371644192
 GameObject:

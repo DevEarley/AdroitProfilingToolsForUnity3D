@@ -58,7 +58,7 @@ public class AdroitProfiler_AutoBroadcaster_Heartbeat : MonoBehaviour
     private CharacterController characterController;
     public TextAsset Configurations_CSV;
     public List<AdroitProfiler_AutoBroadcaster_Configuration> Configurations = new List<AdroitProfiler_AutoBroadcaster_Configuration>();
-    private AdroitProfiler_AutoBroadcaster_Configuration CurrentProfile;
+
     private AdroitProfiler_State AdroitProfiler_State;
 
     [HideInInspector]
@@ -95,43 +95,23 @@ public class AdroitProfiler_AutoBroadcaster_Heartbeat : MonoBehaviour
         switch (Heartbeat_Timing)
         {
             case AdroitProfiler_Heartbeat_Timing.EveryTenthSecond:
-                AdroitProfiler_State.onTenth_Heartbeat_delegates.Add(OnTenthHeartbeat);
+                AdroitProfiler_State.onTenth_Heartbeat_delegates.Add(UpdateMessages);
                 break;
             case AdroitProfiler_Heartbeat_Timing.EveryQuarterSecond:
-                AdroitProfiler_State.onQuarter_Heartbeat_delegates.Add(OnQuarterHeartbeat);
+                AdroitProfiler_State.onQuarter_Heartbeat_delegates.Add(UpdateMessages);
                 break;
             case AdroitProfiler_Heartbeat_Timing.EveryHalfSecond:
-                AdroitProfiler_State.onHalf_Heartbeat_delegates.Add(OnHalfHeartbeat);
+                AdroitProfiler_State.onHalf_Heartbeat_delegates.Add(UpdateMessages);
                 break;
             case AdroitProfiler_Heartbeat_Timing.Every5Seconds:
-                AdroitProfiler_State.on5s_Heartbeat_delegates.Add(On5SecondHeartbeat);
+                AdroitProfiler_State.on5s_Heartbeat_delegates.Add(UpdateMessages);
                 break;
             case AdroitProfiler_Heartbeat_Timing.Every10Seconds:
-                AdroitProfiler_State.on10s_Heartbeat_delegates.Add(On10SecondHeartbeat);
+                AdroitProfiler_State.on10s_Heartbeat_delegates.Add(UpdateMessages);
                 break;
         }
     }
-    private void OnTenthHeartbeat()
-    {
-        UpdateMessages();
-    }
-    private void OnQuarterHeartbeat()
-    {
-        UpdateMessages();
-    }
-    private void OnHalfHeartbeat()
-    {
-        UpdateMessages();
-    }
-    private void On5SecondHeartbeat()
-    {
-        UpdateMessages();
-    }
-    private void On10SecondHeartbeat()
-    {
-        UpdateMessages();
-    }
-
+    
     private void OnScenLoaded(Scene scene, LoadSceneMode mode)
     {
         CurrentSceneName = scene.path;
@@ -143,16 +123,7 @@ public class AdroitProfiler_AutoBroadcaster_Heartbeat : MonoBehaviour
         Debug.Log("scene.path : " + scene.path);
 
 
-        CurrentProfile = Configurations.FirstOrDefault(x => x.StartInScene == "" || x.StartInScene == scene.path);
-        if (CurrentProfile != null)
-        {
-
-            characterController = FindObjectOfType<CharacterController>();
-        }
-        else
-        {
-            characterController = null;
-        }
+       
     }
 
 
@@ -170,6 +141,7 @@ public class AdroitProfiler_AutoBroadcaster_Heartbeat : MonoBehaviour
 
     public void BroadcastMessageToGO(AdroitProfiler_AutoBroadcaster_Configuration config)
     {
+        Debug.Log("Try to BroadcastMessage To GO");
         config.Sent = true;
         var GO = GameObject.Find(config.GameObjectPath);
         GO.SendMessage(config.Function, config.Value);
@@ -179,6 +151,7 @@ public class AdroitProfiler_AutoBroadcaster_Heartbeat : MonoBehaviour
 
     public void GetConfigsFromSettingsFile()
     {
+        Configurations.Clear();
         var profiles_strings = Configurations_CSV.text.Split("\n");
         foreach (var profile_string in profiles_strings)
         {

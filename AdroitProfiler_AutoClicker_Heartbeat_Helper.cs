@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-
 
 //#if UNITY_EDITOR
+using System.Linq;
+using TMPro;
+using UnityEngine;
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester))]
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoClicker))]
+
 [ExecuteInEditMode]
 public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
 {
@@ -14,58 +15,53 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
     public TextMeshProUGUI TMProGUI_Helper_2;
     public TextMeshProUGUI TMProGUI_Helper_3;
     public TextMeshProUGUI TMProGUI_Helper_4;
-    private AdroitProfiler_AutoClicker_Heartbeat AdroitProfiler_AutoClicker_Heartbeat;
+    private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
+    private AdroitProfiler_AutomatedTester_AutoClicker AdroitProfiler_AutomatedTester_AutoClicker;
     private void Start()
     {
-        AdroitProfiler_AutoClicker_Heartbeat = gameObject.GetComponent<AdroitProfiler_AutoClicker_Heartbeat>();
+        AdroitProfiler_AutomatedTester = gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
+        AdroitProfiler_AutomatedTester_AutoClicker = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoClicker>();
     }
     private void Update()
     {
-        if (TMProGUI_Helper_1 != null 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations.Count> 0
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[0].Enabled
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[0].StartInScene == AdroitProfiler_AutoClicker_Heartbeat.CurrentSceneName)
+        var configs = AdroitProfiler_AutomatedTester.TestCase.Configs.Where(x => x.Enabled).ToList();
+        if (TMProGUI_Helper_1 != null
+            && configs.Count > 0)
         {
-            var Vector = AdroitProfiler_AutoClicker_Heartbeat.GetPoint(AdroitProfiler_AutoClicker_Heartbeat.Configurations[0]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[0]);
             TMProGUI_Helper_1.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
-        else
+        else if(TMProGUI_Helper_1 != null)
         {
             TMProGUI_Helper_1.rectTransform.anchoredPosition = Vector2.zero;
         }
-        if (TMProGUI_Helper_2 != null 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations.Count > 1 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[1].Enabled
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[1].StartInScene == AdroitProfiler_AutoClicker_Heartbeat.CurrentSceneName)
+        if (TMProGUI_Helper_2 != null
+            && configs.Count > 1)
         {
-            var Vector = AdroitProfiler_AutoClicker_Heartbeat.GetPoint(AdroitProfiler_AutoClicker_Heartbeat.Configurations[1]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[1]);
             TMProGUI_Helper_2.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
-        else
+        else if (TMProGUI_Helper_2 != null)
         {
             TMProGUI_Helper_2.rectTransform.anchoredPosition = Vector2.zero;
         }
-        if (TMProGUI_Helper_3 != null 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations.Count > 2 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[2].Enabled
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[2].StartInScene == AdroitProfiler_AutoClicker_Heartbeat.CurrentSceneName)
+        if (TMProGUI_Helper_3 != null
+            && configs.Count > 2)
         {
-            var Vector = AdroitProfiler_AutoClicker_Heartbeat.GetPoint(AdroitProfiler_AutoClicker_Heartbeat.Configurations[2]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[2]);
             TMProGUI_Helper_3.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
-        else
+        else if (TMProGUI_Helper_3 != null)
         {
             TMProGUI_Helper_3.rectTransform.anchoredPosition = Vector2.zero;
         }
-        if (TMProGUI_Helper_4 != null 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations.Count > 3 
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[3].Enabled
-            && AdroitProfiler_AutoClicker_Heartbeat.Configurations[3].StartInScene == AdroitProfiler_AutoClicker_Heartbeat.CurrentSceneName)
+        if (TMProGUI_Helper_4 != null
+            && configs.Count > 3)
         {
-            var Vector = AdroitProfiler_AutoClicker_Heartbeat.GetPoint(AdroitProfiler_AutoClicker_Heartbeat.Configurations[3]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[3]);
             TMProGUI_Helper_4.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
-        else
+        else if (TMProGUI_Helper_4 != null)
         {
             TMProGUI_Helper_4.rectTransform.anchoredPosition = Vector2.zero;
         }

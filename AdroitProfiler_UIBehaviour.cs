@@ -13,6 +13,7 @@ public enum AdroitProfiler_UIBehaviour_State
 }
 
 [RequireComponent(typeof(AdroitProfiler_State))]
+[RequireComponent(typeof(AdroitProfiler_Heartbeat))]
 public class AdroitProfiler_UIBehaviour : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_FPS;
@@ -27,10 +28,12 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
 
     private AdroitProfiler_UIBehaviour_State AdroitProfiler_UIBehaviour_State;
     private AdroitProfiler_State AdroitProfiler_State;
+    private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
 
     private void Start()
     {
         AdroitProfiler_State = this.gameObject.GetComponent<AdroitProfiler_State>();
+        AdroitProfiler_Heartbeat = this.gameObject.GetComponent<AdroitProfiler_Heartbeat>();
     }
     public void ToggleUI()
     {
@@ -60,17 +63,17 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     }
     void LateUpdate()
     {
-        if (AdroitProfiler_State.Paused == true && ShowingUI == true)
+        if (AdroitProfiler_Heartbeat.Paused == true && ShowingUI == true)
         {
             HideUI();
 
         }
-        else if (AdroitProfiler_State.Paused == false && ShowingUI == false)
+        else if (AdroitProfiler_Heartbeat.Paused == false && ShowingUI == false)
         {
             ShowUI();
 
         }
-        if (AdroitProfiler_State.Paused == true)
+        if (AdroitProfiler_Heartbeat.Paused == true)
         {
             return;
         }
@@ -93,11 +96,11 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
                 break;
             //case AdroitProfiler_UIBehaviour_State.SystemMemory:
             //    UpdateTimeAndCurrentFrame();
-            //    Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_TenthSecond / MBD,  TMProGUI_TenthSecMax);
-            //    Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_QuarterSecond/ MBD,  TMProGUI_QuarterSecMax);
-            //    Update_Metric_UIWithTime("Half Second", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_HalfSecond/ MBD, TMProGUI_HalfSecMax);
-            //    Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_5Seconds/ MBD,  TMProGUI_5SecMax);
-            //    Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_State.SystemMemory_Metrics.MaxValueInLast_10Seconds/ MBD, TMProGUI_10SecMax);
+            //    Update_Metric_UIWithTime("Tenth Second", AdroitProfiler_Heartbeat.SystemMemory_Metrics.MaxValueInLast_TenthSecond / MBD,  TMProGUI_TenthSecMax);
+            //    Update_Metric_UIWithTime("Quarter Second", AdroitProfiler_Heartbeat.SystemMemory_Metrics.MaxValueInLast_QuarterSecond/ MBD,  TMProGUI_QuarterSecMax);
+            //    Update_Metric_UIWithTime("Half Second", AdroitProfiler_Heartbeat.SystemMemory_Metrics.MaxValueInLast_HalfSecond/ MBD, TMProGUI_HalfSecMax);
+            //    Update_Metric_UIWithTime("5 Seconds", AdroitProfiler_Heartbeat.SystemMemory_Metrics.MaxValueInLast_5Seconds/ MBD,  TMProGUI_5SecMax);
+            //    Update_Metric_UIWithTime("10 Seconds", AdroitProfiler_Heartbeat.SystemMemory_Metrics.MaxValueInLast_10Seconds/ MBD, TMProGUI_10SecMax);
             //    break;
             case AdroitProfiler_UIBehaviour_State.TimePerFrame:
                 UpdateTimeAndCurrentFrame();
@@ -158,7 +161,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     private void UpdateTimeAndCurrentFrame()
     {
         var text = "";
-        text += "This Frame: " + AdroitProfiler_State.TimeThisFrame.ToString("000") + " ms \n\r";
+        text += "This Frame: " + AdroitProfiler_Heartbeat.TimeThisFrame.ToString("000") + " ms \n\r";
         text += "Current Time: " + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + "\n\r";
         TMProGUI_FPS.text = text;
     }

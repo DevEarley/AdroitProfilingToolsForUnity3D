@@ -149,6 +149,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private List<GameObject> ListOfTheRootsChildren = new List<GameObject>();
     private List<GameObject> GameObjectList = new List<GameObject>();
+
     private AdroitProfiler_State AdroitProfiler_State;
     private int GameObjectListOffset = 0;
     public float DuplicationOffset = 1.0f;
@@ -163,7 +164,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private void Update()
     {
-        if (AdroitProfiler_State.Paused) return;
+
         if (SettingSlot)
         {
             if (Input.GetKeyUp(KeyCode.UpArrow))

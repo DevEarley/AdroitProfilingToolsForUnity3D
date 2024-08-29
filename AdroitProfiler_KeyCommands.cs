@@ -7,21 +7,21 @@ using UnityEngine;
 [RequireComponent(typeof(AdroitProfiler_State))]
 [RequireComponent(typeof(AdroitProfiler_Logger))]
 [RequireComponent(typeof(AdroitProfiler_GameObjectController))]
-[RequireComponent(typeof(AdroitProfiler_AutoClicker_Heartbeat))]
+//[RequireComponent(typeof(AdroitProfiler_AutoClicker_Heartbeat))]
 public class AdroitProfiler_KeyCommands : MonoBehaviour
 {
     public TextMeshProUGUI Instructions;
     public GameObject Instructions_Short;
     private AdroitProfiler_UIBehaviour AdroitProfiler_UIBehaviour;
     private AdroitProfiler_Logger AdroitProfiler_Logger;
-    private AdroitProfiler_State AdroitProfiler_State;
-    private AdroitProfiler_AutoClicker_Heartbeat AdroitProfiler_AutoClicker_Heartbeat;
+    private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
+  //  private AdroitProfiler_AutoClicker_Heartbeat AdroitProfiler_AutoClicker_Heartbeat;
     private AdroitProfiler_GameObjectController AdroitProfiler_GameObjectController;
     
     private void Start()
     {
-        AdroitProfiler_AutoClicker_Heartbeat = gameObject.GetComponent<AdroitProfiler_AutoClicker_Heartbeat>();
-        AdroitProfiler_State = gameObject.GetComponent<AdroitProfiler_State>();
+     //   AdroitProfiler_AutoClicker_Heartbeat = gameObject.GetComponent<AdroitProfiler_AutoClicker_Heartbeat>();
+        AdroitProfiler_Heartbeat = gameObject.GetComponent<AdroitProfiler_Heartbeat>();
         AdroitProfiler_Logger = gameObject.GetComponent<AdroitProfiler_Logger>();
         AdroitProfiler_UIBehaviour = gameObject.GetComponent<AdroitProfiler_UIBehaviour>();
         AdroitProfiler_GameObjectController = gameObject.GetComponent<AdroitProfiler_GameObjectController>();
@@ -40,8 +40,8 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
             "Show Draw Metrics: [ + R\r\n" +
             "Show Poly Count Metrics: [ + Y\r\n" +
             "Toggle UI: [ + U\r\n" +
-            "Set Auto Clickers: \\ + 1,2,3,4\r\n" +
-            "Set Auto Mover: \\ + W,A,S,D\r\n" +
+           // "Set Auto Clickers: \\ + 1,2,3,4\r\n" +
+            //"Set Auto Mover: \\ + W,A,S,D\r\n" +
             "Toggle Profiler: [ + Q";
     }
 
@@ -53,17 +53,13 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         var pressingRightBracket = Input.GetKey(KeyCode.RightBracket);
         if (pressingLeftBracket  && Input.GetKeyDown(KeyCode.Q))
         {
-            AdroitProfiler_State.Paused = !AdroitProfiler_State.Paused;
+            AdroitProfiler_Heartbeat.Paused = !AdroitProfiler_Heartbeat.Paused;
             return;
         }
-        if (AdroitProfiler_State.Paused) return;
+        if (AdroitProfiler_Heartbeat.Paused) return;
         else if (Input.GetKeyDown(KeyCode.Return))
         {
             AdroitProfiler_GameObjectController.ConfirmSlot();
-            if (AdroitProfiler_AutoClicker_Heartbeat.SettingSlot)
-            {
-                AdroitProfiler_AutoClicker_Heartbeat.SettingSlot = false;
-            }
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
@@ -216,25 +212,25 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
 
         //pressingBackslash - Auto Clicker
 
-        else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AdroitProfiler_AutoClicker_Heartbeat.SetSlot(0);
-        }
-        else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            AdroitProfiler_AutoClicker_Heartbeat.SetSlot(1);
+        //else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    AdroitProfiler_AutoClicker_Heartbeat.SetSlot(0);
+        //}
+        //else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    AdroitProfiler_AutoClicker_Heartbeat.SetSlot(1);
 
-        }
-        else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            AdroitProfiler_AutoClicker_Heartbeat.SetSlot(2);
+        //}
+        //else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    AdroitProfiler_AutoClicker_Heartbeat.SetSlot(2);
 
-        }
-        else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            AdroitProfiler_AutoClicker_Heartbeat.SetSlot(3);
+        //}
+        //else if (pressingBackslash && Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    AdroitProfiler_AutoClicker_Heartbeat.SetSlot(3);
 
-        }
+        //}
 
 
 

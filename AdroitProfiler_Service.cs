@@ -42,12 +42,12 @@ public static class AdroitProfiler_Service
         return MaxInThis_n_TimePerFrame_IN;
     }
 
-    public static void UpdateFPSForTimespan(float newFrameTime, out float total_OUT,float total_IN, out int numberOfFramesInThisTimespan_OUT, int numberOfFramesInThisTimespan_IN, out int averageForThisTimespan_OUT)
+    public static void UpdateFPSForTimespan(float newFrameTime, out float totalFrameTimeInThisTimeSpan_OUT,float totalFrameTimeInThisTimeSpan_IN, out int numberOfFramesInThisTimespan_OUT, int numberOfFramesInThisTimespan_IN, out int averageForThisTimespan_OUT)
     {
         numberOfFramesInThisTimespan_OUT = numberOfFramesInThisTimespan_IN + 1;
-        total_OUT = total_IN + newFrameTime;
+        totalFrameTimeInThisTimeSpan_OUT = totalFrameTimeInThisTimeSpan_IN + newFrameTime;
         if (numberOfFramesInThisTimespan_OUT == 0) numberOfFramesInThisTimespan_OUT = 1;
-        var average = (total_OUT / numberOfFramesInThisTimespan_OUT);
+        var average = (totalFrameTimeInThisTimeSpan_OUT / numberOfFramesInThisTimespan_OUT);
         averageForThisTimespan_OUT = Mathf.CeilToInt(1.0f / (0.001f * average));
     }
 

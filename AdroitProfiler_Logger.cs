@@ -61,7 +61,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
 
     public void CapturePerformanceForEvent(string eventDescription)
     {
-        if (AdroitProfiler_State.Paused) { return; }
+        //if (AdroitProfiler_State.Paused) { return; }
      //  var MBDivisor = (1024 * 1024);
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad);
         var performanceEventLog = "";

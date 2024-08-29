@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,8 +8,8 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
 {
     [HideInInspector]
     public AdroitProfiler_AutoClicker_StandaloneInputModule AutoClicker;
-    [HideInInspector]
-    private string CurrentSceneName;
+
+
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
         if (AutoClicker == null) return;
@@ -17,14 +18,11 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
         AutoClicker.ClickAt(vector.x, vector.y);
     }
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
-        CurrentSceneName = scene.path;
        
         AutoClicker = null;
         Debug.Log("scene.path : " + scene.path);
-
-
         var eventSystem = FindObjectOfType<EventSystem>();
         if (eventSystem != null)
         {
@@ -36,6 +34,7 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
     {
         DontDestroyOnLoad(this.gameObject);
     }
+
     public Vector2 GetPoint(AdroitProfiler_AutomatedTester_Configuration config)
     {
         return new Vector2(

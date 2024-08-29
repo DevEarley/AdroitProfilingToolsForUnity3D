@@ -9,10 +9,8 @@ public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
     {
         var config = target as AdroitProfiler_AutomatedTester_Configuration;
 
-        AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config);
-        if (GUILayout.Button("Delete"))
-        {
-        }
+        AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config((config));
+       
 
         serializedObject.ApplyModifiedProperties();
 
@@ -20,7 +18,6 @@ public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
 }
 #endif
 
-[System.Serializable]
 [CreateAssetMenu(fileName = "Adroit Profiler Configuration", menuName = "Adroit Profiler/Configuration", order = 2)]
 public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
 {
@@ -29,7 +26,6 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public AdroitProfiler_AutomatedTester_Configuration_MovementType Movement = AdroitProfiler_AutomatedTester_Configuration_MovementType.Unselected;
     public AdroitProfiler_AutomatedTester_DialogOptions DialogOption = AdroitProfiler_AutomatedTester_DialogOptions.Unselected;
     public string Target = "";
-   // public string Label = "";
     public bool Enabled = true;
     public Vector2Int MousePosition = Vector2Int.one * 2;
     public Vector2Int Offset = Vector2Int.zero;
@@ -48,5 +44,36 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public int DialogOptionIndex = 0;
     public bool SkipDialog = true;
     public bool CaptureDialog = true;
-}
+    public AdroitProfiler_AutomatedTester_Configuration()
+    {
+        
+    }
 
+    public AdroitProfiler_AutomatedTester_Configuration(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        ConfigType = config.ConfigType;
+        Heartbeat_Timing = config.Heartbeat_Timing;
+        Movement = config.Movement;
+        DialogOption = config.DialogOption;
+        Target = config.Target;
+        Enabled = config.Enabled;
+        MousePosition = config.MousePosition;
+        Offset = config.Offset;
+        WorldPosition = config.WorldPosition;
+        StartInScene = config.StartInScene;
+        MoveSpeed = config.MoveSpeed;
+        TurnSpeed = config.TurnSpeed;
+        StartTime = config.StartTime;
+        EndTime = config.EndTime;
+        GameObjectPath = config.GameObjectPath;
+        Function = config.Function;
+        Value = config.Value;
+        InvokeAtTime = config.InvokeAtTime;
+        Sent = config.Sent;
+        StartInEveryScene = config.StartInEveryScene;
+        DialogOptionIndex = config.DialogOptionIndex;
+        SkipDialog = config.SkipDialog;
+        CaptureDialog = config.CaptureDialog;
+    }
+
+}

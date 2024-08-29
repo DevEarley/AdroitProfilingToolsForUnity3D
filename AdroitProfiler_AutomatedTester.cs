@@ -59,47 +59,53 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         CurrentSceneName = scene.path;
       
         Debug.Log("scene.path : " + scene.path);
-        foreach (var config in TestCase.Configs)
+
+        var dictionaryOfConfigsGroupedByTypeForThisScene = TestCase.Configs
+            .Where(x => x.StartInEveryScene || x.StartInScene == scene.name)
+            .GroupBy(x => x.ConfigType)
+            .ToDictionary(group=>group.Key,group=>group.ToList());
+
+        foreach (var configGroup in dictionaryOfConfigsGroupedByTypeForThisScene)
         {
-            switch (config.ConfigType)
+            switch (configGroup.Key)
             {
                 case AdroitProfiler_AutomatedTester_Configuration_Type.Unselected:
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoLookAt:
-                    AutoLookAt.OnSceneLoaded(config, scene);
+                    AutoLookAt.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoMover:
-                    AutoMover.OnSceneLoaded(config, scene);
+                    AutoMover.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoMoveTo:
-                    AutoMoveTo.OnSceneLoaded(config, scene);
+                    AutoMoveTo.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoTeleportTo:
-                    AutoTeleportTo.OnSceneLoaded(config, scene);
+                    AutoTeleportTo.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoClickTarget:
-                    AutoClickTarget.OnSceneLoaded(config, scene);
+                    AutoClickTarget.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoBroadcaster:
-                    AutoBroadcaster.OnSceneLoaded(config, scene);
+                    AutoBroadcaster.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChangeScene:
-                    AutoChangeScene.OnSceneLoaded(config, scene);
+                    AutoChangeScene.OnSceneLoaded(configGroup.Value, scene);
 
                     break;
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChooseDialogChoice:
-                    AutoChooseDialogChoice.OnSceneLoaded(config, scene);
+                    AutoChooseDialogChoice.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoClicker:
-                    AutoClicker.OnSceneLoaded(config, scene);
+                    AutoClicker.OnSceneLoaded(configGroup.Value, scene);
                     break;
             }
         }

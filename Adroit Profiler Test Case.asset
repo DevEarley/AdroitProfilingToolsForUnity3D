@@ -15,9 +15,8 @@ MonoBehaviour:
   TestCaseToImport: {fileID: 0}
   ConfigToAdd: {fileID: 0}
   Configs:
-  - {fileID: 11400000, guid: 240247de1e4df7b42afa0d154935bbbc, type: 2}
-  - {fileID: 11400000, guid: 7daba69b43223834385b95c582f0304a, type: 2}
-  - {fileID: 11400000, guid: eb7b3a8fa9bec7a43bc5703c10f31d02, type: 2}
   - {fileID: 11400000, guid: 2944002532db9564aaecd27a62fba995, type: 2}
+  - {fileID: 11400000, guid: b0545ca554b131740adb0b856de73658, type: 2}
+  - {fileID: 11400000, guid: eb7b3a8fa9bec7a43bc5703c10f31d02, type: 2}
   - {fileID: 11400000, guid: 3feca56200f70314f8554ee6a629602a, type: 2}
-  - {fileID: 11400000, guid: d005ce3b6b5e53c42b244e2bbc1454ce, type: 2}
+  - {fileID: 11400000, guid: 7daba69b43223834385b95c582f0304a, type: 2}

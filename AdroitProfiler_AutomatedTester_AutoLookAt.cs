@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AdroitProfiler_AutomatedTester_AutoLookAt : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
@@ -10,7 +11,7 @@ public class AdroitProfiler_AutomatedTester_AutoLookAt : MonoBehaviour, AdroitPr
     }
 
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
 
     }

@@ -13,7 +13,7 @@ public class AdroitProfiler_AutomatedTester_AutoClickTarget : MonoBehaviour, Adr
     }
 
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, Scene scene)
     {
 
     }

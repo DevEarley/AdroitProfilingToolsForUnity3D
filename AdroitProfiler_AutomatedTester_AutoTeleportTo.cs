@@ -11,7 +11,7 @@ public class AdroitProfiler_AutomatedTester_AutoTeleportTo : MonoBehaviour, Adro
 
     }
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
 
     }

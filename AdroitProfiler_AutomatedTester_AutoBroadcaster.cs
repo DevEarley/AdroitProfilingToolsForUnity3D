@@ -16,7 +16,7 @@ public class AdroitProfiler_AutomatedTester_AutoBroadcaster : MonoBehaviour, Adr
     }
 
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
         CurrentSceneName = scene.name;
     }

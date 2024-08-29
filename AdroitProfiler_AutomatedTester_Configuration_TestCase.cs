@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         var config_SO = target as AdroitProfiler_AutomatedTester_Configuration_TestCase;
         if (config_SO.TestCaseToImport != null)
         {
-            config_SO.Configs = new List<AdroitProfiler_AutomatedTester_Configuration>(config_SO.TestCaseToImport.Configs);
+            config_SO.Configs = new List<AdroitProfiler_AutomatedTester_Configuration>(config_SO.TestCaseToImport.Configs.Select(x=> { return Instantiate(x); }));
             config_SO.TestCaseToImport = null;
         }
 
@@ -20,30 +21,45 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         if (config_SO.ConfigToAdd != null)
         {
 
-            if (config_SO.Configs.Contains(config_SO.ConfigToAdd) == false)
-            {
-
-                config_SO.Configs.Add(config_SO.ConfigToAdd);
-            }
+          
+                config_SO.Configs.Add((config_SO.ConfigToAdd)); // type mis match
+            
             config_SO.ConfigToAdd = null;
 
         }
         int? indexToDelete = null;
+        int? indexToDuplicate = null;
         var index = 0;
 
         foreach (var config in config_SO.Configs)
         {
             if (config == null) return;
             config.Enabled = EditorGUILayout.BeginToggleGroup(config.ConfigType.ToString() + " #" + index, config.Enabled);
-            AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config);
-            if (GUILayout.Button("Delete "+ config.ConfigType.ToString() + " #" + index))
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Remove from test case"))
             {
                 indexToDelete = index;
             }
+            if (GUILayout.Button("Duplicate"))
+            {
+                indexToDuplicate = index;
+            }
+        
+            GUILayout.EndHorizontal();
+
+            AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config);
+       
+
             EditorGUILayout.EndToggleGroup();
+            GUILayout.Space((20));
+
             index++;
         }
         if (indexToDelete != null)
+        {
+            config_SO.Configs.RemoveAt(indexToDelete.Value);
+        }
+        if (indexToDuplicate != null)
         {
             config_SO.Configs.RemoveAt(indexToDelete.Value);
         }
@@ -54,19 +70,20 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
 #endif
 
 
+
 [System.Serializable]
 [CreateAssetMenu(fileName = "Adroit Profiler Test Case", menuName = "Adroit Profiler/Test Case", order = 1)]
 public class AdroitProfiler_AutomatedTester_Configuration_TestCase : ScriptableObject
 {
-
     public AdroitProfiler_AutomatedTester_Configuration_TestCase TestCaseToImport;
     public AdroitProfiler_AutomatedTester_Configuration ConfigToAdd;
-
-    [SerializeField]
+   
     public List<AdroitProfiler_AutomatedTester_Configuration> Configs = new List<AdroitProfiler_AutomatedTester_Configuration>();
+
+   
 }
 
-
+[System.Serializable]
 public enum AdroitProfiler_AutomatedTester_Configuration_MovementType
 {
     Unselected = 0,
@@ -76,6 +93,7 @@ public enum AdroitProfiler_AutomatedTester_Configuration_MovementType
     TurnRight
 }
 
+[System.Serializable]
 public enum AdroitProfiler_AutomatedTester_Configuration_Type
 {
     Unselected = 0,
@@ -90,6 +108,7 @@ public enum AdroitProfiler_AutomatedTester_Configuration_Type
     AutoTeleportTo,
 }
 
+[System.Serializable]
 public enum AdroitProfiler_AutomatedTester_DialogOptions
 {
     Unselected = 0,

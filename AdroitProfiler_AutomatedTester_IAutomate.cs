@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 interface AdroitProfiler_AutomatedTester_IAutomate
 {
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config);
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, Scene scene);
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, Scene scene);
 }

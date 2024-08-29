@@ -1,6 +1,7 @@
 using UnityEngine;
 using AdroitStudios;
 using System.Linq;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -68,7 +69,7 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
 
     }
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
         CurrentSceneName = scene.path;
         SetCamera();

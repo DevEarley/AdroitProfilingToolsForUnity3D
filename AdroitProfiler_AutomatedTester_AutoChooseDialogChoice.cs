@@ -12,7 +12,7 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
     private AdroitProfiler_Logger AdroitProfiler_Logger;
     [HideInInspector]
     private string CurrentSceneName;
-    public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
+    public void ProcessConfiguration(  AdroitProfiler_AutomatedTester_Configuration config)
     {
         if (DialogueManager.instance == null) return;
         if (DialogueManager.instance.isConversationActive)
@@ -37,7 +37,7 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
         }
     }
 
-    public void OnSceneLoaded(AdroitProfiler_AutomatedTester_Configuration config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
 
     }

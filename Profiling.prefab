@@ -127,17 +127,23 @@ GameObject:
   - component: {fileID: 6409760765877238910}
   - component: {fileID: 6908194320434947763}
   - component: {fileID: 1675708891661755136}
-  - component: {fileID: 3244675283156790143}
   - component: {fileID: 3454020974776357012}
   - component: {fileID: 2682076050799138464}
   - component: {fileID: 2432884161169741837}
   - component: {fileID: 2712568741298916807}
-  - component: {fileID: 7939575175877195723}
-  - component: {fileID: 818185950245957136}
-  - component: {fileID: 8584917605852231764}
-  - component: {fileID: 5635423369326783251}
-  - component: {fileID: 8743890703278423859}
-  - component: {fileID: 7890833797747345430}
+  - component: {fileID: 1117395804444078610}
+  - component: {fileID: 5732326925641205510}
+  - component: {fileID: 6657898062233721994}
+  - component: {fileID: 1377037518068593985}
+  - component: {fileID: 6489720711734583006}
+  - component: {fileID: 18909816570737684}
+  - component: {fileID: 1858093487087968871}
+  - component: {fileID: 644417178444917980}
+  - component: {fileID: 2555138372711262620}
+  - component: {fileID: 8245608017124782800}
+  - component: {fileID: 9207657754049404381}
+  - component: {fileID: 7733903626041123991}
+  - component: {fileID: 819750154079527016}
   m_Layer: 0
   m_Name: Profiling
   m_TagString: Untagged
@@ -173,23 +179,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e54840bbe33294f9341a4efd39c28b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeThisFrame: 0
   SkipInstructions: 1
-  RunName: RUN
+  RunName: RUN #1
   GPUStats: 
-  TimerFor_TenthSecond: 0
-  TimerFor_QuarterSecond: 0
-  TimerFor_HalfSecond: 0
-  TimerFor_5Seconds: 0
-  TimerFor_10Seconds: 0
   AverageFPSFor_TenthSecond: 0
   AverageFPSFor_QuarterSecond: 0
   AverageFPSFor_HalfSecond: 0
   AverageFPSFor_5Seconds: 0
   AverageFPSFor_10Seconds: 0
-  Paused: 0
-  OneSecondSwitch: 0
-  TwoSecondSwitch: 0
+  TotalTimeForFPSAvg_TenthSecond: 0
+  TotalTimeForFPSAvg_QuarterSecond: 0
+  TotalTimeForFPSAvg_HalfSecond: 0
+  TotalTimeForFPSAvg_5Seconds: 0
+  TotalTimeForFPSAvg_10Seconds: 0
 --- !u!114 &1675708891661755136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,23 +205,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentRuntIndex: 0
---- !u!114 &3244675283156790143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100190903366215853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6740178b60b08f408d77c8f287ad81f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scenes:
-  - Menu_profiling
-  - Gym_profiling
-  - Gym_main_new
-  currentScene: 0
 --- !u!114 &3454020974776357012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,20 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Heartbeat_Timing: 1
---- !u!114 &7939575175877195723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100190903366215853}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dae38f5732da6e647a618578547af135, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Buttons: []
---- !u!114 &818185950245957136
+--- !u!114 &1117395804444078610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,13 +276,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 100190903366215853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e7c5d47e1afcb44a811adc4b19e7aed, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c021854343e1274091ddd451a96d6cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkipConversation: 1
-  CaptureConversation: 1
-  Heartbeat_Timing: 1
---- !u!114 &8584917605852231764
+  Paused: 0
+  TimeThisFrame: 0
+  TimerFor_TenthSecond: 0
+  TimerFor_QuarterSecond: 0
+  TimerFor_HalfSecond: 0
+  TimerFor_5Seconds: 0
+  TimerFor_10Seconds: 0
+--- !u!114 &5732326925641205510
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -319,36 +295,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 100190903366215853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131d98cbad75a6c40bf6e8250e228ad8, type: 3}
+  m_Script: {fileID: 11500000, guid: b6ea2cf4c17b0c04cb19c84761c9c8da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Heartbeat_Timing: 2
-  Configurations:
-  - Label: making diamond art
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: 87.6, y: 214.59}
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-  - Label: question
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: -6.1, y: 191.73}
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-  - Label: Basketball prompt
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: -6.1, y: 168.8}
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-  - Label: Basketball prompt
-    Enabled: 1
-    MousePosition: {x: 2, y: 2}
-    Offset: {x: -6.1, y: 168.8}
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-  Configurations_CSV: {fileID: 4900000, guid: 5e185f4b9f3c1d3439a8836a4dffb5c5, type: 3}
+--- !u!114 &6657898062233721994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9f083847519184689dab2dbfa88de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1377037518068593985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f3eab70a23c7949a474f2f1d46332e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6489720711734583006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfc5531efab0a94eb58756033c5ee3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   AutoClicker: {fileID: 0}
-  SettingSlot: 0
-  CurrentSceneName: 
---- !u!114 &5635423369326783251
+--- !u!114 &18909816570737684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -357,14 +344,91 @@ MonoBehaviour:
   m_GameObject: {fileID: 100190903366215853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 836b171aca6c11644ad74eb956e92f6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 292698dc4273ca24badd3b58000e50ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1858093487087968871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d909635274c8d45b4e1d88beba94d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &644417178444917980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a872518962950449bc127f032d7568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRecording: 0
+  DefaultMoveSpeed: 100
+  DefaultTurnSpeed: 1
+--- !u!114 &2555138372711262620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38cbf877cb0d5624d8194e40d660b44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8245608017124782800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7006802399bf8b44a09d4956c73f93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9207657754049404381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d166924785aa44dbcd8365baece144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TestCase: {fileID: 11400000, guid: f5680056aee454e4caefe89c556cbb74, type: 2}
+  CurrentSceneName: 
+--- !u!114 &7733903626041123991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba80eb8d24a2b64daa5879cc115b79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TMProGUI_Helper_1: {fileID: 3730611729339294831}
   TMProGUI_Helper_2: {fileID: 899298915630803568}
   TMProGUI_Helper_3: {fileID: 3515991089120555372}
   TMProGUI_Helper_4: {fileID: 7790740957015260412}
---- !u!114 &8743890703278423859
+--- !u!114 &819750154079527016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -373,313 +437,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100190903366215853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b264198149e522488cda6c54b1844b5, type: 3}
+  m_Script: {fileID: 11500000, guid: d8d58722a62b9754c9bf5c75d450362a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Heartbeat_Timing: 2
-  Configurations_CSV: {fileID: 4900000, guid: 4d1e00890252146478f3e6b6cac6c203, type: 3}
-  Configurations:
-  - GameObjectPath: Player_Final_Gameplay
-    Function: PassPall_forTesting
-    Value: 
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Time: 165
-    Sent: 0
-  CurrentSceneName: 
---- !u!114 &7890833797747345430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100190903366215853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2709875335cf3db4ebec06a5f87db293, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 200
-  TurnSpeed: 75
   Camera: {fileID: 0}
-  characterController: {fileID: 0}
-  Configurations_CSV: {fileID: 4900000, guid: dd8b8dce313b6e74982234cfe7bbf742, type: 3}
-  Configurations:
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 38.00838
-    EndTime: 39.60947
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 39.93068
-    EndTime: 41.44247
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 41.64449
-    EndTime: 43.54026
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 201.6372
-    EndTime: 203.2622
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 203.3599
-    EndTime: 204.3811
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 421.8239
-    EndTime: 422.5536
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 423.0416
-    EndTime: 423.6044
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 423.75
-    EndTime: 424.9342
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 425.0547
-    EndTime: 425.9717
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 425.734
-    EndTime: 427.3004
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 427.2119
-    EndTime: 428.0014
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 427.6348
-    EndTime: 428.068
-  - Movement: 1
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 428.2346
-    EndTime: 428.7454
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 428.7454
-    EndTime: 430.1446
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 430.758
-    EndTime: 431.0694
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 431.0348
-    EndTime: 431.5676
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 431.5395
-    EndTime: 432.8345
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 432.6346
-    EndTime: 433.2201
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 433.05
-    EndTime: 434.4388
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 434.6697
-    EndTime: 435.5645
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 435.9586
-    EndTime: 436.6675
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 436.6188
-    EndTime: 437.1023
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 437.7011
-    EndTime: 438.4089
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 436.9694
-    EndTime: 440.1833
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 439.321
-    EndTime: 440.282
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 470.301
-    EndTime: 471.7098
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 711.1769
-    EndTime: 714.7343
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 715.314
-    EndTime: 715.5542
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 714.7343
-    EndTime: 715.9958
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 719.3978
-    EndTime: 723.2497
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 724.5833
-    EndTime: 726.285
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 737.6907
-    EndTime: 740.8539
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 741.0274
-    EndTime: 741.4131
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 744.4371
-    EndTime: 744.8572
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 744.923
-    EndTime: 746.4829
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 747.1649
-    EndTime: 747.2988
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 75
-    StartTime: 748.5651
-    EndTime: 748.6986
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Cafeteria_main_new.unity
-    Speed: 200
-    StartTime: 746.5185
-    EndTime: 748.8887
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 75
-    StartTime: 23.88582
-    EndTime: 24.25862
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 200
-    StartTime: 24.52043
-    EndTime: 25.05344
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 75
-    StartTime: 25.12131
-    EndTime: 25.4586
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 200
-    StartTime: 26.00531
-    EndTime: 26.23083
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 75
-    StartTime: 26.33693
-    EndTime: 26.80248
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 200
-    StartTime: 27.83987
-    EndTime: 28.03932
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Gym_main_new.unity
-    Speed: 200
-    StartTime: 29.56445
-    EndTime: 29.71131
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 200
-    StartTime: 13.37138
-    EndTime: 14.0072
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 200
-    StartTime: 15.50732
-    EndTime: 16.43962
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 75
-    StartTime: 18.54263
-    EndTime: 18.71782
-  - Movement: 3
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 75
-    StartTime: 21.47716
-    EndTime: 22.46318
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 200
-    StartTime: 17.5745
-    EndTime: 22.84524
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 75
-    StartTime: 69.69579
-    EndTime: 70.26617
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 200
-    StartTime: 70.3342
-    EndTime: 71.13247
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 75
-    StartTime: 71.22173
-    EndTime: 71.78575
-  - Movement: 2
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 75
-    StartTime: 71.87719
-    EndTime: 72.30201
-  - Movement: 0
-    StartInScene: Assets/_Scenes/Bus_main_test.unity
-    Speed: 200
-    StartTime: 72.33936
-    EndTime: 72.8424
-  IsRecording: 0
+  CharacterController: {fileID: 0}
 --- !u!1 &285528042371644192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,7 +884,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 763, y: 74}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &420920539699862722
@@ -1396,7 +1158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 480, y: 93}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &6131976117950798847
@@ -2481,7 +2243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 662, y: 81}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &1768453551343366825

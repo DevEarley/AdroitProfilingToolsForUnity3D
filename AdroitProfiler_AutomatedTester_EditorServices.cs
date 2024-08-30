@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -285,3 +286,4 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     }
 
 }
+#endif

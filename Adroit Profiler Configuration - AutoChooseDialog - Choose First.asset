@@ -35,3 +35,4 @@ MonoBehaviour:
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
+  Label: every 5s - sort alphabetically - pick first

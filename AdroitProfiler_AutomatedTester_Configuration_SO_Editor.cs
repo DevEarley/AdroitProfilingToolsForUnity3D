@@ -33,6 +33,7 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         }
         int? indexToDelete = null;
         int? indexToDuplicate = null;
+        EditorGUI.BeginChangeCheck();
         var index = 0;
         foreach (var config in config_SO.Configs)
         {
@@ -43,15 +44,14 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
             {
                 indexToDelete = index;
             }
-            if (GUILayout.Button("Duplicate"))
-            {
-                indexToDuplicate = index;
-            }
+          
 
             GUILayout.EndHorizontal();
 
             AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config);
 
+
+            EditorUtility.SetDirty(config);
 
             EditorGUILayout.EndToggleGroup();
             GUILayout.Space((20));
@@ -62,12 +62,12 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         {
             config_SO.Configs.RemoveAt(indexToDelete.Value);
         }
-        if (indexToDuplicate != null)
-        {
-            config_SO.Configs.RemoveAt(indexToDelete.Value);
-        }
+        EditorGUI.EndChangeCheck();
+        EditorUtility.SetDirty(config_SO);
 
         serializedObject.ApplyModifiedProperties();
+
+
     }
 }
 #endif

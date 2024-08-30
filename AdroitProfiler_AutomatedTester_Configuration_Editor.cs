@@ -19,7 +19,7 @@ public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
 
         EditorGUI.EndChangeCheck();
         serializedObject.ApplyModifiedProperties();
-
+        EditorUtility.SetDirty(config);
     }
 }
 #endif

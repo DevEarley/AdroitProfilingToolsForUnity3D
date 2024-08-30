@@ -10,29 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f41d862f55ec74e47b59e3d4767089fb, type: 3}
-  m_Name: Adroit Profiler Configuration - AutoBroadcaster
+  m_Name: Adroit Profiler Configuration - AutoClicker#3
   m_EditorClassIdentifier: 
-  ConfigType: 1
-  Heartbeat_Timing: 7
+  ConfigType: 4
+  Heartbeat_Timing: 3
   Movement: 0
   DialogOption: 0
-  Target: Player_Final_Gameplay
+  Target: 
   Enabled: 1
   MousePosition: {x: 2, y: 2}
-  Offset: {x: 0, y: 0}
+  Offset: {x: 283, y: 226}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: Gym_main_new
+  StartInScene: .unity
   MoveSpeed: 1
   TurnSpeed: 1
   StartTime: 0
   EndTime: 0
   GameObjectPath: 
-  Function: PassPall_forTesting
+  Function: 
   Value: 
-  InvokeAtTime: 165
+  InvokeAtTime: 0
   Sent: 0
-  StartInEveryScene: 0
+  StartInEveryScene: 1
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
-  Label: PassPall_forTesting - First try
+  Label: Auto Clicker #3

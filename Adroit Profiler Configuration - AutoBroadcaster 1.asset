@@ -21,7 +21,7 @@ MonoBehaviour:
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: Gym_main_new.unity
+  StartInScene: Gym_main_new
   MoveSpeed: 1
   TurnSpeed: 1
   StartTime: 0
@@ -29,9 +29,10 @@ MonoBehaviour:
   GameObjectPath: 
   Function: PassPall_forTesting
   Value: 
-  InvokeAtTime: 165
+  InvokeAtTime: 175
   Sent: 0
   StartInEveryScene: 0
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
+  Label: PassPall_forTesting - second try

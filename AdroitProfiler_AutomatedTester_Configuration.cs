@@ -1,22 +1,5 @@
-#if UNITY_EDITOR
-using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AdroitProfiler_AutomatedTester_Configuration))]
-public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        var config = target as AdroitProfiler_AutomatedTester_Configuration;
-
-        AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config((config));
-       
-
-        serializedObject.ApplyModifiedProperties();
-
-    }
-}
-#endif
 
 [CreateAssetMenu(fileName = "Adroit Profiler Configuration", menuName = "Adroit Profiler/Configuration", order = 2)]
 public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
@@ -44,36 +27,7 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public int DialogOptionIndex = 0;
     public bool SkipDialog = true;
     public bool CaptureDialog = true;
-    public AdroitProfiler_AutomatedTester_Configuration()
-    {
-        
-    }
+    public string Label ;
 
-    public AdroitProfiler_AutomatedTester_Configuration(AdroitProfiler_AutomatedTester_Configuration config)
-    {
-        ConfigType = config.ConfigType;
-        Heartbeat_Timing = config.Heartbeat_Timing;
-        Movement = config.Movement;
-        DialogOption = config.DialogOption;
-        Target = config.Target;
-        Enabled = config.Enabled;
-        MousePosition = config.MousePosition;
-        Offset = config.Offset;
-        WorldPosition = config.WorldPosition;
-        StartInScene = config.StartInScene;
-        MoveSpeed = config.MoveSpeed;
-        TurnSpeed = config.TurnSpeed;
-        StartTime = config.StartTime;
-        EndTime = config.EndTime;
-        GameObjectPath = config.GameObjectPath;
-        Function = config.Function;
-        Value = config.Value;
-        InvokeAtTime = config.InvokeAtTime;
-        Sent = config.Sent;
-        StartInEveryScene = config.StartInEveryScene;
-        DialogOptionIndex = config.DialogOptionIndex;
-        SkipDialog = config.SkipDialog;
-        CaptureDialog = config.CaptureDialog;
-    }
 
 }

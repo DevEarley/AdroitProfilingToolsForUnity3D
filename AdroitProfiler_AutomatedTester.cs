@@ -24,9 +24,10 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private List<AdroitProfiler_AutomatedTester_Configuration> OnTenthSecond_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnQuarterSecond_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnHalfSecond_Configurations;
-    private List<AdroitProfiler_AutomatedTester_Configuration> OnEveryFrame_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> On5Seconds_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> On10Seconds_Configurations;
+    private List<AdroitProfiler_AutomatedTester_Configuration> AtTime_Configurations;
+    private List<AdroitProfiler_AutomatedTester_Configuration> DuringTimespan_Configurations;
 
     private AdroitProfiler_AutomatedTester_AutoBroadcaster AutoBroadcaster;
     private AdroitProfiler_AutomatedTester_AutoChooseDialogChoice AutoChooseDialogChoice;
@@ -137,10 +138,15 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         OnHalfSecond_Configurations = TestCase.Configs.Where(x => x.Heartbeat_Timing == AdroitProfiler_Timing.EveryHalfSecond).ToList();
         On5Seconds_Configurations = TestCase.Configs.Where(x => x.Heartbeat_Timing == AdroitProfiler_Timing.Every5Seconds).ToList();
         On10Seconds_Configurations = TestCase.Configs.Where(x => x.Heartbeat_Timing == AdroitProfiler_Timing.Every10Seconds).ToList();
+        AtTime_Configurations = TestCase.Configs.Where(x =>  x.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime).ToList();
+        DuringTimespan_Configurations = TestCase.Configs.Where(x => x.Heartbeat_Timing == AdroitProfiler_Timing.InvokeDuringTimespan).ToList();
     }
     private void Update()
     {
-        ProcessConfigurations(OnEveryFrame_Configurations);
+        ProcessConfigurations(AtTime_Configurations.Where(x=>x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList());
+        ProcessConfigurations(DuringTimespan_Configurations.Where(x => x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
+
+
     }
     private void OnTenthHeartbeat()
     {
@@ -170,7 +176,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private void ProcessConfigurations(List<AdroitProfiler_AutomatedTester_Configuration> configs)
     {
         if (configs == null) return;
-        foreach (var configuration in configs.Where(x=>x!=null && x.Sent == false))
+        foreach (var configuration in configs.Where(x=>x!=null))
         {
             ProcessConfiguration(configuration);
         }

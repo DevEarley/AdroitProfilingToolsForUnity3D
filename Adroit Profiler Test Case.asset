@@ -16,7 +16,8 @@ MonoBehaviour:
   ConfigToAdd: {fileID: 0}
   Configs:
   - {fileID: 11400000, guid: 2944002532db9564aaecd27a62fba995, type: 2}
-  - {fileID: 11400000, guid: b0545ca554b131740adb0b856de73658, type: 2}
   - {fileID: 11400000, guid: eb7b3a8fa9bec7a43bc5703c10f31d02, type: 2}
-  - {fileID: 11400000, guid: 3feca56200f70314f8554ee6a629602a, type: 2}
   - {fileID: 11400000, guid: 7daba69b43223834385b95c582f0304a, type: 2}
+  - {fileID: 11400000, guid: ea2522e399bbf654ea37ebdc9b0d7ab8, type: 2}
+  - {fileID: 11400000, guid: b0545ca554b131740adb0b856de73658, type: 2}
+  - {fileID: 11400000, guid: 2068ad0c70cebf042bd845c65ad104ea, type: 2}

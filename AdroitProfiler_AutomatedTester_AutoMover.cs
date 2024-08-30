@@ -27,14 +27,12 @@ public class AdroitProfiler_AutomatedTester_AutoMover_Editor : Editor
 #endif
 
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester))]
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester_CharacterInterface))]
 
 
 public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
-    [HideInInspector]
-    public GameObject Camera;
-    [HideInInspector]
-    public CharacterController CharacterController;
+
     [HideInInspector]
     private string CurrentSceneName;
     private Vector2 KeyInputTrack_W = Vector2.zero;
@@ -44,24 +42,17 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
     [HideInInspector]
     public bool IsRecording = false;
     private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
+    private AdroitProfiler_AutomatedTester_CharacterInterface CharacterInterface;
     public float DefaultMoveSpeed = 1.0f;
     public float DefaultTurnSpeed = 1.0f;
-
+    private void Start()
+    {
+        CharacterInterface = gameObject.GetComponent<AdroitProfiler_AutomatedTester_CharacterInterface>();
+        AdroitProfiler_AutomatedTester = gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
+    }
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
-        if (Camera == null)
-        {
-            Debug.Log("Camera Is Null");
-            SetCamera();
-            return;
-        }
-        if (CharacterController == null)
-        {
-            Debug.Log("characterController Is Null");
-
-            CharacterController = FindObjectsOfType<CharacterController>().FirstOrDefault(x => x.gameObject.activeInHierarchy);
-            return;
-        }
+       
 
         // if recording, disable normal movement and move the character controller directly
         MoveCharacter(config);
@@ -72,19 +63,10 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
         CurrentSceneName = scene.path;
-        SetCamera();
+   
     }
 
-    private void SetCamera()
-    {
-        Camera = GameObject.Find("Camera Pivot");
-        if (Camera != null)
-        {
-            var _PlayerCameraRotation = Camera.GetComponent<PlayerCameraRotation>();
-            _PlayerCameraRotation.DisableMouseLook = true;
-            //  _PlayerCameraRotation.enabled = IsRecording;
-        }
-    }
+ 
 
     private void MoveCharacter(AdroitProfiler_AutomatedTester_Configuration config)
     {
@@ -100,21 +82,21 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
 
     private void MoveForConfig(AdroitProfiler_AutomatedTester_Configuration config)
     {
-        if (Camera == null) return;
+        if (CharacterInterface.Camera == null) return;
         Debug.Log("MoveForConfig | " + config.StartInScene);
         switch (config.Movement)
         {
             case AdroitProfiler_AutomatedTester_Configuration_MovementType.MoveForward:
-                CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
+                CharacterInterface.CharacterController.SimpleMove(CharacterInterface.Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
                 break;
             case AdroitProfiler_AutomatedTester_Configuration_MovementType.TurnLeft:
-                Camera.transform.Rotate(Vector3.up, -1.0f * config.TurnSpeed * Time.deltaTime);
+                CharacterInterface.Camera.transform.Rotate(Vector3.up, -1.0f * config.TurnSpeed * Time.deltaTime);
                 break;
             case AdroitProfiler_AutomatedTester_Configuration_MovementType.MoveBackwards:
-                CharacterController.SimpleMove(-1.0f * Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
+                CharacterInterface.CharacterController.SimpleMove(-1.0f * CharacterInterface.Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
                 break;
             case AdroitProfiler_AutomatedTester_Configuration_MovementType.TurnRight:
-                Camera.transform.Rotate(Vector3.up, config.TurnSpeed * Time.deltaTime);
+                CharacterInterface.Camera.transform.Rotate(Vector3.up, config.TurnSpeed * Time.deltaTime);
                 break;
         }
     }
@@ -198,18 +180,18 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
     public void StartRecording()
     {
         IsRecording = true;
-        if (Camera != null)
+        if (CharacterInterface.Camera != null)
         {
-            Camera.GetComponent<PlayerCameraRotation>().enabled = true;
+            CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = true;
         }
     }
 
     public void StopRecording()
     {
         IsRecording = false;
-        if (Camera != null)
+        if (CharacterInterface.Camera != null)
         {
-            Camera.GetComponent<PlayerCameraRotation>().enabled = false;
+            CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = false;
         }
     }
     void Awake()

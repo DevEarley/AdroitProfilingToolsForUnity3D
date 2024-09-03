@@ -5,27 +5,17 @@ using UnityEngine;
 
 public class AdroitProfiler_AutomatedTester_AutoBroadcaster : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
-    [HideInInspector]
-    private string CurrentSceneName;
+    // add list of game objects
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
-        if ( config.StartInScene == CurrentSceneName && config.InvokeAtTime <= Time.timeSinceLevelLoad)
-        {
-            BroadcastMessageToGO(config);
-        }
+        BroadcastMessageToGO(config);
     }
 
-
-    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
-    {
-        CurrentSceneName = scene.name;
-    }
 
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
     }
-
 
     public void BroadcastMessageToGO(AdroitProfiler_AutomatedTester_Configuration config)
     {
@@ -34,6 +24,4 @@ public class AdroitProfiler_AutomatedTester_AutoBroadcaster : MonoBehaviour, Adr
         var GO = GameObject.Find(config.GameObjectPath);
         GO.SendMessage(config.Function, config.Value);
     }
-
-
 }

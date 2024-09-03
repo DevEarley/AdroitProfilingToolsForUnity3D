@@ -17,8 +17,16 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
         if (GameObjectsForThisScene == null) return;
-        var GameObjectForConfig = GameObjectsForThisScene.FirstOrDefault(x => x.name == config.Target);
-        if (GameObjectForConfig == null) return;
+
+
+        var GO = GameObjectsForThisScene.FirstOrDefault(x => (x != null && x.name == config.Target));
+        if (GO == null)
+        {
+            GO = GameObject.Find(config.Target);
+            if (GO == null) return;
+        }
+
+
         var CharacterController = CharacterInterface.CharacterController;
         var Camera = CharacterInterface.Camera;
         if (CharacterController == null) CharacterInterface.SetCharacterController();
@@ -26,7 +34,7 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
         if (CharacterController == null) return;
         if (Camera == null) return;
         Camera.GetComponent<PlayerCameraRotation>().enabled = false;
-        Camera.transform.LookAt(GameObjectForConfig.transform);
+        Camera.transform.LookAt(GO.transform);
         CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
     }
 

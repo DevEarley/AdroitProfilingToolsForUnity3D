@@ -1,21 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AdroitProfiler_AutomatedTester_AutoChangeScene : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
-    [HideInInspector]
-    private string CurrentSceneName;
+
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
-
+        SceneManager.LoadScene(config.Target);
     }
 
-
-    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
-    {
-
-    }
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);

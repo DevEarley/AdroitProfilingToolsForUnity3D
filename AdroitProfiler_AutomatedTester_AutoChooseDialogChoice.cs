@@ -10,8 +10,7 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
     private bool InConversation = false;
     private string LastEventName = "";
     private AdroitProfiler_Logger AdroitProfiler_Logger;
-    [HideInInspector]
-    private string CurrentSceneName;
+
     public void ProcessConfiguration(  AdroitProfiler_AutomatedTester_Configuration config)
     {
         if (DialogueManager.instance == null) return;
@@ -35,11 +34,6 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
 
             AdroitProfiler_Logger.CapturePerformanceForEvent(LastEventName + (InConversation ? " | START" : " | END"));
         }
-    }
-
-    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
-    {
-
     }
 
     private void Start()

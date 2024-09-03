@@ -2,6 +2,7 @@ using UnityEngine;
 using AdroitStudios;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,47 +27,30 @@ public class AdroitProfiler_AutomatedTester_AutoMover_Editor : Editor
 
 #endif
 
-[RequireComponent(typeof(AdroitProfiler_AutomatedTester))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_CharacterInterface))]
 
 
 public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
-
-    [HideInInspector]
-    private string CurrentSceneName;
     private Vector2 KeyInputTrack_W = Vector2.zero;
     private Vector2 KeyInputTrack_A = Vector2.zero;
     private Vector2 KeyInputTrack_S = Vector2.zero;
     private Vector2 KeyInputTrack_D = Vector2.zero;
+
     [HideInInspector]
     public bool IsRecording = false;
-    private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
     private AdroitProfiler_AutomatedTester_CharacterInterface CharacterInterface;
     public float DefaultMoveSpeed = 1.0f;
     public float DefaultTurnSpeed = 1.0f;
+
     private void Start()
     {
         CharacterInterface = gameObject.GetComponent<AdroitProfiler_AutomatedTester_CharacterInterface>();
-        AdroitProfiler_AutomatedTester = gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
     }
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
-       
-
-        // if recording, disable normal movement and move the character controller directly
         MoveCharacter(config);
-      //  UpdateRecordings(config);
-
     }
-
-    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
-    {
-        CurrentSceneName = scene.path;
-   
-    }
-
- 
 
     private void MoveCharacter(AdroitProfiler_AutomatedTester_Configuration config)
     {
@@ -171,7 +155,7 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
                 config.Movement = AdroitProfiler_AutomatedTester_Configuration_MovementType.TurnRight;
                 break;
         }
-        config.StartInScene = CurrentSceneName;
+        config.StartInScene = SceneManager.GetActiveScene().name;
         config.StartTime = track.x;
         config.EndTime = track.y;
         return config;

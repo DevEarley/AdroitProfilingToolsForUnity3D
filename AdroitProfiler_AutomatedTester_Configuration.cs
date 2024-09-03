@@ -1,7 +1,8 @@
 using UnityEngine;
 
+[Icon("Assets/Profiling/test-config.png")]
 
-[CreateAssetMenu(fileName = "Adroit Profiler Configuration", menuName = "Adroit Profiler/Configuration", order = 2)]
+[CreateAssetMenu(fileName = "A P Config", menuName = "Adroit Profiler/Configuration", order = 2)]
 public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
 {
     public AdroitProfiler_AutomatedTester_Configuration_Type ConfigType = AdroitProfiler_AutomatedTester_Configuration_Type.Unselected;
@@ -27,7 +28,7 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public int DialogOptionIndex = 0;
     public bool SkipDialog = true;
     public bool CaptureDialog = true;
-    public string Label ;
+
 
 
 }

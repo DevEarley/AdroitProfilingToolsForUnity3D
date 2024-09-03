@@ -24,7 +24,8 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
     }
     private void Update()
     {
-        var configs = AdroitProfiler_AutomatedTester.TestCase.Configs.Where(x => x.Enabled && x.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoClicker).ToList();
+        if (AdroitProfiler_AutomatedTester.CurrentTestCase == null) return;
+        var configs = AdroitProfiler_AutomatedTester.CurrentTestCase.Configs.Where(x => x.Enabled && x.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoClicker).ToList();
         if (TMProGUI_Helper_1 != null
             && configs.Count > 0)
         {

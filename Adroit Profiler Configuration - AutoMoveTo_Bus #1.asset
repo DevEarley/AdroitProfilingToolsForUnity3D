@@ -35,4 +35,3 @@ MonoBehaviour:
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
-  Label: BusMoveToPoint#1

@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
+[Icon("Assets/Profiling/test.png")]
 [CreateAssetMenu(fileName = "Adroit Profiler Test Case", menuName = "Adroit Profiler/Test Case", order = 1)]
 public class AdroitProfiler_AutomatedTester_Configuration_TestCase : ScriptableObject
 {

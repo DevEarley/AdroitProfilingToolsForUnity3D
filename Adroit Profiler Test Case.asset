@@ -15,13 +15,19 @@ MonoBehaviour:
   TestCaseToImport: {fileID: 0}
   ConfigToAdd: {fileID: 0}
   Configs:
+  - {fileID: 11400000, guid: 3e21dfa039512e543b7c00c34acf13d5, type: 2}
+  - {fileID: 11400000, guid: 391e4565b0de967438712a26b8557aaf, type: 2}
+  - {fileID: 11400000, guid: e902269f2997ab24589b22a2506d5210, type: 2}
+  - {fileID: 11400000, guid: 7437c07c68c8ee14cafe1d32e3940278, type: 2}
+  - {fileID: 11400000, guid: 633f1dca3533b7346bfe09056d426680, type: 2}
+  - {fileID: 11400000, guid: b0545ca554b131740adb0b856de73658, type: 2}
+  - {fileID: 11400000, guid: 2068ad0c70cebf042bd845c65ad104ea, type: 2}
   - {fileID: 11400000, guid: 2944002532db9564aaecd27a62fba995, type: 2}
   - {fileID: 11400000, guid: eb7b3a8fa9bec7a43bc5703c10f31d02, type: 2}
   - {fileID: 11400000, guid: 7daba69b43223834385b95c582f0304a, type: 2}
   - {fileID: 11400000, guid: ea2522e399bbf654ea37ebdc9b0d7ab8, type: 2}
   - {fileID: 11400000, guid: e9d7dfc22f391d54eaf0600181c6fd73, type: 2}
-  - {fileID: 11400000, guid: b0545ca554b131740adb0b856de73658, type: 2}
-  - {fileID: 11400000, guid: 2068ad0c70cebf042bd845c65ad104ea, type: 2}
   - {fileID: 11400000, guid: d14125c4e21b2fc429492e5d4cae5715, type: 2}
   - {fileID: 11400000, guid: 4783983f16189d74d82432321e0ffbc4, type: 2}
   - {fileID: 11400000, guid: 7c1a7a22b02f40e4fab1741a8bf620e7, type: 2}
+  - {fileID: 11400000, guid: 55c8c96050dbff24ba8764d1fbb5b70c, type: 2}

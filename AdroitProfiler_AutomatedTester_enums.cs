@@ -22,6 +22,7 @@ public enum AdroitProfiler_AutomatedTester_Configuration_Type
     AutoMover,
     AutoMoveTo,
     AutoTeleportTo,
+    AutoPause,
 }
 
 [System.Serializable]

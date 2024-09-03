@@ -38,7 +38,7 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         foreach (var config in config_SO.Configs)
         {
             if (config == null) return;
-            config.Enabled = EditorGUILayout.BeginToggleGroup(config.ConfigType.ToString() + " #" + index, config.Enabled);
+            config.Enabled = EditorGUILayout.BeginToggleGroup(config.name + " (" + config.ConfigType.ToString() + ")", config.Enabled);
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Remove from test case"))
             {

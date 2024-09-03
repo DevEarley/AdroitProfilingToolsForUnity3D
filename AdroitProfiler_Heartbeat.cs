@@ -72,6 +72,20 @@ public class AdroitProfiler_Heartbeat: MonoBehaviour
     }
 
 
+    public void Pause()
+    {
+        Paused = true;
+        Time.timeScale = 0.0f;
+    }
+
+    public void Unpause()
+    {
+        Paused = false;
+        Time.timeScale = 1.0f;
+    }
+
+
+
     private bool OneSecondSwitch = false;
     private bool TwoSecondSwitch = false;
 

@@ -1,5 +1,8 @@
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEngine;
+
+[Icon("Assets/Profiling/Icons/test-config.png")]
 
 [CustomEditor(typeof(AdroitProfiler_AutomatedTester_Configuration))]
 public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor

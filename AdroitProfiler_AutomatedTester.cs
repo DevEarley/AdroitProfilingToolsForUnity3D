@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,12 +15,19 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoMoveTo))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoTeleportTo))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoPause))]
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoTest))]
+#if UNITY_WEBGL
+
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoUpdateWebpage))]
+#endif
 
 public class AdroitProfiler_AutomatedTester : MonoBehaviour
 {
     [HideInInspector]
     public AdroitProfiler_AutomatedTester_Configuration_TestCase CurrentTestCase;
-    public List<AdroitProfiler_AutomatedTester_Configuration_TestCase> TestCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+
+    public List<AdroitProfiler_AutomatedTester_Configuration_TestCase> GlobalTestCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+    public List<AdroitProfiler_AutomatedTester_Configuration_TestCase> TestCaseQueue = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
 
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnTenthSecond_Configurations;
@@ -42,7 +48,11 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private AdroitProfiler_AutomatedTester_AutoTeleportTo AutoTeleportTo;
     private AdroitProfiler_AutomatedTester_AutoChangeScene AutoChangeScene;
     private AdroitProfiler_AutomatedTester_AutoPause AutoPause;
+    private AdroitProfiler_AutomatedTester_AutoTest AutoTest;
+#if UNITY_WEBGL
+    private AdroitProfiler_AutomatedTester_AutoUpdateWebpage AutoUpdateWebpage;
 
+#endif
     private int TestCaseIndex;
 
     [RuntimeInitializeOnLoadMethod]
@@ -51,7 +61,6 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded_Static;
     }
-   
 
     private static void OnSceneLoaded_Static(Scene scene, LoadSceneMode mode)
     {
@@ -62,7 +71,15 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SetupConfigLists();
-        var dictionaryOfConfigsGroupedByTypeForThisScene = CurrentTestCase.Configs
+
+        var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+        testCases.AddRange(GlobalTestCases);
+        testCases.Add(CurrentTestCase);
+        var nonNullTestCases = testCases.Where(x => x != null);
+        var allConfigs = nonNullTestCases.SelectMany(x => x.ConfigurableActions);
+        var allTests = nonNullTestCases.SelectMany(x => x.ConfigurableTests);
+        var allConfigsAndTests = allConfigs.Concat(allTests);
+        var dictionaryOfConfigsGroupedByTypeForThisScene = allConfigsAndTests.ToList()
             .Where(x => x.StartInEveryScene || x.StartInScene == scene.name)
             .GroupBy(x => x.ConfigType)
             .ToDictionary(group=>group.Key,group=>group.ToList());
@@ -100,14 +117,15 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     public void GotoNextTestCase()
     {
         TestCaseIndex++;
-        if (TestCases.Count() <= TestCaseIndex) return;
-        CurrentTestCase = TestCases[TestCaseIndex];
+        if (TestCaseQueue.Count() <= TestCaseIndex) return;
+        CurrentTestCase = TestCaseQueue[TestCaseIndex];
     }
 
     private void Start()
     {
-        CurrentTestCase = TestCases.FirstOrDefault();
+        CurrentTestCase = TestCaseQueue.FirstOrDefault();
         TestCaseIndex = 0;
+    
         AdroitProfiler_Heartbeat = gameObject.GetComponent<AdroitProfiler_Heartbeat>();
         AutoBroadcaster = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoBroadcaster>();
         AutoChooseDialogChoice = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoChooseDialogChoice>();
@@ -119,7 +137,11 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         AutoTeleportTo = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoTeleportTo>();
         AutoChangeScene = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoChangeScene>();
         AutoPause = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoPause>();
+        AutoTest = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoTest>();
+#if UNITY_WEBGL
+        AutoUpdateWebpage = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoUpdateWebpage>();
 
+#endif
         AdroitProfiler_Heartbeat.onTenth_Heartbeat_delegates.Add(OnTenthHeartbeat);
         AdroitProfiler_Heartbeat.onQuarter_Heartbeat_delegates.Add(OnQuarterHeartbeat);
         AdroitProfiler_Heartbeat.onHalf_Heartbeat_delegates.Add(OnHalfHeartbeat);
@@ -132,13 +154,21 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private void SetupConfigLists()
     {
         var currentScene = SceneManager.GetActiveScene();
-        OnTenthSecond_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.EveryTenthSecond)).ToList();
-        OnQuarterSecond_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.EveryQuarterSecond)).ToList();
-        OnHalfSecond_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.EveryHalfSecond)).ToList();
-        On5Seconds_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.Every5Seconds)).ToList();
-        On10Seconds_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.Every10Seconds)).ToList();
-        AtTime_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.InvokeAtTime)).ToList();
-        DuringTimespan_Configurations = CurrentTestCase.Configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.InvokeDuringTimespan)).ToList();
+        var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+        testCases.AddRange(GlobalTestCases);
+        testCases.Add(CurrentTestCase);
+        var nonNullTestCases = testCases.Where(x => x != null);
+        var allConfigs = nonNullTestCases.SelectMany(x => x.ConfigurableActions);
+        var allTests = nonNullTestCases.SelectMany(x => x.ConfigurableTests);
+        var configs = allConfigs.Concat(allTests).ToList();
+
+        OnTenthSecond_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.EveryTenthSecond)).ToList();
+        OnQuarterSecond_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.EveryQuarterSecond)).ToList();
+        OnHalfSecond_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.EveryHalfSecond)).ToList();
+        On5Seconds_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.Every5Seconds)).ToList();
+        On10Seconds_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.Every10Seconds)).ToList();
+        AtTime_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.InvokeAtTime)).ToList();
+        DuringTimespan_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.InvokeDuringTimespan)).ToList();
     }
 
     private static bool ConfigListPredicate(AdroitProfiler_AutomatedTester_Configuration x, Scene currentScene, AdroitProfiler_Timing timing)
@@ -148,7 +178,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
     private void Update()
     {
-        ProcessConfigurations(AtTime_Configurations.Where(x=>x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList());
+        ProcessConfigurations(AtTime_Configurations.Where(x=> x.InvokeAtTime < Time.timeSinceLevelLoad).ToList()); // ignoring Sent for now. (x.Sent == false)
         ProcessConfigurations(DuringTimespan_Configurations.Where(x => x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
     }
 
@@ -232,6 +262,17 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
             case AdroitProfiler_AutomatedTester_Configuration_Type.AutoPause:
                 AutoPause.ProcessConfiguration(config);
                 break;
+
+            case AdroitProfiler_AutomatedTester_Configuration_Type.AutoTest:
+                AutoTest.ProcessConfiguration(config);
+                break;
+#if UNITY_WEBGL
+            case AdroitProfiler_AutomatedTester_Configuration_Type.AutoUpdateWebpage:
+                AutoUpdateWebpage.ProcessConfiguration(config);
+                break;
+#endif 
+
+
         }
     }
 }

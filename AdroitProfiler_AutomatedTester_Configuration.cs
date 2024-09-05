@@ -1,14 +1,16 @@
 using UnityEngine;
 
-[Icon("Assets/Profiling/test-config.png")]
+[Icon("Assets/Profiling/Icons/test-config.png")]
 
-[CreateAssetMenu(fileName = "A P Config", menuName = "Adroit Profiler/Configuration", order = 2)]
+[CreateAssetMenu(fileName = "Configurable Action", menuName = "Adroit Profiler/Configurable Action", order = 2)]
+
 public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
 {
     public AdroitProfiler_AutomatedTester_Configuration_Type ConfigType = AdroitProfiler_AutomatedTester_Configuration_Type.Unselected;
     public AdroitProfiler_Timing Heartbeat_Timing = AdroitProfiler_Timing.Unselected;
     public AdroitProfiler_AutomatedTester_Configuration_MovementType Movement = AdroitProfiler_AutomatedTester_Configuration_MovementType.Unselected;
     public AdroitProfiler_AutomatedTester_DialogOptions DialogOption = AdroitProfiler_AutomatedTester_DialogOptions.Unselected;
+    public AdroitProfiler_AutomatedTester_AutoTestType TestType = AdroitProfiler_AutomatedTester_AutoTestType.Unselected;
     public string Target = "";
     public bool Enabled = true;
     public Vector2Int MousePosition = Vector2Int.one * 2;
@@ -28,7 +30,4 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public int DialogOptionIndex = 0;
     public bool SkipDialog = true;
     public bool CaptureDialog = true;
-
-
-
 }

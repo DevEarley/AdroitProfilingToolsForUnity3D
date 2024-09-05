@@ -30,7 +30,7 @@ public class AdroitProfiler_State : MonoBehaviour
     public bool SkipInstructions = true; 
 
 
-    public string RunName = "RUN";
+
     public string GPUStats = "";
 
     public AdroitProfiler_StateMetrics TimePerFrame_Metrics = new AdroitProfiler_StateMetrics(AdroitProfiler_StateMetricType.TimePerFrame);

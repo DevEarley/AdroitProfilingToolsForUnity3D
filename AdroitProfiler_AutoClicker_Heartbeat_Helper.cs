@@ -1,5 +1,6 @@
 
 //#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -17,19 +18,39 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
     public TextMeshProUGUI TMProGUI_Helper_4;
     private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
     private AdroitProfiler_AutomatedTester_AutoClicker AdroitProfiler_AutomatedTester_AutoClicker;
+    private List<AdroitProfiler_AutomatedTester_Configuration> Configs;
     private void Start()
     {
         AdroitProfiler_AutomatedTester = gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
         AdroitProfiler_AutomatedTester_AutoClicker = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoClicker>();
+        if (AdroitProfiler_AutomatedTester.GlobalTestCases == null) return;
+        if (AdroitProfiler_AutomatedTester.CurrentTestCase == null) return;
+        GetConfigsFromTestCases();
+
     }
+
+    private void GetConfigsFromTestCases()
+    {
+        var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+        testCases.AddRange(AdroitProfiler_AutomatedTester.GlobalTestCases);
+        testCases.Add(AdroitProfiler_AutomatedTester.CurrentTestCase);
+        var nonNullTestCases = testCases.Where(x => x != null);
+        var allConfigs = nonNullTestCases.SelectMany(x => x.ConfigurableActions);
+        var allTests = nonNullTestCases.SelectMany(x => x.ConfigurableTests);
+        var allConfigsAndTests = allConfigs.Concat(allTests);
+        Configs = allConfigsAndTests.Where(x => x != null && x.Enabled && x.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoClicker).ToList();
+    }
+
     private void Update()
     {
-        if (AdroitProfiler_AutomatedTester.CurrentTestCase == null) return;
-        var configs = AdroitProfiler_AutomatedTester.CurrentTestCase.Configs.Where(x => x.Enabled && x.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoClicker).ToList();
-        if (TMProGUI_Helper_1 != null
-            && configs.Count > 0)
+        if(Configs == null)
         {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[0]);
+            GetConfigsFromTestCases();
+        }
+        if (TMProGUI_Helper_1 != null
+            && Configs.Count > 0)
+        {
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[0]);
             TMProGUI_Helper_1.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
         else if(TMProGUI_Helper_1 != null)
@@ -37,9 +58,9 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
             TMProGUI_Helper_1.rectTransform.anchoredPosition = Vector2.zero;
         }
         if (TMProGUI_Helper_2 != null
-            && configs.Count > 1)
+            && Configs.Count > 1)
         {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[1]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[1]);
             TMProGUI_Helper_2.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
         else if (TMProGUI_Helper_2 != null)
@@ -47,9 +68,9 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
             TMProGUI_Helper_2.rectTransform.anchoredPosition = Vector2.zero;
         }
         if (TMProGUI_Helper_3 != null
-            && configs.Count > 2)
+            && Configs.Count > 2)
         {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[2]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[2]);
             TMProGUI_Helper_3.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
         else if (TMProGUI_Helper_3 != null)
@@ -57,9 +78,9 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
             TMProGUI_Helper_3.rectTransform.anchoredPosition = Vector2.zero;
         }
         if (TMProGUI_Helper_4 != null
-            && configs.Count > 3)
+            && Configs.Count > 3)
         {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(configs[3]);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[3]);
             TMProGUI_Helper_4.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
         }
         else if (TMProGUI_Helper_4 != null)

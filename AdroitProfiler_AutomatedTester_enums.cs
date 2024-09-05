@@ -23,6 +23,10 @@ public enum AdroitProfiler_AutomatedTester_Configuration_Type
     AutoMoveTo,
     AutoTeleportTo,
     AutoPause,
+    AutoChangeTestCase,
+    AutoTest,
+    AutoUpdateWebpage
+
 }
 
 [System.Serializable]
@@ -36,4 +40,15 @@ public enum AdroitProfiler_AutomatedTester_DialogOptions
     Unsorted_PickLast,
     Unsorted_PickAtIndex,
     PickRandom
+}
+
+[System.Serializable]
+public enum AdroitProfiler_AutomatedTester_AutoTestType
+{
+    Unselected = 0,
+    FunctionShouldReturnTrue,
+    FunctionShouldReturnFalse,
+    PassAtTime,
+    FailAtTime
+
 }

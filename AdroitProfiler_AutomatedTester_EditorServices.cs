@@ -8,10 +8,18 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutomatedTester_Config(AdroitProfiler_AutomatedTester_Configuration config)
     {
 
-
         config.ConfigType = (AdroitProfiler_AutomatedTester_Configuration_Type)EditorGUILayout.EnumPopup("Type", config.ConfigType);
 
-        if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoBroadcaster)
+        if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.Unselected)
+        {
+            GUILayout.Label("Select a type.");
+            return;
+        }
+        else if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoTest)
+        {
+            OnInspectorGUI_AutoTest(config);
+        }
+        else if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoBroadcaster)
         {
             OnInspectorGUI_AutoBroadcaster(config);
         }
@@ -51,6 +59,14 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         {
             OnInspectorGUI_AutoPause(config);
         }
+        else if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoChangeTestCase)
+        {
+            OnInspectorGUI_AutoChangeTestCase(config);
+        }
+        else if (config.ConfigType == AdroitProfiler_AutomatedTester_Configuration_Type.AutoUpdateWebpage)
+        {
+            OnInspectorGUI_AutoUpdateWebPage(config);
+        }
     }
 
     public static void OnInspectorGUI_AutoBroadcaster(AdroitProfiler_AutomatedTester_Configuration config)
@@ -70,6 +86,49 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         {
             StartTime_Field(config);
             EndTime_Field(config);
+        }
+    }
+
+    public static void OnInspectorGUI_AutoUpdateWebPage(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        ConfigureScene(config);
+        if (ConfigureHeartbeat(config) == false) return;
+        if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
+        {
+            InvokeAtTime_Field(config);
+        }
+        else if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeDuringTimespan)
+        {
+            StartTime_Field(config);
+            EndTime_Field(config);
+        }
+    }
+
+    public static void OnInspectorGUI_AutoTest(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        config.TestType = (AdroitProfiler_AutomatedTester_AutoTestType)EditorGUILayout.EnumPopup("Test Type", config.TestType);
+        if (config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.Unselected) return;
+        ConfigureScene(config);
+        if (config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.PassAtTime ||
+            config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.FailAtTime)
+        {
+            SetTimingTo_InvokeAtTime(config);
+            InvokeAtTime_Field(config);
+        }
+        else if (config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.FunctionShouldReturnTrue || config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.FunctionShouldReturnFalse)
+        {
+            if (ConfigureHeartbeat(config) == false) return;
+            if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
+            {
+                InvokeAtTime_Field(config);
+            }
+            else if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeDuringTimespan)
+            {
+                StartTime_Field(config);
+                EndTime_Field(config);
+            }
+            config.Target = EditorGUILayout.TextField("Target", config.Target);
+            config.Function = EditorGUILayout.TextField("Function", config.Function);
         }
     }
 
@@ -96,27 +155,6 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         config.TurnSpeed = EditorGUILayout.FloatField("Turn Speed", config.TurnSpeed);
         StartTime_Field(config);
         EndTime_Field(config);
-    }
-
-    private static void SetTimingTo_InvokeDuringTimespan(AdroitProfiler_AutomatedTester_Configuration config)
-    {
-        GUILayout.Space(20);
-        GUILayout.BeginHorizontal();
-        config.Heartbeat_Timing = AdroitProfiler_Timing.InvokeDuringTimespan;
-        GUILayout.Label("Timing");
-        GUILayout.Label("InvokeDuringTimespan");
-        GUILayout.EndHorizontal();
-    }
-
-    private static void SetTimingTo_InvokeAtTime(AdroitProfiler_AutomatedTester_Configuration config)
-    {
-        GUILayout.Space(20);
-        GUILayout.BeginHorizontal();
-        config.Heartbeat_Timing = AdroitProfiler_Timing.InvokeAtTime;
-        GUILayout.Label("Timing");
-        GUILayout.Label("InvokeAtTime");
-        GUILayout.EndHorizontal();
-
     }
 
     public static void OnInspectorGUI_AutoChooseDialogChoice(AdroitProfiler_AutomatedTester_Configuration config)
@@ -149,6 +187,14 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     }
 
     public static void OnInspectorGUI_AutoPause(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        ConfigureScene(config);
+        SetTimingTo_InvokeAtTime(config);
+        InvokeAtTime_Field(config);
+
+    }
+
+    public static void OnInspectorGUI_AutoChangeTestCase(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
         SetTimingTo_InvokeAtTime(config);
@@ -231,6 +277,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         }
         EditorGUILayout.EndHorizontal();
     }
+
     public static void EndTime_Field(AdroitProfiler_AutomatedTester_Configuration config)
     {
         EditorGUILayout.BeginHorizontal();
@@ -241,11 +288,15 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         }
         EditorGUILayout.EndHorizontal();
     }
+
     public static void InvokeAtTime_Field(AdroitProfiler_AutomatedTester_Configuration config)
     {
         EditorGUILayout.BeginHorizontal();
-
-        config.InvokeAtTime = Mathf.Max(0, EditorGUILayout.FloatField("Invoke At Time", config.InvokeAtTime, GUILayout.ExpandWidth(true)));
+        var modSeconds = config.InvokeAtTime % 60.0f;
+        var minutes = (config.InvokeAtTime - modSeconds) / 60.0f;
+        GUILayout.Label("Invoke At Time");
+        GUILayout.Label("(" + minutes + ":" + modSeconds.ToString("00") + ")");
+        config.InvokeAtTime = Mathf.Max(0, EditorGUILayout.FloatField(config.InvokeAtTime, GUILayout.ExpandWidth(true)));
 
         if (GUILayout.Button("Capture Current Time"))
         {
@@ -254,18 +305,38 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         EditorGUILayout.EndHorizontal();
 
     }
+
+    private static void SetTimingTo_InvokeDuringTimespan(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        config.Heartbeat_Timing = AdroitProfiler_Timing.InvokeDuringTimespan;
+        GUILayout.Label("Timing");
+        GUILayout.Label("InvokeDuringTimespan");
+        GUILayout.EndHorizontal();
+    }
+
+    private static void SetTimingTo_InvokeAtTime(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        GUILayout.Space(20);
+        GUILayout.BeginHorizontal();
+        config.Heartbeat_Timing = AdroitProfiler_Timing.InvokeAtTime;
+        GUILayout.Label("Timing");
+        GUILayout.Label("InvokeAtTime");
+        GUILayout.EndHorizontal();
+
+    }
+
     public static void ConfigureScene(AdroitProfiler_AutomatedTester_Configuration config)
     {
         EditorGUILayout.BeginHorizontal();
-        config.StartInEveryScene = EditorGUILayout.Toggle(config.StartInEveryScene ? "Scene (uncheck for specific scene)" : "Scene (check for every scene)", config.StartInEveryScene);
+        GUILayout.Label("Start in every Scene");
+        config.StartInEveryScene = EditorGUILayout.Toggle(config.StartInEveryScene);
+        GUILayout.Label(config.StartInEveryScene ? "(This will run in every scene. Uncheck to choose scene)" : "");
+
         if (config.StartInEveryScene == false)
         {
             EditorGUILayout.LabelField("Scene Name", GUILayout.MaxWidth(120));
-
-            if (GUILayout.Button("Use Current Scene"))
-            {
-                config.StartInScene = SceneManager.GetActiveScene().name;
-            }
 
             var sceneName = EditorGUILayout.TextField(config.StartInScene);
             if (sceneName.EndsWith(".unity") == true && sceneName != "")
@@ -276,12 +347,14 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
             {
                 config.StartInScene = sceneName;
             }
+            if (GUILayout.Button("Use Current Scene"))
+            {
+                config.StartInScene = SceneManager.GetActiveScene().name;
+            }
+
         }
 
-        else
-        {
-            EditorGUILayout.LabelField("(This will run in every scene.)");
-        }
+
         EditorGUILayout.EndHorizontal();
 
     }
@@ -296,6 +369,5 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         return true;
 
     }
-
 }
 #endif

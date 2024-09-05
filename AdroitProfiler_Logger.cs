@@ -16,7 +16,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
         private static extern void downloadToFile(string content, string filename);
 #endif
 
-    public readonly static string ProfileHeader_LFT = "Run,Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
+    public readonly static string ProfileHeader_LFT = "Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
     public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
    // public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
     public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
@@ -55,7 +55,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
     private void OnScenLoaded(Scene scene, LoadSceneMode mode)
     {
         CurrentRuntIndex++;
-        AdroitProfiler_State.RunName = "Run #" + CurrentRuntIndex;
+       
         Runs.Add(CurrentRuntIndex, new List<string>());
     }
 
@@ -65,7 +65,6 @@ public class AdroitProfiler_Logger : MonoBehaviour
      //  var MBDivisor = (1024 * 1024);
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad);
         var performanceEventLog = "";
-        performanceEventLog += AdroitProfiler_State.RunName + ", ";
         performanceEventLog += formattedTime + ",";
         performanceEventLog += SceneManager.GetActiveScene().path+", ";
         if(eventDescription == "" || eventDescription == null){
@@ -83,12 +82,6 @@ public class AdroitProfiler_Logger : MonoBehaviour
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_HalfSecond + ", ";
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_QuarterSecond + ", ";
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_TenthSecond + ", ";
-
-        //performanceEventLog += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_10Seconds / MBDivisor + "MB , ";
-        //performanceEventLog += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_5Seconds / MBDivisor + "MB , ";
-        //performanceEventLog += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_TenthSecond / MBDivisor + "MB , ";
-        //performanceEventLog += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_HalfSecond / MBDivisor + "MB , ";
-        //performanceEventLog += AdroitProfiler.SystemMemory_Metrics.MaxValueInLast_QuarterSecond / MBDivisor + "MB , ";
 
         performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_10Seconds + ", ";
         performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_5Seconds + "  , ";

@@ -52,3 +52,19 @@ public enum AdroitProfiler_AutomatedTester_AutoTestType
     FailAtTime
 
 }
+
+[System.Serializable]
+public enum AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint
+{
+    Unselected = 0,
+    UpperLeft,
+    UpperMiddle,
+    UpperRight,
+    CenterLeft,
+    CenterMiddle,
+    CenterRight,
+    BottomLeft,
+    BottomMiddle,
+    BottomRight
+
+}

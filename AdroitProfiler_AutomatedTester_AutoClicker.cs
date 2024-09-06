@@ -14,15 +14,12 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
     {
         if (AutoClicker == null) return;
         var vector = GetPoint(config);
-        Debug.Log("On 0.1s Heartbeat | AutoClicker | Click | x:" + vector.x + " y:" + vector.y);
         AutoClicker.ClickAt(vector.x, vector.y);
     }
 
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
     {
-       
         AutoClicker = null;
-        Debug.Log("scene.path : " + scene.path);
         var eventSystem = FindObjectOfType<EventSystem>();
         if (eventSystem != null)
         {
@@ -37,9 +34,11 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
 
     public Vector2 GetPoint(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        var anchorX = config.MousePosition.x == 0 ? 0 : (Screen.width / config.MousePosition.x);
+        var anchorY = config.MousePosition.y == 0 ? 0 : (Screen.height / config.MousePosition.y);
         return new Vector2(
-            (Screen.width / config.MousePosition.x) + config.Offset.x,
-          ((Screen.height / config.MousePosition.y) - config.Offset.y));
+             anchorX + config.Offset.x,
+          (anchorY - config.Offset.y));
     }
 }
 

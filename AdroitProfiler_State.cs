@@ -1,3 +1,4 @@
+using System;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -12,11 +13,11 @@ public enum AdroitProfiler_StateMetricType
 public class AdroitProfiler_StateMetrics
 {
     public AdroitProfiler_StateMetricType AdroitProfiler_StateMetricType;
-   public float MaxValueInLast_TenthSecond = 0;
-   public float MaxValueInLast_QuarterSecond = 0;
-   public float MaxValueInLast_HalfSecond = 0;
-   public float MaxValueInLast_5Seconds = 0;
-   public float MaxValueInLast_10Seconds = 0;
+    public float MaxValueInLast_TenthSecond = 0;
+    public float MaxValueInLast_QuarterSecond = 0;
+    public float MaxValueInLast_HalfSecond = 0;
+    public float MaxValueInLast_5Seconds = 0;
+    public float MaxValueInLast_10Seconds = 0;
     public AdroitProfiler_StateMetrics(AdroitProfiler_StateMetricType _AdroitProfiler_StateMetricType)
     {
         AdroitProfiler_StateMetricType = _AdroitProfiler_StateMetricType;
@@ -27,7 +28,7 @@ public class AdroitProfiler_StateMetrics
 public class AdroitProfiler_State : MonoBehaviour
 {
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
-    public bool SkipInstructions = true; 
+    public bool SkipInstructions = true;
 
 
 
@@ -48,10 +49,10 @@ public class AdroitProfiler_State : MonoBehaviour
     [HideInInspector]
     public int AverageFPSFor_10Seconds = 0;
 
-    
+
     [HideInInspector]
     public float TotalTimeForFPSAvg_TenthSecond = 0;
-    
+
     [HideInInspector]
     public float TotalTimeForFPSAvg_QuarterSecond = 0;
 
@@ -106,11 +107,11 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void Update()
     {
-       
+
         drawCallsCountRecorder_lastValue = drawCallsCountRecorder.LastValue;
         polyCountRecorder_lastValue = polyCountRecorder.LastValue;
         UpdateGPUStats();
-    
+
         UpdateMetrics();
         UpdateAverages();
     }
@@ -156,8 +157,6 @@ public class AdroitProfiler_State : MonoBehaviour
 
     private void UpdateMetrics()
     {
-  
-
         TimePerFrame_Metrics.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_TenthSecond, AdroitProfiler_Heartbeat.TimeThisFrame);
         TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_QuarterSecond, AdroitProfiler_Heartbeat.TimeThisFrame);
         TimePerFrame_Metrics.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(TimePerFrame_Metrics.MaxValueInLast_HalfSecond, AdroitProfiler_Heartbeat.TimeThisFrame);
@@ -177,62 +176,60 @@ public class AdroitProfiler_State : MonoBehaviour
         PolyCount_Metrics.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(PolyCount_Metrics.MaxValueInLast_10Seconds, polyCountRecorder_lastValue);
     }
 
-
     private void OnTenthHeartbeat()
     {
-        NumberOfFramesThis_TenthSecond = 0;
-        TimePerFrame_Metrics.MaxValueInLast_TenthSecond = 0;        
-        DrawCalls_Metrics.MaxValueInLast_TenthSecond = 0;
-            TotalTimeForFPSAvg_TenthSecond = 0;
-        PolyCount_Metrics.MaxValueInLast_TenthSecond = 0;
+        var timeNow = Mathf.FloorToInt(Time.unscaledDeltaTime * 1000.0f);
+        NumberOfFramesThis_TenthSecond = 1;
+        TimePerFrame_Metrics.MaxValueInLast_TenthSecond = timeNow;
+        DrawCalls_Metrics.MaxValueInLast_TenthSecond = timeNow;
+        TotalTimeForFPSAvg_TenthSecond = timeNow;
+        PolyCount_Metrics.MaxValueInLast_TenthSecond = timeNow;
     }
 
     private void OnQuarterHeartbeat()
     {
-        TotalTimeForFPSAvg_QuarterSecond = 0;
-        NumberOfFramesThis_QuarterSecond = 0;
-        TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = 0;
-        DrawCalls_Metrics.MaxValueInLast_QuarterSecond = 0;
-        PolyCount_Metrics.MaxValueInLast_QuarterSecond = 0;
+        var timeNow = Mathf.FloorToInt(Time.unscaledDeltaTime * 1000.0f);
+        NumberOfFramesThis_QuarterSecond = 1;
+        TotalTimeForFPSAvg_QuarterSecond = timeNow;
+        TimePerFrame_Metrics.MaxValueInLast_QuarterSecond = timeNow;
+        DrawCalls_Metrics.MaxValueInLast_QuarterSecond = timeNow;
+        PolyCount_Metrics.MaxValueInLast_QuarterSecond = timeNow;
     }
 
     private void OnHalfHeartbeat()
     {
-        TotalTimeForFPSAvg_HalfSecond = 0;
-
-        NumberOfFramesThis_HalfSecond = 0;
-        TimePerFrame_Metrics.MaxValueInLast_HalfSecond = 0;
-        DrawCalls_Metrics.MaxValueInLast_HalfSecond = 0;
-        PolyCount_Metrics.MaxValueInLast_HalfSecond = 0;
-
+        var timeNow = Mathf.FloorToInt(Time.unscaledDeltaTime * 1000.0f);
+        NumberOfFramesThis_HalfSecond = 1;
+        TotalTimeForFPSAvg_HalfSecond = timeNow;
+        TimePerFrame_Metrics.MaxValueInLast_HalfSecond = timeNow;
+        DrawCalls_Metrics.MaxValueInLast_HalfSecond = timeNow;
+        PolyCount_Metrics.MaxValueInLast_HalfSecond = timeNow;
     }
 
     private void On5SecondHeartbeat()
     {
-        TotalTimeForFPSAvg_5Seconds = 0;
-
-        NumberOfFramesThis_5Seconds = 0;
-        TimePerFrame_Metrics.MaxValueInLast_5Seconds = 0;      
-        DrawCalls_Metrics.MaxValueInLast_5Seconds = 0;
-        PolyCount_Metrics.MaxValueInLast_5Seconds = 0;
+        var timeNow = Mathf.FloorToInt(Time.unscaledDeltaTime * 1000.0f);
+        NumberOfFramesThis_5Seconds = 1;
+        TotalTimeForFPSAvg_5Seconds = timeNow;
+        TimePerFrame_Metrics.MaxValueInLast_5Seconds = timeNow;
+        DrawCalls_Metrics.MaxValueInLast_5Seconds = timeNow;
+        PolyCount_Metrics.MaxValueInLast_5Seconds = timeNow;
     }
 
     private void On10SecondHeartbeat()
     {
-        TotalTimeForFPSAvg_10Seconds = 0;
-
-        NumberOfFramesThis_10Seconds = 0;
-        TimePerFrame_Metrics.MaxValueInLast_10Seconds = 0;
-        DrawCalls_Metrics.MaxValueInLast_10Seconds = 0;
-        PolyCount_Metrics.MaxValueInLast_10Seconds = 0;
+        var timeNow = Mathf.FloorToInt(Time.unscaledDeltaTime * 1000.0f);
+        NumberOfFramesThis_10Seconds = 1;
+        TotalTimeForFPSAvg_10Seconds = timeNow;
+        TimePerFrame_Metrics.MaxValueInLast_10Seconds = timeNow;
+        DrawCalls_Metrics.MaxValueInLast_10Seconds = timeNow;
+        PolyCount_Metrics.MaxValueInLast_10Seconds = timeNow;
     }
-
 
     private void UpdateGPUStats()
     {
-        GPUStats = AdroitProfiler_Service.UpdateGPUStats( drawCallsCountRecorder_lastValue, polyCountRecorder_lastValue);
+        GPUStats = AdroitProfiler_Service.UpdateGPUStats(drawCallsCountRecorder_lastValue, polyCountRecorder_lastValue);
     }
-
 }
 
 

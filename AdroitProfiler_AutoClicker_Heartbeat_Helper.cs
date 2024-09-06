@@ -11,11 +11,8 @@ using UnityEngine;
 public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
 {
     //TODO make this a list!
+    public List<TextMeshProUGUI> Helpers = new List<TextMeshProUGUI>();
 
-    public TextMeshProUGUI TMProGUI_Helper_1;
-    public TextMeshProUGUI TMProGUI_Helper_2;
-    public TextMeshProUGUI TMProGUI_Helper_3;
-    public TextMeshProUGUI TMProGUI_Helper_4;
     private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
     private AdroitProfiler_AutomatedTester_AutoClicker AdroitProfiler_AutomatedTester_AutoClicker;
     private List<AdroitProfiler_AutomatedTester_Configuration> Configs;
@@ -26,6 +23,7 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
         if (AdroitProfiler_AutomatedTester.GlobalTestCases == null) return;
         if (AdroitProfiler_AutomatedTester.CurrentTestCase == null) return;
         GetConfigsFromTestCases();
+
 
     }
 
@@ -43,49 +41,28 @@ public class AdroitProfiler_AutoClicker_Heartbeat_Helper : MonoBehaviour
 
     private void Update()
     {
-        if(Configs == null)
+        if (Configs == null)
         {
             GetConfigsFromTestCases();
         }
-        if (TMProGUI_Helper_1 != null
-            && Configs.Count > 0)
+        var helperIndex = 0;
+        foreach (var config in Configs.Take(Helpers.Count))
         {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[0]);
-            TMProGUI_Helper_1.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
+            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(config);
+            Helpers[helperIndex].rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
+            helperIndex++;
         }
-        else if(TMProGUI_Helper_1 != null)
+        var moreHelpersThanConfigs = Helpers.Count - Configs.Count;
+        if (moreHelpersThanConfigs > 0)
         {
-            TMProGUI_Helper_1.rectTransform.anchoredPosition = Vector2.zero;
-        }
-        if (TMProGUI_Helper_2 != null
-            && Configs.Count > 1)
-        {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[1]);
-            TMProGUI_Helper_2.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
-        }
-        else if (TMProGUI_Helper_2 != null)
-        {
-            TMProGUI_Helper_2.rectTransform.anchoredPosition = Vector2.zero;
-        }
-        if (TMProGUI_Helper_3 != null
-            && Configs.Count > 2)
-        {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[2]);
-            TMProGUI_Helper_3.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
-        }
-        else if (TMProGUI_Helper_3 != null)
-        {
-            TMProGUI_Helper_3.rectTransform.anchoredPosition = Vector2.zero;
-        }
-        if (TMProGUI_Helper_4 != null
-            && Configs.Count > 3)
-        {
-            var Vector = AdroitProfiler_AutomatedTester_AutoClicker.GetPoint(Configs[3]);
-            TMProGUI_Helper_4.rectTransform.anchoredPosition = new Vector2(Vector.x, Vector.y);
-        }
-        else if (TMProGUI_Helper_4 != null)
-        {
-            TMProGUI_Helper_4.rectTransform.anchoredPosition = Vector2.zero;
+            foreach (var helper in Helpers.TakeLast(moreHelpersThanConfigs))
+            {
+                if (helper != null
+                && Configs.Count > 0)
+                {
+                    helper.rectTransform.anchoredPosition = Vector2.zero;
+                }
+            }
         }
     }
 }

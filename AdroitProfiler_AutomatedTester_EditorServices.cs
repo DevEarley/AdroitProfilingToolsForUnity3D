@@ -233,8 +233,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     {
         ConfigureScene(config);
         if (ConfigureHeartbeat(config) == false) return;
-        config.MousePosition = EditorGUILayout.Vector2IntField("Mouse Position", config.MousePosition);
-        config.Offset = EditorGUILayout.Vector2IntField("Offset", config.Offset);
+        ConfigureMousePositionAndOffset(config);
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
         {
             InvokeAtTime_Field(config);
@@ -368,6 +367,50 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         }
         return true;
 
+    }
+
+    private static void ConfigureMousePositionAndOffset(AdroitProfiler_AutomatedTester_Configuration config)
+    {
+        config.AutoClickerAnchorPoint = (AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint)EditorGUILayout.EnumPopup("Anchor Point", config.AutoClickerAnchorPoint);
+        switch (config.AutoClickerAnchorPoint)
+        {
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.UpperLeft:
+                config.MousePosition = new Vector2Int(0, 0);
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.UpperMiddle:
+                config.MousePosition = new Vector2Int(2, 0);
+
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.UpperRight:
+                config.MousePosition = new Vector2Int(1, 0);
+
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.CenterLeft:
+                config.MousePosition = new Vector2Int(0, 2);
+
+                break;
+            default:
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.Unselected:
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.CenterMiddle:
+                config.MousePosition = new Vector2Int(2, 2);
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.CenterRight:
+                config.MousePosition = new Vector2Int(1, 2);
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.BottomLeft:
+                config.MousePosition = new Vector2Int(0, 1);
+
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.BottomMiddle:
+                config.MousePosition = new Vector2Int(2, 1);
+
+                break;
+            case AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.BottomRight:
+                config.MousePosition = new Vector2Int(1, 1);
+                break;
+        }
+        GUILayout.Label("Mouse Position: (" + config.MousePosition.x + ", " + config.MousePosition.y + ")");
+        config.Offset = EditorGUILayout.Vector2IntField("Offset", config.Offset);
     }
 }
 #endif

@@ -17,6 +17,7 @@ MonoBehaviour:
   Movement: 0
   DialogOption: 0
   TestType: 0
+  AutoClickerAnchorPoint: 0
   Target: AutoMoveTarget#1
   Enabled: 1
   MousePosition: {x: 2, y: 2}

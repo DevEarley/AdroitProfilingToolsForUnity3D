@@ -17,6 +17,7 @@ MonoBehaviour:
   Movement: 0
   DialogOption: 0
   TestType: 0
+  AutoClickerAnchorPoint: 0
   Target: Player_Final_Gameplay
   Enabled: 1
   MousePosition: {x: 2, y: 2}
@@ -27,12 +28,11 @@ MonoBehaviour:
   TurnSpeed: 1
   StartTime: 0
   EndTime: 0
-  GameObjectPath: 
   Function: PassPall_forTesting
   Value: 
   InvokeAtTime: 165
   Sent: 1
-  StartInEveryScene: 1
+  StartInEveryScene: 0
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1

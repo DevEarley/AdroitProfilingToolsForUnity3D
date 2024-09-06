@@ -26,7 +26,6 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
             if (GO == null) return;
         }
 
-
         var CharacterController = CharacterInterface.CharacterController;
         var Camera = CharacterInterface.Camera;
         if (CharacterController == null) CharacterInterface.SetCharacterController();

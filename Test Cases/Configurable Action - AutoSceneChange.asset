@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41d862f55ec74e47b59e3d4767089fb, type: 3}
   m_Name: Configurable Action - AutoSceneChange
   m_EditorClassIdentifier: 
-  ConfigType: 0
-  Heartbeat_Timing: 0
+  ConfigType: 2
+  Heartbeat_Timing: 7
   Movement: 0
   DialogOption: 0
   TestType: 0
-  Target: 
+  AutoClickerAnchorPoint: 0
+  Target: Cafeteria_main_new
   Enabled: 1
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: 
+  StartInScene: Bus_main_new
   MoveSpeed: 1
   TurnSpeed: 1
   StartTime: 0
   EndTime: 0
-  GameObjectPath: 
   Function: 
   Value: 
-  InvokeAtTime: 0
+  InvokeAtTime: 140
   Sent: 0
   StartInEveryScene: 0
   DialogOptionIndex: 0

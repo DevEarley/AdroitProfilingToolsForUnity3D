@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Configurable Action - AutoUpdateWebpage
   m_EditorClassIdentifier: 
   ConfigType: 13
-  Heartbeat_Timing: 7
+  Heartbeat_Timing: 1
   Movement: 0
   DialogOption: 0
   TestType: 0
+  AutoClickerAnchorPoint: 0
   Target: 
   Enabled: 1
   MousePosition: {x: 2, y: 2}
@@ -27,7 +28,6 @@ MonoBehaviour:
   TurnSpeed: 1
   StartTime: 0
   EndTime: 0
-  GameObjectPath: 
   Function: 
   Value: 
   InvokeAtTime: 20

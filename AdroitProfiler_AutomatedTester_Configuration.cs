@@ -11,6 +11,7 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public AdroitProfiler_AutomatedTester_Configuration_MovementType Movement = AdroitProfiler_AutomatedTester_Configuration_MovementType.Unselected;
     public AdroitProfiler_AutomatedTester_DialogOptions DialogOption = AdroitProfiler_AutomatedTester_DialogOptions.Unselected;
     public AdroitProfiler_AutomatedTester_AutoTestType TestType = AdroitProfiler_AutomatedTester_AutoTestType.Unselected;
+    public AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint AutoClickerAnchorPoint = AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.Unselected;
     public string Target = "";
     public bool Enabled = true;
     public Vector2Int MousePosition = Vector2Int.one * 2;
@@ -21,7 +22,6 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public float TurnSpeed = 1.0f;
     public float StartTime;
     public float EndTime;
-    public string GameObjectPath;
     public string Function;
     public string Value;
     public float InvokeAtTime = 0.0f;

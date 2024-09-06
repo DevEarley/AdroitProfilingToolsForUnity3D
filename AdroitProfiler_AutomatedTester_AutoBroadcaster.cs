@@ -20,7 +20,7 @@ public class AdroitProfiler_AutomatedTester_AutoBroadcaster : MonoBehaviour, Adr
     public void BroadcastMessageToGO(AdroitProfiler_AutomatedTester_Configuration config)
     {
         Debug.Log("Try to BroadcastMessage To GO");
-        var GO = GameObject.Find(config.GameObjectPath);
+        var GO = GameObject.Find(config.Target);
         if(GO!= null)
         { 
             //config.Sent = true;

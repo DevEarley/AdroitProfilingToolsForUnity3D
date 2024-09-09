@@ -18,16 +18,16 @@ MonoBehaviour:
   DialogOption: 0
   TestType: 0
   AutoClickerAnchorPoint: 0
-  Target: BusMoveToPoint#2
+  Target: ForTesting_MoveTo (2)
   Enabled: 1
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: Bus_main_new
+  StartInScene: Bus_main_test
   MoveSpeed: 100
   TurnSpeed: 1
-  StartTime: 50
-  EndTime: 60
+  StartTime: 16
+  EndTime: 24
   Function: 
   Value: 
   InvokeAtTime: 0

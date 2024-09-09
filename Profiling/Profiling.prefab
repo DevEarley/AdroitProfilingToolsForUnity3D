@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 4594081289947844873}
   - component: {fileID: 5346104216671733179}
   - component: {fileID: 8332646907151945105}
+  - component: {fileID: 3651636429305556983}
   m_Layer: 0
   m_Name: Profiling
   m_TagString: Untagged
@@ -522,6 +523,18 @@ MonoBehaviour:
   SpikeThresholdInMS: 0.08
   HugeSpikeThresholdInMS: 0.1
   ExtremeSpikeThresholdInMS: 0.15
+--- !u!114 &3651636429305556983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100190903366215853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b7a539bab6cd74f8c8d71c91a1a127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &285528042371644192
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,8 +1280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Show Key Commands: K
-
+  m_text: '
 
 '
   m_isRightToLeft: 0

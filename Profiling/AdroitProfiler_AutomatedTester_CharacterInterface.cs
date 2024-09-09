@@ -42,7 +42,7 @@ public class AdroitProfiler_AutomatedTester_CharacterInterface : MonoBehaviour
         if (Camera != null)
         {
             var _PlayerCameraRotation = Camera.GetComponent<PlayerCameraRotation>();
-            _PlayerCameraRotation.DisableMouseLook = true;
+            _PlayerCameraRotation.ForTesting_DisableMouseLook = true;
             //  _PlayerCameraRotation.enabled = IsRecording;
         }
     }

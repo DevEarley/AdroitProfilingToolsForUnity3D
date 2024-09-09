@@ -18,7 +18,7 @@ MonoBehaviour:
   DialogOption: 0
   TestType: 0
   AutoClickerAnchorPoint: 0
-  Target: Auto Move Point #1
+  Target: ForTesting_MoveTo (1)
   Enabled: 1
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}

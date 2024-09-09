@@ -33,7 +33,11 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
         if (CharacterController == null) return;
         if (Camera == null) return;
         Camera.GetComponent<PlayerCameraRotation>().enabled = false;
-        Camera.transform.LookAt(GO.transform);
+        if(config.StartTime > Time.timeSinceLevelLoad + 0.5f)
+        {
+            Camera.transform.LookAt(GO.transform);
+        }
+
         CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
     }
 

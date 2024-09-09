@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AdroitProfiler_Logger))]
 [RequireComponent(typeof(AdroitProfiler_Heartbeat))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoChangeScene))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoBroadcaster))]
@@ -14,6 +15,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoMover))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoMoveTo))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoTeleportTo))]
+[RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoChangeTestCase))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoPause))]
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_AutoTest))]
 #if UNITY_WEBGL
@@ -30,6 +32,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     public List<AdroitProfiler_AutomatedTester_Configuration_TestCase> TestCaseQueue = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
 
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
+    private AdroitProfiler_Logger AdroitProfiler_Logger;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnTenthSecond_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnQuarterSecond_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> OnHalfSecond_Configurations;
@@ -47,6 +50,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private AdroitProfiler_AutomatedTester_AutoMover AutoMover;
     private AdroitProfiler_AutomatedTester_AutoMoveTo AutoMoveTo;
     private AdroitProfiler_AutomatedTester_AutoTeleportTo AutoTeleportTo;
+    private AdroitProfiler_AutomatedTester_AutoChangeTestCase AutoChangeTestCase;
     private AdroitProfiler_AutomatedTester_AutoChangeScene AutoChangeScene;
     private AdroitProfiler_AutomatedTester_AutoPause AutoPause;
     private AdroitProfiler_AutomatedTester_AutoTest AutoTest;
@@ -97,6 +101,10 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
                     AutoLookAt.OnSceneLoaded(configGroup.Value, scene);
                     break;
 
+                case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChangeTestCase:
+                    AutoChangeTestCase.OnSceneLoaded(configGroup.Value, scene);
+                    break;
+
                 case AdroitProfiler_AutomatedTester_Configuration_Type.AutoMoveTo:
                     AutoMoveTo.OnSceneLoaded(configGroup.Value, scene);
                     break;
@@ -124,16 +132,22 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
     public void GotoNextTestCase()
     {
+
         TestCaseIndex++;
         if (TestCaseQueue.Count() <= TestCaseIndex) return;
         CurrentTestCase = TestCaseQueue[TestCaseIndex];
+        AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
+        SetupConfigLists();
+
     }
 
     private void Start()
     {
         CurrentTestCase = TestCaseQueue.FirstOrDefault();
+
         TestCaseIndex = 0;
-    
+
+        AdroitProfiler_Logger = gameObject.GetComponent<AdroitProfiler_Logger>();
         AdroitProfiler_Heartbeat = gameObject.GetComponent<AdroitProfiler_Heartbeat>();
         AutoBroadcaster = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoBroadcaster>();
         AutoChooseDialogChoice = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoChooseDialogChoice>();
@@ -144,6 +158,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         AutoMoveTo = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoMoveTo>();
         AutoTeleportTo = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoTeleportTo>();
         AutoChangeScene = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoChangeScene>();
+        AutoChangeTestCase = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoChangeTestCase>();
         AutoPause = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoPause>();
         AutoTest = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoTest>();
 #if UNITY_WEBGL && !UNITY_EDITOR 
@@ -156,7 +171,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         AdroitProfiler_Heartbeat.on1s_Heartbeat_delegates.Add(On1SecondHeartbeat);
         AdroitProfiler_Heartbeat.on5s_Heartbeat_delegates.Add(On5SecondHeartbeat);
         AdroitProfiler_Heartbeat.on10s_Heartbeat_delegates.Add(On10SecondHeartbeat);
-
+        GlobalTestCases.ForEach(x => AdroitProfiler_Logger.LogTestCaseInfo(x));
         SetupConfigLists();
     }
 
@@ -164,6 +179,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     {
         var currentScene = SceneManager.GetActiveScene();
         var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
+        AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
         testCases.AddRange(GlobalTestCases);
         testCases.Add(CurrentTestCase);
         var nonNullTestCases = testCases.Where(x => x != null);
@@ -188,8 +204,9 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
     private void Update()
     {
-        ProcessConfigurations(AtTime_Configurations.Where(x=> x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList()); // ignoring Sent for now. (x.Sent == false)
-        ProcessConfigurations(DuringTimespan_Configurations.Where(x => x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
+        if (AtTime_Configurations == null || DuringTimespan_Configurations == null) return;
+        ProcessConfigurations(AtTime_Configurations.Where(x => x != null && x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList());
+        ProcessConfigurations(DuringTimespan_Configurations.Where(x => x != null&&  x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
     }
 
     private void OnTenthHeartbeat()
@@ -263,6 +280,10 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
             case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChangeScene:
                 AutoChangeScene.ProcessConfiguration(config);
+                break;
+
+            case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChangeTestCase:
+                AutoChangeTestCase.ProcessConfiguration(config);
 
                 break;
             case AdroitProfiler_AutomatedTester_Configuration_Type.AutoChooseDialogChoice:

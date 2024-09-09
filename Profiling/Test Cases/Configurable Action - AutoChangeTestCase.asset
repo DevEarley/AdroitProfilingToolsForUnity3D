@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41d862f55ec74e47b59e3d4767089fb, type: 3}
+  m_Name: Configurable Action - AutoChangeTestCase
+  m_EditorClassIdentifier: 
+  ConfigType: 11
+  Heartbeat_Timing: 7
+  Movement: 0
+  DialogOption: 0
+  TestType: 0
+  AutoClickerAnchorPoint: 0
+  Target: 
+  Enabled: 1
+  MousePosition: {x: 2, y: 2}
+  Offset: {x: 0, y: 0}
+  WorldPosition: {x: 0, y: 0, z: 0}
+  StartInScene: Bus_main_new
+  MoveSpeed: 1
+  TurnSpeed: 1
+  StartTime: 0
+  EndTime: 0
+  Function: 
+  Value: 
+  InvokeAtTime: 100
+  Sent: 0
+  StartInEveryScene: 0
+  DialogOptionIndex: 0
+  SkipDialog: 1
+  CaptureDialog: 1

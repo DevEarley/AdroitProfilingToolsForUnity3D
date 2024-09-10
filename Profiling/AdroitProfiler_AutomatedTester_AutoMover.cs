@@ -165,7 +165,7 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
         IsRecording = true;
         if (CharacterInterface.Camera != null)
         {
-            CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = true;
+        //    CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = true;
         }
     }
 
@@ -174,7 +174,7 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
         IsRecording = false;
         if (CharacterInterface.Camera != null)
         {
-            CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = false;
+           // CharacterInterface.Camera.GetComponent<PlayerCameraRotation>().enabled = false;
         }
     }
     void Awake()

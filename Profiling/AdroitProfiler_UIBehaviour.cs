@@ -67,7 +67,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     }
     void LateUpdate()
     {
-        if (AdroitProfiler_AutomatedTester != null)
+        if (AdroitProfiler_AutomatedTester != null && AdroitProfiler_AutomatedTester.CurrentTestCase != null)
         {
             TMProGUI_TestCaseName.text = AdroitProfiler_AutomatedTester.CurrentTestCase.name;
         }

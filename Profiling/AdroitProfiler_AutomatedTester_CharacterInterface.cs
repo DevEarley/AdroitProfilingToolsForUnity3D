@@ -41,8 +41,8 @@ public class AdroitProfiler_AutomatedTester_CharacterInterface : MonoBehaviour
         Camera = GameObject.Find("Camera Pivot");
         if (Camera != null)
         {
-            var _PlayerCameraRotation = Camera.GetComponent<PlayerCameraRotation>();
-            _PlayerCameraRotation.ForTesting_DisableMouseLook = true;
+            //var _PlayerCameraRotation = Camera.GetComponent<PlayerCameraRotation>();
+            //_PlayerCameraRotation.ForTesting_DisableMouseLook = true;
             //  _PlayerCameraRotation.enabled = IsRecording;
         }
     }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 369ae7b876f8f3a458e6f48835fa5326, type: 3}
+  m_Name: Test Case - MHS 2 - Globals
+  m_EditorClassIdentifier: 
+  ConfigurableTests: []
+  ConfigurableActions:
+  - {fileID: 11400000, guid: f3229d7edee8a5e40b080d744d0f9d99, type: 2}
+  - {fileID: 11400000, guid: 98c985f75d8b88149b5f3f3aed163175, type: 2}
+  - {fileID: 11400000, guid: a490367233fa45945ac651fa8ca746f8, type: 2}
+  - {fileID: 11400000, guid: 9d2593a427fd8c2408f3a68f55fc459d, type: 2}

@@ -80,7 +80,10 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
         var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
         testCases.AddRange(GlobalTestCases);
-        testCases.Add(CurrentTestCase);
+        if (CurrentTestCase != null)
+        {
+         testCases.Add(CurrentTestCase);
+        }
         var nonNullTestCases = testCases.Where(x => x != null);
         var allConfigs = nonNullTestCases.SelectMany(x => x.ConfigurableActions);
         var allTests = nonNullTestCases.SelectMany(x => x.ConfigurableTests);
@@ -132,7 +135,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
 
     public void GotoNextTestCase()
     {
-
+        if (TestCaseQueue == null || TestCaseQueue.Count() == 0) return;
         TestCaseIndex++;
         if (TestCaseIndex >= TestCaseQueue.Count())
         {
@@ -145,6 +148,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     }
     public void GotoPreviousTestCase()
     {
+        if (TestCaseQueue == null || TestCaseQueue.Count() == 0) return;
 
         TestCaseIndex--;
         if (TestCaseIndex < 0) {
@@ -194,9 +198,13 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     {
         var currentScene = SceneManager.GetActiveScene();
         var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
-        AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
         testCases.AddRange(GlobalTestCases);
+        if (CurrentTestCase != null)
+        {
+
+        AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
         testCases.Add(CurrentTestCase);
+        }
         var nonNullTestCases = testCases.Where(x => x != null);
         var allConfigs = nonNullTestCases.SelectMany(x => x.ConfigurableActions);
         var allTests = nonNullTestCases.SelectMany(x => x.ConfigurableTests);

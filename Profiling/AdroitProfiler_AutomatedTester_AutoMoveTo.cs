@@ -34,7 +34,7 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
         if (Camera == null) CharacterInterface.SetCamera();
         if (CharacterController == null) return;
         if (Camera == null) return;
-        Camera.GetComponent<PlayerCameraRotation>().enabled = false;
+        //Camera.GetComponent<PlayerCameraRotation>().enabled = false;
         var characterVectorWithoutY = new Vector3(CharacterController.transform.position.x, 0, CharacterController.transform.position.z);
         var GOVectorWithoutY = new Vector3(GO.transform.position.x, 0, GO.transform.position.z);
         var distance = Vector3.Distance(characterVectorWithoutY, GOVectorWithoutY);

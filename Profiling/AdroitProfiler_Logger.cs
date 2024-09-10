@@ -132,8 +132,8 @@ public class AdroitProfiler_Logger : MonoBehaviour
 
     public void Log(string message)
     {
-        var performanceEventLog = ProfileHeader_TimeAndMessage;
-        performanceEventLog += DateTime.Today.ToString("MM/dd/yy t") + ",";
+        var performanceEventLog = "";
+        performanceEventLog += DateTime.Today.ToString("MM/dd/yy HH:mm:ss") + ",";
         performanceEventLog += message + ",";
         performanceEventLog += "\n";
         AddLogToRun(performanceEventLog);
@@ -143,9 +143,9 @@ public class AdroitProfiler_Logger : MonoBehaviour
 
     public void LogTestCaseInfo(AdroitProfiler_AutomatedTester_Configuration_TestCase testCase)
     {
-       
-        var performanceEventLog = ProfileHeader_TimeAndMessage;
-        performanceEventLog += DateTime.Today.ToString("MM/dd/yy t") + ",";
+
+        var performanceEventLog = "";
+        performanceEventLog += DateTime.Today.ToString("MM/dd/yy HH:mm:ss") + ",";
         performanceEventLog += testCase.name + ",";
         performanceEventLog += "\n";
         AddLogToRun(performanceEventLog);

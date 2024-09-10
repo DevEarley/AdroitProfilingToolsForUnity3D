@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 369ae7b876f8f3a458e6f48835fa5326, type: 3}
+  m_Name: Test Case - Pick Fourth
+  m_EditorClassIdentifier: 
+  ConfigurableTests: []
+  ConfigurableActions:
+  - {fileID: 11400000, guid: 380d6c1a950438b4488257d7d7233a83, type: 2}
+  - {fileID: 11400000, guid: 6c04acf8bb3f9534398c15f28fc85b03, type: 2}

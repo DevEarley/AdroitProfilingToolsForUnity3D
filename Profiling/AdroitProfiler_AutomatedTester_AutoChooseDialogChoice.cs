@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
@@ -29,8 +26,16 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
                 }
                 else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.SortAlphabetically_PickAtIndex)
                 {
-                    var option = objects.OrderBy(x => x.text).ElementAt(config.DialogOptionIndex);
-                    ChooseOption(option);
+                    if (objects.Count() <= config.DialogOptionIndex)
+                    {
+                        var lastOption = objects.OrderBy(x => x.text).LastOrDefault();
+                        ChooseOption(lastOption);
+                    }
+                    else
+                    {
+                        var option = objects.OrderBy(x => x.text).ElementAt(config.DialogOptionIndex);
+                        ChooseOption(option);
+                    }
                 }
                 else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.SortAlphabetically_PickLast)
                 {
@@ -44,8 +49,16 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
                 }
                 else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.Unsorted_PickAtIndex)
                 {
-                    var option = objects.ElementAt(config.DialogOptionIndex);
-                    ChooseOption(option);
+                    if (objects.Count() <= config.DialogOptionIndex)
+                    {
+                        var lastOption = objects.LastOrDefault();
+                        ChooseOption(lastOption);
+                    }
+                    else
+                    {
+                        var option = objects.ElementAt(config.DialogOptionIndex);
+                        ChooseOption(option);
+                    }
                 }
                 else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.Unsorted_PickLast)
                 {

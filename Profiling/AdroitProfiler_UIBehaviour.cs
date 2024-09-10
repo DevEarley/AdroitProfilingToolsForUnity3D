@@ -170,7 +170,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     {
         var text = "";
         text += "This Frame: " + AdroitProfiler_Heartbeat.TimeThisFrame.ToString("000") + " ms \n\r";
-        text += "Current Time: "+ Mathf.FloorToInt(Time.timeSinceLevelLoad) + "ms (" + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + ")\n\r";
+        text += "Current Time: "+ Mathf.FloorToInt(Time.timeSinceLevelLoad) + "s (" + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + ")\n\r";
         TMProGUI_FPS.text = text;
     }
 

@@ -15,3 +15,4 @@ MonoBehaviour:
   ConfigurableTests: []
   ConfigurableActions:
   - {fileID: 11400000, guid: 1ae6d4f6c6cfc054c8d698508110da2e, type: 2}
+  - {fileID: 11400000, guid: 6c04acf8bb3f9534398c15f28fc85b03, type: 2}

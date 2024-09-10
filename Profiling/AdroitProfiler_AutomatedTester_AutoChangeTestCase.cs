@@ -15,6 +15,8 @@ public class AdroitProfiler_AutomatedTester_AutoChangeTestCase : MonoBehaviour, 
     }
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        Debug.Log("AutoChangeTestCase | " + config.name);
+
         AdroitProfiler_AutomatedTester.GotoNextTestCase();
         config.Sent = true;
     }

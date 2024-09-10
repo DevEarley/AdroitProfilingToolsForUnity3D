@@ -21,8 +21,10 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
     private AdroitProfiler_UIBehaviour AdroitProfiler_UIBehaviour;
     private AdroitProfiler_Logger AdroitProfiler_Logger;
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
+    private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
     private AdroitProfiler_GameObjectController AdroitProfiler_GameObjectController;
-    private string LeftBracketInstructions = "Commands: [, ], or both at the same time.\r\n" + "" +
+    private AdroitProfiler_AutomatedTester_AutoClicker AutoClicker;
+    private string LeftBracketInstructions = "Commands: [, ]\r\n" + "" +
             "Set slots: [ + 1,2,3 ... 8\r\n" +
             "Confirm game object: Enter\r\n" +
             "Turn on all slots: [ + 9\r\n" +
@@ -34,20 +36,26 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
             "Show Draw Metrics: [ + R\r\n" +
             "Show Poly Count Metrics: [ + Y\r\n" +
             "Toggle UI: [ + U\r\n" +
-            "Toggle Profiler: [ + Q";
+            "Go to previous test case: [ + P\r\n" +
+            "Go to next test case: [ + N\r\n" +
+            "Toggle Profiler: [ + Q\r\n";
 
-    private string RightBracketInstructions = "Commands: [, ], or both at the same time.\r\n" + "" +
-            "Toggle slots: ] + 1,2,3 ... 8\r\n" + "";
+    private string RightBracketInstructions = "Commands: [, ]\r\n" + "" +
+            "Toggle slots: ] + 1,2,3 ... 8\r\n"+
+                "Toggle Auto Clickers: ] + C";
 
-    private string BothBracketInstructions = "Commands: [, ], or both at the same time.\r\n" + "" +
+
+    private string BothBracketInstructions = "Commands: [, ]\r\n" + "" +
             "Duplicate GO at Slot: [ + ] + 1,2,3 ... 8\r\n";
-           
+
     private void Start()
     {
         AdroitProfiler_Heartbeat = gameObject.GetComponent<AdroitProfiler_Heartbeat>();
+        AdroitProfiler_AutomatedTester = gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
         AdroitProfiler_Logger = gameObject.GetComponent<AdroitProfiler_Logger>();
         AdroitProfiler_UIBehaviour = gameObject.GetComponent<AdroitProfiler_UIBehaviour>();
         AdroitProfiler_GameObjectController = gameObject.GetComponent<AdroitProfiler_GameObjectController>();
+        AutoClicker = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoClicker>();
         Instructions.text = LeftBracketInstructions;
     }
 
@@ -61,27 +69,27 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             Instructions.text = LeftBracketInstructions;
             Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(true);
+            Instructions_Short.SetActive(false);
         }
         else if (pressingRightBracket && pressingLeftBracket == false)
         {
             Instructions.text = RightBracketInstructions;
             Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(true);
+            Instructions_Short.SetActive(false);
         }
-        else if(pressingLeftBracket == true && pressingRightBracket == true)
+        else if (pressingLeftBracket == true && pressingRightBracket == true)
         {
             Instructions.text = BothBracketInstructions;
             Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(true);
-        }
-        else if(pressingLeftBracket == false && pressingRightBracket == false)
-        {
-            Instructions.gameObject.SetActive(false);
             Instructions_Short.SetActive(false);
         }
+        else if (pressingLeftBracket == false && pressingRightBracket == false)
+        {
+            Instructions.gameObject.SetActive(false);
+            Instructions_Short.SetActive(true);
+        }
 
-        if (pressingLeftBracket  && Input.GetKeyDown(KeyCode.Q))
+        if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Q))
         {
             AdroitProfiler_Heartbeat.Paused = !AdroitProfiler_Heartbeat.Paused;
             return;
@@ -226,6 +234,20 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_GameObjectController.TurnOffAllSlots();
         }
-      
+        //for automated tester
+        else if (AdroitProfiler_AutomatedTester != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.P))
+        {
+            AdroitProfiler_AutomatedTester.GotoPreviousTestCase();
+        }
+        else if (AdroitProfiler_AutomatedTester != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.N))
+        {
+            AdroitProfiler_AutomatedTester.GotoNextTestCase();
+        }
+        //for automated clicker
+        else if (AutoClicker != null && pressingRightBracket && Input.GetKeyDown(KeyCode.C))
+        {
+            AutoClicker.disableClickers = !AutoClicker.disableClickers;
+        }
+       
     }
 }

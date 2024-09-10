@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(AdroitProfiler_AutomatedTester_CharacterInterface))]
 public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
+    private static float LookAtDistance = 1.0f;
+    private static float MoveToDistance = 0.1f;
     private List<GameObject> GameObjectsForThisScene;
     private AdroitProfiler_AutomatedTester_CharacterInterface CharacterInterface;
 
@@ -33,12 +35,17 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
         if (CharacterController == null) return;
         if (Camera == null) return;
         Camera.GetComponent<PlayerCameraRotation>().enabled = false;
-        if(config.StartTime > Time.timeSinceLevelLoad + 0.5f)
+        var characterVectorWithoutY = new Vector3(CharacterController.transform.position.x, 0, CharacterController.transform.position.z);
+        var GOVectorWithoutY = new Vector3(GO.transform.position.x, 0, GO.transform.position.z);
+        var distance = Vector3.Distance(characterVectorWithoutY, GOVectorWithoutY);
+        if (distance > LookAtDistance)
         {
             Camera.transform.LookAt(GO.transform);
         }
-
-        CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
+        if(distance > MoveToDistance)
+        {
+            CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
+        }
     }
 
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> configs, UnityEngine.SceneManagement.Scene scene)

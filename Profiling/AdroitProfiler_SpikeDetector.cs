@@ -17,6 +17,11 @@ public class AdroitProfiler_SpikeDetector : MonoBehaviour
     [HideInInspector]
     public float ExtremeSpikeThresholdInMS = 150.0f / 1000.0f; // 150 MS == 6.6 FPS
 
+    public bool NormalSpikeDetectorEnabled = true;
+    public bool HugeSpikeDetectorEnabled = true;
+    public bool ExtremeSpikeDetectorEnabled = true;
+
+
     void Start()
     {
         AdroitProfiler_Logger = gameObject.GetComponent<AdroitProfiler_Logger>();
@@ -24,15 +29,15 @@ public class AdroitProfiler_SpikeDetector : MonoBehaviour
 
     private void Update()
     {
-        if (Time.unscaledDeltaTime > SpikeThresholdInMS  && Time.unscaledDeltaTime <= HugeSpikeThresholdInMS)
+        if (NormalSpikeDetectorEnabled && Time.unscaledDeltaTime > SpikeThresholdInMS  && Time.unscaledDeltaTime <= HugeSpikeThresholdInMS)
         {
             AdroitProfiler_Logger.CapturePerformanceForEvent("Spike Detected (over 80MS)");
         }
-        else if (Time.unscaledDeltaTime > HugeSpikeThresholdInMS && Time.unscaledDeltaTime <= ExtremeSpikeThresholdInMS)
+        else if (HugeSpikeDetectorEnabled && Time.unscaledDeltaTime > HugeSpikeThresholdInMS && Time.unscaledDeltaTime <= ExtremeSpikeThresholdInMS)
         {
             AdroitProfiler_Logger.CapturePerformanceForEvent("Huge Spike Detected (over 100MS)");
         }
-        else if (Time.unscaledDeltaTime > ExtremeSpikeThresholdInMS)
+        else if (ExtremeSpikeDetectorEnabled && Time.unscaledDeltaTime > ExtremeSpikeThresholdInMS)
         {
             AdroitProfiler_Logger.CapturePerformanceForEvent("Extreme Spike Detected (over 150MS)");
         }

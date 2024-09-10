@@ -16,6 +16,7 @@ public enum AdroitProfiler_UIBehaviour_State
 [RequireComponent(typeof(AdroitProfiler_Heartbeat))]
 public class AdroitProfiler_UIBehaviour : MonoBehaviour
 {
+    public TextMeshProUGUI TMProGUI_TestCaseName;
     public TextMeshProUGUI TMProGUI_FPS;
     public TextMeshProUGUI TMProGUI_GPU;
     public TextMeshProUGUI TMProGUI_TenthSecMax;
@@ -27,6 +28,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     private bool ShowingUI = false;
 
     private AdroitProfiler_UIBehaviour_State AdroitProfiler_UIBehaviour_State;
+    private AdroitProfiler_AutomatedTester AdroitProfiler_AutomatedTester;
     private AdroitProfiler_State AdroitProfiler_State;
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
 
@@ -34,6 +36,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     {
         AdroitProfiler_State = this.gameObject.GetComponent<AdroitProfiler_State>();
         AdroitProfiler_Heartbeat = this.gameObject.GetComponent<AdroitProfiler_Heartbeat>();
+        AdroitProfiler_AutomatedTester = this.gameObject.GetComponent<AdroitProfiler_AutomatedTester>();
         HideUI();
     }
     public void ToggleUI()
@@ -64,6 +67,10 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     }
     void LateUpdate()
     {
+        if (AdroitProfiler_AutomatedTester != null)
+        {
+            TMProGUI_TestCaseName.text = AdroitProfiler_AutomatedTester.CurrentTestCase.name;
+        }
         if (AdroitProfiler_Heartbeat.Paused == true && ShowingUI == true)
         {
             HideUI();
@@ -163,7 +170,7 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     {
         var text = "";
         text += "This Frame: " + AdroitProfiler_Heartbeat.TimeThisFrame.ToString("000") + " ms \n\r";
-        text += "Current Time: " + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + "\n\r";
+        text += "Current Time: "+ Mathf.FloorToInt(Time.timeSinceLevelLoad) + "ms (" + AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad) + ")\n\r";
         TMProGUI_FPS.text = text;
     }
 

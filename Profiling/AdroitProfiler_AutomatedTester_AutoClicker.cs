@@ -8,10 +8,13 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
 {
     [HideInInspector]
     public AdroitProfiler_AutoClicker_StandaloneInputModule AutoClicker;
+    [HideInInspector]
+    public bool disableClickers = false;
 
 
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        if (disableClickers == true) return;
         if (AutoClicker == null) return;
         var vector = GetPoint(config);
         AutoClicker.ClickAt(vector.x, vector.y);

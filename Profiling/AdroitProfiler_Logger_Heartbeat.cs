@@ -36,26 +36,26 @@ public class AdroitProfiler_Logger_Heartbeat : MonoBehaviour
 
     private void OnTenthHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.1s Heartbeat | Logger");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.1s Heartbeat");
     }
 
     private void OnQuarterHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.25s Heartbeat | Logger");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.25s Heartbeat");
     }
 
     private void OnHalfHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.5s Heartbeat | Logger");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 0.5s Heartbeat");
     }
 
     private void On5SecondHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On 5s Heartbeat | Logger");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 5s Heartbeat");
     }
 
     private void On10SecondHeartbeat()
     {
-        AdroitProfiler_Logger.CapturePerformanceForEvent("On 10s Heartbeat | Logger");
+        AdroitProfiler_Logger.CapturePerformanceForEvent("On 10s Heartbeat");
     }
 }

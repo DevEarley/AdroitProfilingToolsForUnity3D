@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,51 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
     private string LastEventName = "";
     private AdroitProfiler_Logger AdroitProfiler_Logger;
 
-    public void ProcessConfiguration(  AdroitProfiler_AutomatedTester_Configuration config)
+    public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        Debug.Log("AutoChooseDialogChoice | " + config.name);
+
         if (DialogueManager.instance == null) return;
         if (DialogueManager.instance.isConversationActive)
         {
             var objects = FindObjectsOfType<StandardUIResponseButton>().Where(x => x.gameObject.activeInHierarchy);
             if (objects != null && objects.Count() > 0 && objects.First() != null)
             {
-                objects.OrderBy(x => x.text).First().OnClick();
+                if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.SortAlphabetically_PickFirst)
+                {
+                    var option = objects.OrderBy(x => x.text).FirstOrDefault();
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.SortAlphabetically_PickAtIndex)
+                {
+                    var option = objects.OrderBy(x => x.text).ElementAt(config.DialogOptionIndex);
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.SortAlphabetically_PickLast)
+                {
+                    var option = objects.OrderBy(x => x.text).LastOrDefault();
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.Unsorted_PickFirst)
+                {
+                    var option = objects.FirstOrDefault();
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.Unsorted_PickAtIndex)
+                {
+                    var option = objects.ElementAt(config.DialogOptionIndex);
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.Unsorted_PickLast)
+                {
+                    var option = objects.LastOrDefault();
+                    ChooseOption(option);
+                }
+                else if (config.DialogOption == AdroitProfiler_AutomatedTester_DialogOptions.PickRandom)
+                {
+                    var option = objects.FirstOrDefault();
+                    ChooseOption(option);
+                }
             }
         }
 
@@ -33,6 +70,19 @@ public class AdroitProfiler_AutomatedTester_AutoChooseDialogChoice : MonoBehavio
             }
 
             AdroitProfiler_Logger.CapturePerformanceForEvent(LastEventName + (InConversation ? " | START" : " | END"));
+        }
+    }
+
+    private void ChooseOption(StandardUIResponseButton option)
+    {
+        if (option != null)
+        {
+            AdroitProfiler_Logger.Log(option.text);
+            option.OnClick();
+        }
+        else
+        {
+            AdroitProfiler_Logger.Log("AutoChooseDialogChoice | Option was null");
         }
     }
 

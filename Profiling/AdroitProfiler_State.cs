@@ -28,10 +28,9 @@ public class AdroitProfiler_StateMetrics
 public class AdroitProfiler_State : MonoBehaviour
 {
     private AdroitProfiler_Heartbeat AdroitProfiler_Heartbeat;
-    public bool SkipInstructions = true;
 
 
-
+    [HideInInspector]
     public string GPUStats = "";
 
     public AdroitProfiler_StateMetrics TimePerFrame_Metrics = new AdroitProfiler_StateMetrics(AdroitProfiler_StateMetricType.TimePerFrame);

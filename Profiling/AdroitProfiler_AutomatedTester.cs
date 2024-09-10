@@ -134,7 +134,22 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     {
 
         TestCaseIndex++;
-        if (TestCaseQueue.Count() <= TestCaseIndex) return;
+        if (TestCaseIndex >= TestCaseQueue.Count())
+        {
+            TestCaseIndex = TestCaseQueue.Count()-1;
+        };
+        CurrentTestCase = TestCaseQueue[TestCaseIndex];
+        AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
+        SetupConfigLists();
+
+    }
+    public void GotoPreviousTestCase()
+    {
+
+        TestCaseIndex--;
+        if (TestCaseIndex < 0) {
+            TestCaseIndex = 0;
+        }
         CurrentTestCase = TestCaseQueue[TestCaseIndex];
         AdroitProfiler_Logger.LogTestCaseInfo(CurrentTestCase);
         SetupConfigLists();

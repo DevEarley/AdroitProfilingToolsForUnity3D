@@ -8,6 +8,7 @@ public class AdroitProfiler_AutomatedTester_AutoChangeScene : MonoBehaviour, Adr
 
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        Debug.Log("AutoChangeScene | " + config.name);
         SceneManager.LoadScene(config.Target);
     }
 

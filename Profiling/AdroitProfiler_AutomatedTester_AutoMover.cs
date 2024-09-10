@@ -40,8 +40,7 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
     [HideInInspector]
     public bool IsRecording = false;
     private AdroitProfiler_AutomatedTester_CharacterInterface CharacterInterface;
-    public float DefaultMoveSpeed = 1.0f;
-    public float DefaultTurnSpeed = 1.0f;
+
 
     private void Start()
     {
@@ -112,25 +111,25 @@ public class AdroitProfiler_AutomatedTester_AutoMover : MonoBehaviour, AdroitPro
             if (Input.GetKeyUp(KeyCode.W))
             {
                 KeyInputTrack_W.y = Time.timeSinceLevelLoad;
-                CreateConfigFromTrack(KeyCode.W, KeyInputTrack_W, DefaultMoveSpeed);
+                CreateConfigFromTrack(KeyCode.W, KeyInputTrack_W, 100);
                 KeyInputTrack_W = Vector2.zero;
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
                 KeyInputTrack_A.y = Time.timeSinceLevelLoad;
-                CreateConfigFromTrack(KeyCode.A, KeyInputTrack_A, DefaultTurnSpeed);
+                CreateConfigFromTrack(KeyCode.A, KeyInputTrack_A, 100);
                 KeyInputTrack_A = Vector2.zero;
             }
             if (Input.GetKeyUp(KeyCode.S))
             {
                 KeyInputTrack_S.y = Time.timeSinceLevelLoad;
-                CreateConfigFromTrack(KeyCode.S, KeyInputTrack_S, DefaultMoveSpeed);
+                CreateConfigFromTrack(KeyCode.S, KeyInputTrack_S, 100);
                 KeyInputTrack_S = Vector2.zero;
             }
             if (Input.GetKeyUp(KeyCode.D))
             {
                 KeyInputTrack_D.y = Time.timeSinceLevelLoad;
-                CreateConfigFromTrack(KeyCode.D, KeyInputTrack_D, DefaultTurnSpeed);
+                CreateConfigFromTrack(KeyCode.D, KeyInputTrack_D, 100);
                 KeyInputTrack_D = Vector2.zero;
             }
         }

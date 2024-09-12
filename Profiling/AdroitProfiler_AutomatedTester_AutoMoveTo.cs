@@ -7,7 +7,7 @@ using UnityEngine;
 public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitProfiler_AutomatedTester_IAutomate
 {
     private static float LookAtDistance = 1.0f;
-    private static float MoveToDistance = 0.1f;
+    private static float MoveToDistance = 0.9f;
     private List<GameObject> GameObjectsForThisScene;
     private AdroitProfiler_AutomatedTester_CharacterInterface CharacterInterface;
 

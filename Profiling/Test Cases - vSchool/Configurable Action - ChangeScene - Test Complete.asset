@@ -23,14 +23,14 @@ MonoBehaviour:
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: Cafeteria_main_new
+  StartInScene: Bus_main_test
   MoveSpeed: 1
   TurnSpeed: 1
   StartTime: 0
   EndTime: 0
   Function: 
   Value: 
-  InvokeAtTime: 10
+  InvokeAtTime: 101
   Sent: 0
   StartInEveryScene: 0
   DialogOptionIndex: 0

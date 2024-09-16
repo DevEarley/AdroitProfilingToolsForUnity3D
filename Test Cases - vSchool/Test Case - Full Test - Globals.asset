@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 369ae7b876f8f3a458e6f48835fa5326, type: 3}
+  m_Name: Test Case - Full Test - Globals
+  m_EditorClassIdentifier: 
+  ConfigurableTests: []
+  ConfigurableActions:
+  - {fileID: 11400000, guid: de6d266ab4b956e48bdb1e0cb2d5f396, type: 2}
+  - {fileID: 11400000, guid: acf3e54ec2c6b4a49b3a7d12b84e4be0, type: 2}
+  - {fileID: 11400000, guid: 0e2430e51f8412b4cacf83286c38bf00, type: 2}
+  - {fileID: 11400000, guid: cae07997d24770b4b993a5597eb0ae42, type: 2}
+  - {fileID: 11400000, guid: 72d89d490670e6643afce465014a8e9a, type: 2}
+  - {fileID: 11400000, guid: 16c9a753989c73e49a7a1a9ff07f9183, type: 2}
+  - {fileID: 11400000, guid: 781392b5c6564dc4d985e89a9b3eb0d7, type: 2}
+  - {fileID: 11400000, guid: 2db79ab6060d98b41b84120c73791f36, type: 2}
+  - {fileID: 11400000, guid: f539ffb5a78f74c41ba990442b96e61d, type: 2}

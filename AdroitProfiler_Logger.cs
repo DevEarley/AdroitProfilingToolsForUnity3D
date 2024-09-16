@@ -18,7 +18,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
 #endif
 
     public readonly static string ProfileHeader_TimeAndMessage = "Time, Name, \n ";
-    public readonly static string ProfileHeader_LFT = "Time, Scene Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
+    public readonly static string ProfileHeader_LFT = "Scene Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
     public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
    // public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
     public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
@@ -81,7 +81,7 @@ public class AdroitProfiler_Logger : MonoBehaviour
     {
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad);
         var performanceEventLog = "";
-        performanceEventLog += DateTime.Today.ToString("MM/dd/yy t") + ",";
+        performanceEventLog += DateTime.Today.ToString("MM/dd/yy HH:mm:ss") + " | ";
         performanceEventLog += formattedTime + ",";
         performanceEventLog += SceneManager.GetActiveScene().path + ", ";
         if (eventDescription == "" || eventDescription == null)

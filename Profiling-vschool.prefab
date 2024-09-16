@@ -174,7 +174,7 @@ Transform:
   m_Children:
   - {fileID: 4338945597171871225}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6908194320434947763
 MonoBehaviour:
@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoClicker: {fileID: 0}
+  disableClickers: 0
 --- !u!114 &18909816570737684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,16 +419,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTestCase: {fileID: 0}
   GlobalTestCases:
-  - {fileID: 11400000, guid: d94bdf45576a38a4387c78a39e110daf, type: 2}
+  - {fileID: 11400000, guid: dd630650761394b4c93f5a4411e01d72, type: 2}
   TestCaseQueue:
-  - {fileID: 11400000, guid: 3bbbee3887896fa4c816df939efe65c1, type: 2}
-  - {fileID: 11400000, guid: e30efc5ee2fcb1a4b9c29c1d49f762bc, type: 2}
-  - {fileID: 11400000, guid: dc0221447e783944eadedff10ea7d0a9, type: 2}
-  - {fileID: 11400000, guid: 221cc5a8d1e8b934e970cc0d1787922b, type: 2}
-  - {fileID: 11400000, guid: 51f21a57f43625748b5f6ca84e5fd021, type: 2}
-  - {fileID: 11400000, guid: c50f11306bc67f441bfb2f5fbeabbd26, type: 2}
-  - {fileID: 11400000, guid: 905bc900d368a754e9b35c5c471896ca, type: 2}
-  - {fileID: 11400000, guid: f2fc4535a8c9c7546ac9f34d1015dd93, type: 2}
+  - {fileID: 11400000, guid: 49fb4ee7b97d6a74497725238387ae82, type: 2}
+  - {fileID: 11400000, guid: defa14b476c299c4db428b9698ef289c, type: 2}
+  - {fileID: 11400000, guid: ecdbc4d0e9b6f2047b7317c8c1213167, type: 2}
+  - {fileID: 11400000, guid: 26bd937e683b77a4288b10e883f04269, type: 2}
+  - {fileID: 11400000, guid: 3212069131eb88d46b25407e0c7955df, type: 2}
+  - {fileID: 11400000, guid: 89ce61152f9a9e04f8c499c69f31b9e0, type: 2}
+  - {fileID: 11400000, guid: 250f160d0d2b20544b4adfa2d75f8bac, type: 2}
 --- !u!114 &7733903626041123991
 MonoBehaviour:
   m_ObjectHideFlags: 0

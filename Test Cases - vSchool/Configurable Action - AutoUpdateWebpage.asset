@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Configurable Action - AutoUpdateWebpage
   m_EditorClassIdentifier: 
   ConfigType: 13
-  Heartbeat_Timing: 7
+  Heartbeat_Timing: 0
   Movement: 0
   DialogOption: 0
   TestType: 0

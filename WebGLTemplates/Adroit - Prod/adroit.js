@@ -7,10 +7,6 @@ window.adroit_init = (unityInstance) => {
 	// SendCsvCredsToUnityButton.onclick = () => {
 	// 	window.adroit_send_CSV_credentials_to_Unity();
 	// };
-	const GetProfilerDataButton = document.getElementById('AdroitControls_GetProfilerData');
-	GetProfilerDataButton.onclick = () => {
-		window.adroit_capture_profiler_data();
-	};
 };
 
 window.adroit_capture_profiler_data = () => {

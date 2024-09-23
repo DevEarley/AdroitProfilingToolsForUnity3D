@@ -10,10 +10,13 @@
     <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>">
     <script src="<<<TemplateData/diagnostics.js>>>"></script>
 #endif
+<style>
+body{background-color: white;}
+</style>
   </head>
   <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} tabindex="-1"></canvas>
+    <div id="unity-container" class="unity-desktop"  style="outline:none;">
+      <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} style="outline:none;" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -21,16 +24,8 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
-        <button id="AdroitControls_GetProfilerData">   <img src="TemplateData/webmemd-icon.png" style="width:37px;height:37px;"></button>
 
-#if SHOW_DIAGNOSTICS
-        <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png">
-#endif
-        <div id="unity-build-title">{{{ PRODUCT_NAME }}}</div>
-      </div>
     </div>
 
 <!-- ADROIT Changes Start -->
@@ -44,13 +39,9 @@
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
-
-#if SHOW_DIAGNOSTICS
-      var diagnostics_icon = document.getElementById("diagnostics-icon");
-#endif
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -119,15 +110,8 @@
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
+         config.devicePixelRatio = 1;
 
-#if SHOW_DIAGNOSTICS
-        // position the diagnostics icon in the corner on the canvas
-        diagnostics_icon.style.position = "fixed";
-        diagnostics_icon.style.bottom = "10px";
-        diagnostics_icon.style.right = "0px";
-        canvas.after(diagnostics_icon);
-#endif
 
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
@@ -154,11 +138,7 @@
 
 /* ADROIT Changes End */
 
-#if SHOW_DIAGNOSTICS
-                diagnostics_icon.onclick = () => {
-                  unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMemoryInfo);
-                };
-#endif
+
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };

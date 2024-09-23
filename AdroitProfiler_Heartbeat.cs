@@ -19,6 +19,7 @@ public class AdroitProfiler_Heartbeat: MonoBehaviour
 {
     [HideInInspector]
     public bool Paused = false;
+    public bool StartPaused = false;
 
     [HideInInspector]
     public float TimeThisFrame = 0;
@@ -52,7 +53,10 @@ public class AdroitProfiler_Heartbeat: MonoBehaviour
     public delegate void On1s_Heartbeat();
     public List<On1s_Heartbeat> on1s_Heartbeat_delegates = new List<On1s_Heartbeat>();
 
-
+    private void Start()
+    {
+        Paused = StartPaused;
+    }
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);

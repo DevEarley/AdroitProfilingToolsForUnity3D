@@ -30,7 +30,7 @@ MonoBehaviour:
   EndTime: 0
   Function: 
   Value: 
-  InvokeAtTime: 101
+  InvokeAtTime: 98
   Sent: 0
   StartInEveryScene: 0
   DialogOptionIndex: 0

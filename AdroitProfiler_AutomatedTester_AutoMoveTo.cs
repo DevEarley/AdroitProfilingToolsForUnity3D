@@ -20,12 +20,24 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
     {
         if (GameObjectsForThisScene == null) return;
 
-
-        var GO = GameObjectsForThisScene.FirstOrDefault(x => (x != null && x.name == config.Target));
-        if (GO == null)
+        var targetPostition = Vector3.zero;
+        if (config.Target == null || config.Target == "")
         {
-            GO = GameObject.Find(config.Target);
-            if (GO == null) return;
+            targetPostition = config.WorldPosition;
+        }
+
+        var TargetGameObject = GameObjectsForThisScene.FirstOrDefault(x => (x != null && x.name == config.Target));
+        if (TargetGameObject == null)
+        {
+            TargetGameObject = GameObject.Find(config.Target);
+            if (TargetGameObject == null)
+            {
+                Debug.LogErrorFormat("AdroitProfiler_AutomatedTester_AutoMoveTo | Could not find GO");
+            }
+        }
+        if (TargetGameObject != null)
+        {
+            targetPostition = TargetGameObject.transform.position;
         }
 
         var CharacterController = CharacterInterface.CharacterController;
@@ -36,11 +48,11 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
         if (Camera == null) return;
         //Camera.GetComponent<PlayerCameraRotation>().enabled = false;
         var characterVectorWithoutY = new Vector3(CharacterController.transform.position.x, 0, CharacterController.transform.position.z);
-        var GOVectorWithoutY = new Vector3(GO.transform.position.x, 0, GO.transform.position.z);
+        var GOVectorWithoutY = new Vector3(targetPostition.x, 0, targetPostition.z);
         var distance = Vector3.Distance(characterVectorWithoutY, GOVectorWithoutY);
         if (distance > LookAtDistance)
         {
-            Camera.transform.LookAt(GO.transform);
+            Camera.transform.LookAt(TargetGameObject.transform);
         }
         if(distance > MoveToDistance)
         {

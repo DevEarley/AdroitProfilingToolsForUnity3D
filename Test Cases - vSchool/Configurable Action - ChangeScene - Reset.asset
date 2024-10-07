@@ -23,7 +23,7 @@ MonoBehaviour:
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
-  StartInScene: Bus_main_new
+  StartInScene: Bus_main_test
   MoveSpeed: 1
   TurnSpeed: 1
   StartTime: 0

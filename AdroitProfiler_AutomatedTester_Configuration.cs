@@ -14,6 +14,7 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint AutoClickerAnchorPoint = AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.Unselected;
     public string Target = "";
     public bool Enabled = true;
+    public bool UsingSignal = false;
     public Vector2Int MousePosition = Vector2Int.one * 2;
     public Vector2Int Offset = Vector2Int.zero;
     public Vector3 WorldPosition = Vector3.zero;
@@ -30,4 +31,7 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public int DialogOptionIndex = 0;
     public bool SkipDialog = true;
     public bool CaptureDialog = true;
+    public string StartingSignal;
+    public string EndingSignal;
+
 }

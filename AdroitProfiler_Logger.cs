@@ -52,7 +52,10 @@ public class AdroitProfiler_Logger : MonoBehaviour
     private static void OnSceneLoaded_Static(Scene scene, LoadSceneMode mode)
     {
         var _this = GameObject.FindObjectOfType<AdroitProfiler_Logger>();
-        _this.OnScenLoaded(scene, mode);
+        if (_this != null)
+        {
+            _this.OnScenLoaded(scene, mode);
+        }
     }
 
     private void OnScenLoaded(Scene scene, LoadSceneMode mode)

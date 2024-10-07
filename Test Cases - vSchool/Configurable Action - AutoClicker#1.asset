@@ -21,7 +21,7 @@ MonoBehaviour:
   Target: 
   Enabled: 1
   MousePosition: {x: 2, y: 2}
-  Offset: {x: 0, y: 207}
+  Offset: {x: 0, y: 289}
   WorldPosition: {x: 0, y: 0, z: 0}
   StartInScene: .unity
   MoveSpeed: 1

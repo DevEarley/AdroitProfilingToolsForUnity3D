@@ -41,6 +41,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private List<AdroitProfiler_AutomatedTester_Configuration> On10Seconds_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> AtTime_Configurations;
     private List<AdroitProfiler_AutomatedTester_Configuration> DuringTimespan_Configurations;
+    private List<AdroitProfiler_AutomatedTester_Configuration> OnSignal_Configurations;
 
     private AdroitProfiler_AutomatedTester_AutoBroadcaster AutoBroadcaster;
     private AdroitProfiler_AutomatedTester_AutoChooseDialogChoice AutoChooseDialogChoice;
@@ -54,6 +55,8 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private AdroitProfiler_AutomatedTester_AutoChangeScene AutoChangeScene;
     private AdroitProfiler_AutomatedTester_AutoPause AutoPause;
     private AdroitProfiler_AutomatedTester_AutoTest AutoTest;
+
+    private List<string> SignalsRecievedDuringThisScene = new List<string>();
 
 #if UNITY_WEBGL && !UNITY_EDITOR 
     private AdroitProfiler_AutomatedTester_AutoUpdateWebpage AutoUpdateWebpage;
@@ -71,11 +74,14 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private static void OnSceneLoaded_Static(Scene scene, LoadSceneMode mode)
     {
         var _this = FindObjectOfType<AdroitProfiler_AutomatedTester>();
-        _this.OnSceneLoaded(scene, mode);
+        if (_this != null) { 
+            _this.OnSceneLoaded(scene, mode);
+        }
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        SignalsRecievedDuringThisScene = new List<string>();
         SetupConfigLists();
 
         var testCases = new List<AdroitProfiler_AutomatedTester_Configuration_TestCase>();
@@ -146,6 +152,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         SetupConfigLists();
 
     }
+
     public void GotoPreviousTestCase()
     {
         if (TestCaseQueue == null || TestCaseQueue.Count() == 0) return;
@@ -190,6 +197,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         AdroitProfiler_Heartbeat.on1s_Heartbeat_delegates.Add(On1SecondHeartbeat);
         AdroitProfiler_Heartbeat.on5s_Heartbeat_delegates.Add(On5SecondHeartbeat);
         AdroitProfiler_Heartbeat.on10s_Heartbeat_delegates.Add(On10SecondHeartbeat);
+        AdroitProfiler_Heartbeat.onSignal_delegates.Add(ProcessConfigurations_OnSignal);
         GlobalTestCases.ForEach(x => AdroitProfiler_Logger.LogTestCaseInfo(x));
         SetupConfigLists();
     }
@@ -217,6 +225,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         On5Seconds_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.Every5Seconds)).ToList();
         On10Seconds_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.Every10Seconds)).ToList();
         AtTime_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene, AdroitProfiler_Timing.InvokeAtTime)).ToList();
+        OnSignal_Configurations = configs.Where(x => ConfigListPredicateForSignal(x, currentScene)).ToList();
         DuringTimespan_Configurations = configs.Where(x => ConfigListPredicate(x, currentScene,  AdroitProfiler_Timing.InvokeDuringTimespan)).ToList();
     }
 
@@ -225,46 +234,78 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
         return x.Heartbeat_Timing == timing && (x.StartInEveryScene || x.StartInScene == currentScene.name);
     }
 
+    private static bool ConfigListPredicateForSignal(AdroitProfiler_AutomatedTester_Configuration x, Scene currentScene)
+    {
+        return x.UsingSignal == true &&  (x.StartInEveryScene || x.StartInScene == currentScene.name);
+    }
+
     private void Update()
     {
         if (AtTime_Configurations == null || DuringTimespan_Configurations == null) return;
-        ProcessConfigurations(AtTime_Configurations.Where(x => x != null && x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList());
-        ProcessConfigurations(DuringTimespan_Configurations.Where(x => x != null&&  x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
+        ProcessConfigurations_ForHeartbeat(AtTime_Configurations.Where(x => x != null && x.Sent == false && x.InvokeAtTime < Time.timeSinceLevelLoad).ToList());
+        ProcessConfigurations_ForHeartbeat(DuringTimespan_Configurations.Where(x => x != null&&  x.StartTime < Time.timeSinceLevelLoad && x.EndTime > Time.timeSinceLevelLoad).ToList());
+    }
+
+    private void ProcessConfigurations_OnSignal(string signalMessage)
+    {
+        SignalsRecievedDuringThisScene.Add(signalMessage);
+        ProcessConfigurations_ForSignal(OnSignal_Configurations, signalMessage);
     }
 
     private void OnTenthHeartbeat()
     {
-        ProcessConfigurations(OnTenthSecond_Configurations);
+        ProcessConfigurations_ForHeartbeat(OnTenthSecond_Configurations);
     }
 
     private void OnQuarterHeartbeat()
     {
-        ProcessConfigurations(OnQuarterSecond_Configurations);
+        ProcessConfigurations_ForHeartbeat(OnQuarterSecond_Configurations);
 
     }
+
     private void OnHalfHeartbeat()
     {
-        ProcessConfigurations(OnHalfSecond_Configurations);
+        ProcessConfigurations_ForHeartbeat(OnHalfSecond_Configurations);
     }
+
     private void On1SecondHeartbeat()
     {
-        ProcessConfigurations(On1Second_Configurations);
+        ProcessConfigurations_ForHeartbeat(On1Second_Configurations);
     }
 
     private void On5SecondHeartbeat()
     {
-        ProcessConfigurations(On5Seconds_Configurations);
+        ProcessConfigurations_ForHeartbeat(On5Seconds_Configurations);
     }
 
     private void On10SecondHeartbeat()
     {
-        ProcessConfigurations(On10Seconds_Configurations);
+        ProcessConfigurations_ForHeartbeat(On10Seconds_Configurations);
     }
 
-    private void ProcessConfigurations(List<AdroitProfiler_AutomatedTester_Configuration> configs)
+    private void ProcessConfigurations_ForHeartbeat(List<AdroitProfiler_AutomatedTester_Configuration> configs)
     {
         if (configs == null) return;
-        foreach (var configuration in configs.Where(x=>x!=null))
+        foreach (var config in configs.Where(x => x != null))
+        {
+            if(config.UsingSignal)
+            {
+                if(SignalsRecievedDuringThisScene.Contains(config.StartingSignal) == true && SignalsRecievedDuringThisScene.Contains(config.EndingSignal) == false)
+                {
+                    ProcessConfiguration(config);
+                }
+            }
+            else 
+            {
+                ProcessConfiguration(config);
+            }
+        }
+    }
+
+    private void ProcessConfigurations_ForSignal(List<AdroitProfiler_AutomatedTester_Configuration> configs, string signalMessage)
+    {
+        if (configs == null) return;
+        foreach (var configuration in configs.Where(x => x != null && x.EndingSignal == signalMessage))
         {
             ProcessConfiguration(configuration);
         }

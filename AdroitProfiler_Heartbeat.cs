@@ -53,6 +53,10 @@ public class AdroitProfiler_Heartbeat: MonoBehaviour
     public delegate void On1s_Heartbeat();
     public List<On1s_Heartbeat> on1s_Heartbeat_delegates = new List<On1s_Heartbeat>();
 
+    public delegate void OnSignal(string signalMessage);
+    public List<OnSignal> onSignal_delegates = new List<OnSignal>();
+
+
     private void Start()
     {
         Paused = StartPaused;
@@ -88,7 +92,10 @@ public class AdroitProfiler_Heartbeat: MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-
+    public void Signal(string signalMessage)
+    {
+        onSignal_delegates.ForEach(x => x(signalMessage));
+    }
 
     private bool OneSecondSwitch = false;
     private bool TwoSecondSwitch = false;

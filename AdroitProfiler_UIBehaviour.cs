@@ -16,6 +16,9 @@ public enum AdroitProfiler_UIBehaviour_State
 [RequireComponent(typeof(AdroitProfiler_Heartbeat))]
 public class AdroitProfiler_UIBehaviour : MonoBehaviour
 {
+    public bool ShowTime = true;
+    public bool ShowGPU = true;
+    public bool ShowFPS = true;
     public TextMeshProUGUI TMProGUI_TestCaseName;
     public TextMeshProUGUI TMProGUI_FPS;
     public TextMeshProUGUI TMProGUI_GPU;
@@ -91,7 +94,18 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     private void UpdateUI()
     {
         var MBD = (1024) * (1024);
-        TMProGUI_GPU.text = AdroitProfiler_State.GPUStats;
+        if (ShowGPU)
+        {
+            TMProGUI_GPU.text = AdroitProfiler_State.GPUStats;
+        }
+
+        if (ShowTime)
+        {
+
+        UpdateTimeAndCurrentFrame();
+        }
+
+        if (ShowFPS == false) return;
         switch (AdroitProfiler_UIBehaviour_State)
         {
             case AdroitProfiler_UIBehaviour_State.Summary:
@@ -140,13 +154,22 @@ public class AdroitProfiler_UIBehaviour : MonoBehaviour
     private void ShowUI()
     {
         ShowingUI = true;
-        TMProGUI_FPS.gameObject.SetActive(true);
-        TMProGUI_GPU.gameObject.SetActive(true);
+        if (ShowFPS)
+        {
         TMProGUI_TenthSecMax.gameObject.SetActive(true);
         TMProGUI_QuarterSecMax.gameObject.SetActive(true);
         TMProGUI_HalfSecMax.gameObject.SetActive(true);
         TMProGUI_5SecMax.gameObject.SetActive(true);
         TMProGUI_10SecMax.gameObject.SetActive(true);
+
+        }
+        if (ShowTime) { 
+        TMProGUI_FPS.gameObject.SetActive(true);
+        }
+        if (ShowGPU){
+
+        TMProGUI_GPU.gameObject.SetActive(true);
+        }
     }
 
     private void HideUI()

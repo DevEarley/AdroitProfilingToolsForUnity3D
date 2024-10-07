@@ -72,7 +72,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutoBroadcaster(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
-        if (ConfigureHeartbeat(config) == false) return;
+        if (ConfigureTiming(config) == false) return;
         config.Target = EditorGUILayout.TextField("Target", config.Target);
         config.Function = EditorGUILayout.TextField("Function", config.Function);
         config.Value = EditorGUILayout.TextField("Value", config.Value);
@@ -92,7 +92,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutoUpdateWebPage(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
-        if (ConfigureHeartbeat(config) == false) return;
+        if (ConfigureTiming(config) == false) return;
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
         {
             InvokeAtTime_Field(config);
@@ -117,7 +117,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
         }
         else if (config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.FunctionShouldReturnTrue || config.TestType == AdroitProfiler_AutomatedTester_AutoTestType.FunctionShouldReturnFalse)
         {
-            if (ConfigureHeartbeat(config) == false) return;
+            if (ConfigureTiming(config) == false) return;
             if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
             {
                 InvokeAtTime_Field(config);
@@ -160,7 +160,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutoChooseDialogChoice(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
-        if (ConfigureHeartbeat(config) == false) return;
+        if (ConfigureTiming(config) == false) return;
 
 
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
@@ -232,7 +232,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutoClicker(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
-        if (ConfigureHeartbeat(config) == false) return;
+        if (ConfigureTiming(config) == false) return;
         ConfigureMousePositionAndOffset(config);
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
         {
@@ -248,7 +248,7 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
     public static void OnInspectorGUI_AutoClickTarget(AdroitProfiler_AutomatedTester_Configuration config)
     {
         ConfigureScene(config);
-        if (ConfigureHeartbeat(config) == false) return;
+        if (ConfigureTiming(config) == false) return;
         config.Target = EditorGUILayout.TextField("Target", config.Target);
         config.Offset = EditorGUILayout.Vector2IntField("Offset", config.Offset);
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.InvokeAtTime)
@@ -361,8 +361,16 @@ public static class AdroitProfiler_AutomatedTester_EditorServices
 
     }
 
-    public static bool ConfigureHeartbeat(AdroitProfiler_AutomatedTester_Configuration config)
+    public static bool ConfigureTiming(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        GUILayout.Label("Using Signal");
+        config.UsingSignal = EditorGUILayout.Toggle(config.UsingSignal);
+        GUILayout.Label(config.UsingSignal ? "(Action will only happen after the signal is recieved)" : "");
+        if (config.UsingSignal)
+        {
+            config.StartingSignal = EditorGUILayout.TextField("Starting Signal Message",config.StartingSignal);
+            config.EndingSignal = EditorGUILayout.TextField("Ending Signal Message",config.EndingSignal);
+        }
         config.Heartbeat_Timing = (AdroitProfiler_Timing)EditorGUILayout.EnumPopup("Timing", config.Heartbeat_Timing);
         if (config.Heartbeat_Timing == AdroitProfiler_Timing.Unselected)
         {

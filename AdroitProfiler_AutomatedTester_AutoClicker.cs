@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,17 +12,31 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
     [HideInInspector]
     public bool disableClickers = false;
 
+    public List<GameObject> Targets = new List<GameObject>();
 
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
         if (disableClickers == true) return;
         if (AutoClicker == null) return;
-        var vector = GetPoint(config);
+        var vector = Vector2.zero;
+        if(config.Target!=null && config.Target != "")
+        {
+            var targetGO = Targets.FirstOrDefault(x => x.name == config.Target);
+            vector = targetGO.GetComponent<RectTransform>().anchoredPosition;
+            Debug.Log("AdroitProfiler_AutomatedTester_AutoClicker | AnchoredPosition of GO: " + vector);
+        }
+        else 
+        {
+            vector = GetPoint(config);
+        }
         AutoClicker.ClickAt(vector.x, vector.y);
     }
 
-    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> config, UnityEngine.SceneManagement.Scene scene)
+    public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> configs, UnityEngine.SceneManagement.Scene scene)
     {
+        Targets = new List<GameObject>();
+        CacheTargetGameObjects_ForThisScene(configs);
+
         AutoClicker = null;
         var eventSystem = FindObjectOfType<EventSystem>();
         if (eventSystem != null)
@@ -29,7 +44,26 @@ public class AdroitProfiler_AutomatedTester_AutoClicker : MonoBehaviour, AdroitP
             AutoClicker = eventSystem.gameObject.AddComponent<AdroitProfiler_AutoClicker_StandaloneInputModule>();
         }
     }
- 
+
+    private void CacheTargetGameObjects_ForThisScene(List<AdroitProfiler_AutomatedTester_Configuration> configs)
+    {
+        foreach (var config in configs)
+        {
+            if (config.Target != null && config.Target != "")
+            {
+                var GO = GameObject.Find(config.Target);
+                if (GO == null)
+                {
+                    Debug.LogErrorFormat("AdroitProfiler_AutomatedTester_AutoClicker | Could Not find Target");
+                }
+                else
+                {
+                    Targets.Add(GO);
+                }
+            }
+        }
+    }
+
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);

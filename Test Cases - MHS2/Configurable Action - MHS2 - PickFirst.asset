@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: Configurable Action - MHS2 - PickFirst
   m_EditorClassIdentifier: 
   ConfigType: 3
-  Heartbeat_Timing: 2
+  Heartbeat_Timing: 4
   Movement: 0
   DialogOption: 1
   TestType: 0
   AutoClickerAnchorPoint: 0
   Target: 
+  Source: 
+  UseCharacterInterface: 1
   Enabled: 1
+  UsingSignal: 0
   MousePosition: {x: 2, y: 2}
   Offset: {x: 0, y: 0}
   WorldPosition: {x: 0, y: 0, z: 0}
@@ -36,3 +39,5 @@ MonoBehaviour:
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
+  StartingSignal: 
+  EndingSignal: 

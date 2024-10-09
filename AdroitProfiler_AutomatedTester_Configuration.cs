@@ -12,7 +12,9 @@ public class AdroitProfiler_AutomatedTester_Configuration : ScriptableObject
     public AdroitProfiler_AutomatedTester_DialogOptions DialogOption = AdroitProfiler_AutomatedTester_DialogOptions.Unselected;
     public AdroitProfiler_AutomatedTester_AutoTestType TestType = AdroitProfiler_AutomatedTester_AutoTestType.Unselected;
     public AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint AutoClickerAnchorPoint = AdroitProfiler_AutomatedTester_AutoClickerAnchorPoint.Unselected;
-    public string Target = "";
+    public string Target = ""; 
+    public string Source = "";
+    public bool UseCharacterInterface = true;
     public bool Enabled = true;
     public bool UsingSignal = false;
     public Vector2Int MousePosition = Vector2Int.one * 2;

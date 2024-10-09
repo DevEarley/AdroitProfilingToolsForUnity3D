@@ -19,9 +19,12 @@ MonoBehaviour:
   TestType: 0
   AutoClickerAnchorPoint: 8
   Target: 
+  Source: 
+  UseCharacterInterface: 1
   Enabled: 1
+  UsingSignal: 0
   MousePosition: {x: 2, y: 1}
-  Offset: {x: 222, y: 53}
+  Offset: {x: 543, y: 59}
   WorldPosition: {x: 0, y: 0, z: 0}
   StartInScene: 
   MoveSpeed: 1
@@ -36,3 +39,5 @@ MonoBehaviour:
   DialogOptionIndex: 0
   SkipDialog: 1
   CaptureDialog: 1
+  StartingSignal: 
+  EndingSignal: 

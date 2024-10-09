@@ -12,6 +12,7 @@ public enum AdroitProfiler_Timing
     EveryQuarterSecond,
     EveryTenthSecond,
     InvokeAtTime,
+    InvokeOnSignal,
     InvokeDuringTimespan
 
 }

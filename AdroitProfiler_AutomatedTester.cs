@@ -74,9 +74,7 @@ public class AdroitProfiler_AutomatedTester : MonoBehaviour
     private static void OnSceneLoaded_Static(Scene scene, LoadSceneMode mode)
     {
         var _this = FindObjectOfType<AdroitProfiler_AutomatedTester>();
-        if (_this != null) { 
-            _this.OnSceneLoaded(scene, mode);
-        }
+        _this.OnSceneLoaded(scene, mode);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

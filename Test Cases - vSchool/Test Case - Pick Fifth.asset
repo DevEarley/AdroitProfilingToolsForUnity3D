@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConfigurableTests: []
   ConfigurableActions:
-  - {fileID: 11400000, guid: 607ba6e9e738aea42bf84fc5dee8a112, type: 2}
   - {fileID: 11400000, guid: 98ff43ef42e47224ea561e5569d55495, type: 2}
+  - {fileID: 11400000, guid: 607ba6e9e738aea42bf84fc5dee8a112, type: 2}

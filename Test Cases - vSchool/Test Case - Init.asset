@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Test Case - Init
   m_EditorClassIdentifier: 
   ConfigurableTests: []
-  ConfigurableActions: []
+  ConfigurableActions:
+  - {fileID: 11400000, guid: 132c7ab6aeeb7c74096a05da80d17a63, type: 2}

@@ -1,7 +1,6 @@
 using System;
 using Unity.Profiling;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 public enum AdroitProfiler_StateMetricType
 {
@@ -71,44 +70,6 @@ public class AdroitProfiler_State : MonoBehaviour
     ProfilerRecorder polyCountRecorder;
     private long polyCountRecorder_lastValue;
 
-
-    ProfilerRecorder systemMemoryRecorder;
-    private long systemMemoryRecorder_lastValue;
-
-    ProfilerRecorder gcMemoryRecorder;
-    private long gcMemoryRecorder_lastValue;
-
-    ProfilerRecorder mainThreadTimeRecorder;
-    private long mainThreadTimeRecorder_lastValue;
-
-
-
-    ProfilerRecorder mAudioClipCountRecorder;                        
-    private long mAudioClipCountRecorder_lastValue;
-    ProfilerRecorder mDynamicBathcedDrawCallsCountRecorder;          
-    private long mDynamicBathcedDrawCallsCountRecorder_lastValue;
-    ProfilerRecorder mDynamicBatchesCountRecorder;                   
-    private long mDynamicBatchesCountRecorder_lastValue;
-    ProfilerRecorder mStaticBatchedDrawCallsCountRecorder;           
-    private long mStaticBatchedDrawCallsCountRecorder_lastValue;
-    ProfilerRecorder mStaticBatchesCountRecorder;                    
-    private long mStaticBatchesCountRecorder_lastValue;
-    ProfilerRecorder mInstancedBatchedDrawCallsCountRecorder;        
-    private long mInstancedBatchedDrawCallsCountRecorder_lastValue;
-    ProfilerRecorder mInstancedBatchesCountRecorder;                 
-    private long mInstancedBatchesCountRecorder_lastValue;
-    ProfilerRecorder mBatchesCountRecorder;                          
-    private long mBatchesCountRecorder_lastValue;
-    ProfilerRecorder mVerticesCountRecorder;                         
-    private long mVerticesCountRecorder_lastValue;
-    ProfilerRecorder mSetPassCallsCountRecorder;                     
-    private long mSetPassCallsCountRecorder_lastValue;
-    ProfilerRecorder mShadowCastersCountRecorder;                    
-    private long mShadowCastersCountRecorder_lastValue;
-    ProfilerRecorder mVisibleSkinnedMeshesCountRecorder;
-    private long mVisibleSkinnedMeshesCountRecorder_lastValue;
-
-
     private int NumberOfFramesThis_TenthSecond = 0;
     private int NumberOfFramesThis_QuarterSecond = 0;
     private int NumberOfFramesThis_HalfSecond = 0;
@@ -122,35 +83,9 @@ public class AdroitProfiler_State : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         drawCallsCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
         polyCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Triangles Count");
-        systemMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "System Used Memory");
-        gcMemoryRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Reserved Memory");
-        mainThreadTimeRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 15);
-        mAudioClipCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "AudioClip Count");
-        mDynamicBathcedDrawCallsCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Dynamic Batched Draw Calls Count");
-        mDynamicBatchesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Dynamic Batches Count");
-        mStaticBatchedDrawCallsCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Static Batched Draw Calls Count");
-        mStaticBatchesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Static Batches Count");
-        mInstancedBatchedDrawCallsCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Instanced Batched Draw Calls Count");
-        mInstancedBatchesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Instanced Batches Count");
-        mBatchesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Batches Count");
-        mVerticesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertices Count");
-        mSetPassCallsCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
-        mShadowCastersCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Shadow Casters Count");
-        mVisibleSkinnedMeshesCountRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Visible Skinned Meshes Count");
-
-
-
-
     }
 
-    void OnDisable()
-    {
-        drawCallsCountRecorder.Dispose();
-        polyCountRecorder.Dispose();
-        systemMemoryRecorder.Dispose();
-        gcMemoryRecorder.Dispose();
-        mainThreadTimeRecorder.Dispose();
-    }
+
 
     private void Start()
     {

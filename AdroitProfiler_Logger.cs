@@ -20,14 +20,14 @@ public class AdroitProfiler_Logger : MonoBehaviour
     public readonly static string ProfileHeader_TimeAndMessage = "Time, Name, \n ";
     public readonly static string ProfileHeader_LFT = "Scene Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
     public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
-   // public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
+    // public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
     public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
     public readonly static string ProfileHeader_PolyCount = "Polys: 10s, Polys: 5s, Polys: 0.5s, Polys: 0.25s, Polys: 0.1s, \n ";
     //public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_SystemMemory  + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
-    public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS  + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
+    public readonly static string ProfileHeader = ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
     [HideInInspector]
     public int CurrentRunIndex = 0;
-    public Dictionary<int,List<string>> Runs = new Dictionary<int, List<string>>();
+    public Dictionary<int, List<string>> Runs = new Dictionary<int, List<string>>();
 
     private AdroitProfiler_State AdroitProfiler_State;
 
@@ -89,11 +89,8 @@ public class AdroitProfiler_Logger : MonoBehaviour
             eventDescription = "Event @ " + formattedTime;
         }
         performanceEventLog += eventDescription + ", ";
-        performanceEventLog += AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_10Seconds + ", ";
-        performanceEventLog += AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_5Seconds + "  , ";
-        performanceEventLog += AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_TenthSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_HalfSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.TimePerFrame_Metrics.MaxValueInLast_QuarterSecond + " , ";
+
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.TimePerFrame_Metrics);
 
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_10Seconds + ", ";
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_5Seconds + ", ";
@@ -101,17 +98,23 @@ public class AdroitProfiler_Logger : MonoBehaviour
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_QuarterSecond + ", ";
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_TenthSecond + ", ";
 
-        performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_10Seconds + ", ";
-        performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_5Seconds + "  , ";
-        performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_TenthSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_HalfSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.DrawCalls_Metrics.MaxValueInLast_QuarterSecond + " , ";
-
-        performanceEventLog += AdroitProfiler_State.PolyCount_Metrics.MaxValueInLast_10Seconds + ", ";
-        performanceEventLog += AdroitProfiler_State.PolyCount_Metrics.MaxValueInLast_5Seconds + "  , ";
-        performanceEventLog += AdroitProfiler_State.PolyCount_Metrics.MaxValueInLast_TenthSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.PolyCount_Metrics.MaxValueInLast_HalfSecond + " , ";
-        performanceEventLog += AdroitProfiler_State.PolyCount_Metrics.MaxValueInLast_QuarterSecond + " , ";
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.DrawCalls_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.PolyCount_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.systemMemoryRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.gcMemoryRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mainThreadTimeRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mAudioClipCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mDynamicBathcedDrawCallsCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mDynamicBatchesCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mStaticBatchedDrawCallsCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mStaticBatchesCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mInstancedBatchedDrawCallsCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mInstancedBatchesCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mBatchesCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mVerticesCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mSetPassCallsCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mShadowCastersCountRecorder_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mVisibleSkinnedMeshesCountRecorder_Metrics);
 
         performanceEventLog += "\n";
         AddLogToRun(performanceEventLog);
@@ -119,9 +122,20 @@ public class AdroitProfiler_Logger : MonoBehaviour
         Debug.Log(performanceEventLog);
 
     }
-        private void AddLogToRun(string log)
+
+    private static string logMetricMaxTimes(string performanceEventLog, AdroitProfiler_StateMetrics metric)
     {
-        if(Runs.ContainsKey(CurrentRunIndex) == false)
+        performanceEventLog += metric.MaxValueInLast_10Seconds + ", ";
+        performanceEventLog += metric.MaxValueInLast_5Seconds + "  , ";
+        performanceEventLog += metric.MaxValueInLast_TenthSecond + " , ";
+        performanceEventLog += metric.MaxValueInLast_HalfSecond + " , ";
+        performanceEventLog += metric.MaxValueInLast_QuarterSecond + " , ";
+        return performanceEventLog;
+    }
+
+    private void AddLogToRun(string log)
+    {
+        if (Runs.ContainsKey(CurrentRunIndex) == false)
         {
             CurrentRunIndex++;
             Runs.Add(CurrentRunIndex, new List<string>());
@@ -161,13 +175,13 @@ public class AdroitProfiler_Logger : MonoBehaviour
     public void SaveLogs()
     {
         string jsonLogData = "";
-        foreach(var run in Runs)
+        foreach (var run in Runs)
         {
             jsonLogData += ProfileHeader;
             run.Value.ForEach(performanceEventLog =>
-            { 
+            {
                 jsonLogData += performanceEventLog;
-            }); 
+            });
         };
         Debug.Log("Saved JSON Data from Unity Project: " + jsonLogData);
 #if UNITY_WEBGL && !UNITY_EDITOR

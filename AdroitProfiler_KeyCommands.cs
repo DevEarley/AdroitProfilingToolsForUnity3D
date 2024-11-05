@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(AdroitProfiler_UIBehaviour))]
+
 [RequireComponent(typeof(AdroitProfiler_State))]
 [RequireComponent(typeof(AdroitProfiler_Logger))]
 [RequireComponent(typeof(AdroitProfiler_GameObjectController))]
@@ -41,7 +41,7 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
             "Toggle Profiler: [ + Q\r\n";
 
     private string RightBracketInstructions = "Commands: [, ]\r\n" + "" +
-            "Toggle slots: ] + 1,2,3 ... 8\r\n"+
+            "Toggle slots: ] + 1,2,3 ... 8\r\n" +
                 "Toggle Auto Clickers: ] + C";
 
 
@@ -56,7 +56,10 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         AdroitProfiler_UIBehaviour = gameObject.GetComponent<AdroitProfiler_UIBehaviour>();
         AdroitProfiler_GameObjectController = gameObject.GetComponent<AdroitProfiler_GameObjectController>();
         AutoClicker = gameObject.GetComponent<AdroitProfiler_AutomatedTester_AutoClicker>();
-        Instructions.text = LeftBracketInstructions;
+        if (Instructions != null)
+        {
+            Instructions.text = LeftBracketInstructions;
+        }
     }
 
     void Update()
@@ -67,26 +70,50 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
 
         if (pressingLeftBracket && pressingRightBracket == false)
         {
-            Instructions.text = LeftBracketInstructions;
-            Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(false);
+            if (Instructions != null)
+            {
+                Instructions.text = LeftBracketInstructions;
+                Instructions.gameObject.SetActive(true);
+            }
+            if (Instructions_Short != null)
+            {
+                Instructions_Short.SetActive(false);
+            }
         }
         else if (pressingRightBracket && pressingLeftBracket == false)
         {
-            Instructions.text = RightBracketInstructions;
-            Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(false);
+            if (Instructions != null)
+            {
+                Instructions.text = RightBracketInstructions;
+                Instructions.gameObject.SetActive(true);
+            }
+            if (Instructions_Short != null)
+            {
+                Instructions_Short.SetActive(false);
+            }
         }
         else if (pressingLeftBracket == true && pressingRightBracket == true)
         {
-            Instructions.text = BothBracketInstructions;
-            Instructions.gameObject.SetActive(true);
-            Instructions_Short.SetActive(false);
+            if (Instructions != null)
+            {
+                Instructions.text = BothBracketInstructions;
+                Instructions.gameObject.SetActive(true);
+            }
+            if (Instructions_Short != null)
+            {
+                Instructions_Short.SetActive(false);
+            }
         }
         else if (pressingLeftBracket == false && pressingRightBracket == false)
         {
-            Instructions.gameObject.SetActive(false);
-            Instructions_Short.SetActive(true);
+            if (Instructions != null)
+            {
+                Instructions.gameObject.SetActive(false);
+            }
+            if (Instructions_Short != null)
+            {
+                Instructions_Short.SetActive(true);
+            }
         }
 
         if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Q))
@@ -170,9 +197,11 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_Logger.SaveLogs();
         }
-        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.U))
+        else if (AdroitProfiler_UIBehaviour != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.U))
         {
+
             AdroitProfiler_UIBehaviour.ToggleUI();
+
         }
         else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.X))
         {
@@ -182,15 +211,15 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AdroitProfiler_Logger.CapturePerformanceForEvent("Manual Capture");
         }
-        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.F))
+        else if (AdroitProfiler_UIBehaviour != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.F))
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.TimePerFrame);
         }
-        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.Y))
+        else if (AdroitProfiler_UIBehaviour != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.Y))
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.PolyCount);
         }
-        else if (pressingLeftBracket && Input.GetKeyDown(KeyCode.R))
+        else if (AdroitProfiler_UIBehaviour != null && pressingLeftBracket && Input.GetKeyDown(KeyCode.R))
         {
             AdroitProfiler_UIBehaviour.UpdateState(AdroitProfiler_UIBehaviour_State.DrawCalls);
         }
@@ -248,6 +277,6 @@ public class AdroitProfiler_KeyCommands : MonoBehaviour
         {
             AutoClicker.disableClickers = !AutoClicker.disableClickers;
         }
-       
+
     }
 }

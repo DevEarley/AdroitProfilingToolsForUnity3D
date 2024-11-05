@@ -135,7 +135,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 {
     public TextMeshProUGUI TMProGUI_GameObjectList;
 
-  
+
     [HideInInspector]
     public Dictionary<int, GameObject> Slots = new Dictionary<int, GameObject>();
 
@@ -158,7 +158,11 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     void Start()
     {
-        TMProGUI_GameObjectList.text = "";
+        if (TMProGUI_GameObjectList != null)
+        {
+
+            TMProGUI_GameObjectList.text = "";
+        }
         AdroitProfiler_State = gameObject.GetComponent<AdroitProfiler_State>();
     }
 
@@ -196,7 +200,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
         void SelectParentOrNull()
         {
-            if (RootGameObject==null || RootGameObject.transform.parent == null)
+            if (RootGameObject == null || RootGameObject.transform.parent == null)
             {
                 ShowListOfGameObjects(null);
             }
@@ -205,7 +209,7 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
                 ShowListOfGameObjects(RootGameObject.transform.parent.gameObject);
             }
         }
-    }   
+    }
 
     public void DuplicateSlot(int number)
     {
@@ -228,14 +232,14 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
             {
                 offset = Vector3.one * DuplicationOffset;
             }
-            var duplicate = GameObject.Instantiate(Slots[number], offset * (Duplicates.Count+1) , Quaternion.identity);
+            var duplicate = GameObject.Instantiate(Slots[number], offset * (Duplicates.Count + 1), Quaternion.identity);
             Duplicates.Add(duplicate);
         }
     }
 
     public void SetSlot(int number)
     {
-        if (SettingSlot == true )
+        if (SettingSlot == true)
         {
             SetSlotForNumber(number);
         }
@@ -264,8 +268,12 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private void ShowSlots()
     {
-        TMProGUI_GameObjectList.text = "";
-        Slots.ToList().ForEach(x => TMProGUI_GameObjectList.text += x.Value.name + "\n");
+        if (TMProGUI_GameObjectList != null)
+        {
+            TMProGUI_GameObjectList.text = "";
+
+            Slots.ToList().ForEach(x => TMProGUI_GameObjectList.text += x.Value.name + "\n");
+        }
     }
 
     public void ToggleSlot(int number)
@@ -325,8 +333,9 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
     {
         Duplicates.ForEach(duplicate =>
         {
-            if(duplicate != null) {
-            Destroy(duplicate);
+            if (duplicate != null)
+            {
+                Destroy(duplicate);
             }
             duplicate = null;
         });
@@ -335,21 +344,24 @@ public class AdroitProfiler_GameObjectController : MonoBehaviour
 
     private void ShowListOfGameObjects(GameObject newRoot)
     {
-        UpdateListOfGameObjects( newRoot);
-        TMProGUI_GameObjectList.text = "> ";
-
-        GameObjectList.ForEach(go =>
+        if (TMProGUI_GameObjectList != null)
         {
-            if (go == null) return;
-            if (go.transform.parent != null)
+            UpdateListOfGameObjects(newRoot);
+            TMProGUI_GameObjectList.text = "> ";
+
+            GameObjectList.ForEach(go =>
             {
-                TMProGUI_GameObjectList.text += go.transform.parent.gameObject.name + " / " + go.name + "\n";
-            }
-            else
-            {
-                TMProGUI_GameObjectList.text += "scene_root / " + go.name + "\n";
-            }
-        });
+                if (go == null) return;
+                if (go.transform.parent != null)
+                {
+                    TMProGUI_GameObjectList.text += go.transform.parent.gameObject.name + " / " + go.name + "\n";
+                }
+                else
+                {
+                    TMProGUI_GameObjectList.text += "scene_root / " + go.name + "\n";
+                }
+            });
+        }
     }
 
     private void UpdateListOfGameObjects(GameObject newRoot)

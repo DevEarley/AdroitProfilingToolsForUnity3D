@@ -153,6 +153,11 @@ public class AdroitProfiler_Logger : MonoBehaviour
         Debug.Log(performanceEventLog);
     }
 
+    public void DownloadLogs()
+    {
+        SaveLogs();
+    }
+
     public void SaveLogs()
     {
         string jsonLogData = "";

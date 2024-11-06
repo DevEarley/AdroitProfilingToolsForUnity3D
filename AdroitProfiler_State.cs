@@ -271,32 +271,32 @@ public class AdroitProfiler_State : MonoBehaviour
     {
         var timeThisFrame = AdroitProfiler_Heartbeat.TimeThisFrame;
         UpdateMetricWithTime(TimePerFrame_Metrics, timeThisFrame);
-        UpdateMetricWithTime(DrawCalls_Metrics, timeThisFrame);
-        UpdateMetricWithTime(PolyCount_Metrics, timeThisFrame);
-        UpdateMetricWithTime(systemMemoryRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(gcMemoryRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mainThreadTimeRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mAudioClipCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mDynamicBathcedDrawCallsCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mDynamicBatchesCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mStaticBatchedDrawCallsCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mStaticBatchesCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mInstancedBatchedDrawCallsCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mInstancedBatchesCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mBatchesCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mVerticesCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mSetPassCallsCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mShadowCastersCountRecorder_Metrics, timeThisFrame);
-        UpdateMetricWithTime(mVisibleSkinnedMeshesCountRecorder_Metrics, timeThisFrame);
+        UpdateMetricWithTime(DrawCalls_Metrics, drawCallsCountRecorder_lastValue);
+        UpdateMetricWithTime(PolyCount_Metrics, polyCountRecorder_lastValue);
+        UpdateMetricWithTime(systemMemoryRecorder_Metrics, systemMemoryRecorder_lastValue);
+        UpdateMetricWithTime(gcMemoryRecorder_Metrics, gcMemoryRecorder_lastValue);
+        UpdateMetricWithTime(mainThreadTimeRecorder_Metrics, mainThreadTimeRecorder_lastValue);
+        UpdateMetricWithTime(mAudioClipCountRecorder_Metrics, mAudioClipCountRecorder_lastValue);
+        UpdateMetricWithTime(mDynamicBathcedDrawCallsCountRecorder_Metrics, mDynamicBathcedDrawCallsCountRecorder_lastValue);
+        UpdateMetricWithTime(mDynamicBatchesCountRecorder_Metrics, mDynamicBatchesCountRecorder_lastValue);
+        UpdateMetricWithTime(mStaticBatchedDrawCallsCountRecorder_Metrics, mStaticBatchedDrawCallsCountRecorder_lastValue);
+        UpdateMetricWithTime(mStaticBatchesCountRecorder_Metrics, mStaticBatchesCountRecorder_lastValue);
+        UpdateMetricWithTime(mInstancedBatchedDrawCallsCountRecorder_Metrics, mInstancedBatchedDrawCallsCountRecorder_lastValue);
+        UpdateMetricWithTime(mInstancedBatchesCountRecorder_Metrics, mInstancedBatchesCountRecorder_lastValue);
+        UpdateMetricWithTime(mBatchesCountRecorder_Metrics, mBatchesCountRecorder_lastValue);
+        UpdateMetricWithTime(mVerticesCountRecorder_Metrics, mVerticesCountRecorder_lastValue);
+        UpdateMetricWithTime(mSetPassCallsCountRecorder_Metrics, mSetPassCallsCountRecorder_lastValue);
+        UpdateMetricWithTime(mShadowCastersCountRecorder_Metrics, mShadowCastersCountRecorder_lastValue);
+        UpdateMetricWithTime(mVisibleSkinnedMeshesCountRecorder_Metrics, mVisibleSkinnedMeshesCountRecorder_lastValue);
     }
 
-    private static void UpdateMetricWithTime(AdroitProfiler_StateMetrics aMetric, float timeThisFrame)
+    private static void UpdateMetricWithTime(AdroitProfiler_StateMetrics aMetric, float value)
     {
-        aMetric.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_TenthSecond, timeThisFrame);
-        aMetric.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_QuarterSecond, timeThisFrame);
-        aMetric.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_HalfSecond, timeThisFrame);
-        aMetric.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_5Seconds, timeThisFrame);
-        aMetric.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_10Seconds, timeThisFrame);
+        aMetric.MaxValueInLast_TenthSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_TenthSecond, value);
+        aMetric.MaxValueInLast_QuarterSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_QuarterSecond, value);
+        aMetric.MaxValueInLast_HalfSecond = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_HalfSecond, value);
+        aMetric.MaxValueInLast_5Seconds = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_5Seconds, value);
+        aMetric.MaxValueInLast_10Seconds = AdroitProfiler_Service.UpdateMetric(aMetric.MaxValueInLast_10Seconds, value);
     }
 
     private void OnTenthHeartbeat()

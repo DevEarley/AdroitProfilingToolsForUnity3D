@@ -7,9 +7,10 @@ using UnityEngine;
 [CustomEditor(typeof(AdroitProfiler_AutomatedTester_Configuration))]
 public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
 {
-  
 
 
+    private Vector2 Scroll_IN = Vector2.zero;
+    private Vector2 Scroll = Vector2.zero;
     public override void OnInspectorGUI()
     {
 
@@ -17,7 +18,7 @@ public class AdroitProfiler_AutomatedTester_Configuration_Editor : Editor
         var config = target as AdroitProfiler_AutomatedTester_Configuration;
         EditorGUI.BeginChangeCheck();
 
-        AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config((config));
+        AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config((config), Scroll, out Scroll);
 
 
         EditorGUI.EndChangeCheck();

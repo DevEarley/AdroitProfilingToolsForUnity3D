@@ -2,6 +2,7 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ using UnityEngine;
 [CustomEditor(typeof(AdroitProfiler_AutomatedTester_Configuration_TestCase))]
 public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
 {
-   
+    private Vector2 Scroll_IN = Vector2.zero;
+    private Vector2 Scroll = Vector2.zero;
+    private List<AdroitProfiler_AutomatedTester_Configuration> hidden = new List<AdroitProfiler_AutomatedTester_Configuration>();
     public override void OnInspectorGUI()
     {
         var config_SO = target as AdroitProfiler_AutomatedTester_Configuration_TestCase;
@@ -33,21 +36,60 @@ public class AdroitProfiler_AutomatedTester_Configuration_SO_Editor : Editor
         int? indexToDuplicate = null;
         EditorGUI.BeginChangeCheck();
         var index = 0;
+            GUILayout.BeginHorizontal();
+        GUILayout.Label("====== Configurable Actions ======");
+        if (GUILayout.Button("Show All"))
+        {
+            hidden.Clear();
+        }
+        if (GUILayout.Button("Hide All"))
+        {
+            hidden = config_SO.ConfigurableActions.ToList();
+
+        }
+        GUILayout.EndHorizontal();
+
         foreach (var config in config_SO.ConfigurableActions)
         {
             if (config == null) return;
-            config.Enabled = EditorGUILayout.BeginToggleGroup(config.name + " (" + config.ConfigType.ToString() + ")", config.Enabled);
+            bool showing = hidden.Contains(config) == false;
+            var message = (config.Enabled ? "Enabled" : "Disabled");
+
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Remove from test case"))
+            GUILayout.Label(config.name + " (" + config.ConfigType.ToString() + ")");
+            if (GUILayout.Button("Show"))
             {
-                indexToDelete = index;
+                if (hidden.Contains(config))
+                {
+                    hidden.Remove(config);
+                }
+                showing = true;
             }
-          
+            if (GUILayout.Button("Hide"))
+            {
+                if (hidden.Contains(config) == false)
+                {
+                    hidden.Add(config);
+                }
+                showing = false;
+
+            }
 
             GUILayout.EndHorizontal();
+            config.Enabled = EditorGUILayout.BeginToggleGroup(message, config.Enabled);
 
-            AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config);
+            if (showing == true)
+            {
 
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Remove from test case"))
+                {
+                    indexToDelete = index;
+                }
+                GUILayout.EndHorizontal();
+
+                AdroitProfiler_AutomatedTester_EditorServices.OnInspectorGUI_AutomatedTester_Config(config, Scroll,out Scroll);
+            }
 
             EditorUtility.SetDirty(config);
 

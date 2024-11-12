@@ -25,10 +25,25 @@ public class AdroitProfiler_AutomatedTester_AutoTeleportTo : MonoBehaviour, Adro
         var GO = GameObjectsForThisScene.FirstOrDefault(x => (x != null && x.name == config.Target));
         if(GO == null)
         {
+            Debug.LogErrorFormat("AutoTeleportTo | Could not find target | Attempt 1");
             GO = GameObject.Find(config.Target);
-            if(GO == null) return;
+            if (GO == null) {
+                Debug.LogErrorFormat("AutoTeleportTo | Could not find target | Attempt 2");
+                return;
+            };
         }
-        CharacterInterface.CharacterController.transform.position = GO.transform.position;
+        if (GO != null)
+        {
+            Debug.Log("AutoTeleportTo | Teleporting");
+
+            CharacterInterface.CharacterController.transform.position = GO.transform.position;
+        }
+        else
+        {
+            Debug.LogErrorFormat("AutoTeleportTo | Could not find target");
+
+        }
+
     }
 
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> configs, UnityEngine.SceneManagement.Scene scene)

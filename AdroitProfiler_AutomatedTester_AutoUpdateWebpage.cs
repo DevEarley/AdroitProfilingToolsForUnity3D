@@ -16,13 +16,13 @@ public class AdroitProfiler_AutomatedTester_AutoUpdateWebpage : MonoBehaviour, A
 
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
-        config.Sent = true;
+      
         WebPageInterface.UpdateWebPage();
     }
 
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> configs, UnityEngine.SceneManagement.Scene scene)
     {
-        configs.ForEach(x => x.Sent = false);  
+       
     }
 
     void Awake()

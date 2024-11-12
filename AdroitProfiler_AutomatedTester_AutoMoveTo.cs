@@ -19,14 +19,12 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
 
     public void ProcessConfiguration(AdroitProfiler_AutomatedTester_Configuration config)
     {
+        Debug.Log("Auto Move To | ProcessConfiguration");
         if (TargetGOForThisScene == null) return;
         if (SourceGOForThisScene == null) return;
 
-        var targetPostition = Vector3.zero;
-        if (config.Target == null || config.Target == "")
-        {
-            targetPostition = config.WorldPosition;
-        }
+
+        Vector3 targetPostition;
 
         var TargetGameObject = GetTargetGO(config);
         if (TargetGameObject != null)
@@ -45,42 +43,37 @@ public class AdroitProfiler_AutomatedTester_AutoMoveTo : MonoBehaviour, AdroitPr
             Debug.LogErrorFormat("AdroitProfiler_AutomatedTester_AutoMoveTo | Source GO missing");
             return;
         }
-        var CharacterController = CharacterInterface.CharacterController;
-        var Camera = CharacterInterface.Camera;
-        if (CharacterController == null) CharacterInterface.SetCharacterController();
-        if (Camera == null) CharacterInterface.SetCamera();
-        if (CharacterController == null) return;
-        if (Camera == null) return;
-        var SourceVectorWitoutY = Vector3.zero;
+        Vector3 SourceVectorWitoutY;
+        var GOVectorWithoutY = new Vector3(targetPostition.x, 0, targetPostition.z);
         if (config.UseCharacterInterface)
         {
+            var CharacterController = CharacterInterface.CharacterController;
+            var Camera = CharacterInterface.Camera;
+            if (CharacterController == null) CharacterInterface.SetCharacterController();
+            if (Camera == null) CharacterInterface.SetCamera();
+            if (CharacterController == null) return;
+            if (Camera == null) return;
             SourceVectorWitoutY = new Vector3(CharacterController.transform.position.x, 0, CharacterController.transform.position.z);
-
+            var distance = Vector3.Distance(SourceVectorWitoutY, GOVectorWithoutY);
+            if (distance > LookAtDistance)
+            {
+                Camera.transform.LookAt(TargetGameObject.transform);
+            }
+            if (distance > MoveToDistance)
+            {
+                CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
+            }
         }
         else
         {
             SourceVectorWitoutY = new Vector3(SourceGameObject.transform.position.x, 0, SourceGameObject.transform.position.z);
+            var distance = Vector3.Distance(SourceVectorWitoutY, GOVectorWithoutY);
 
-        }
-        var GOVectorWithoutY = new Vector3(targetPostition.x, 0, targetPostition.z);
-        var distance = Vector3.Distance(SourceVectorWitoutY, GOVectorWithoutY);
-        if (distance > LookAtDistance)
-        {
-            Camera.transform.LookAt(TargetGameObject.transform);
-        }
-        if (distance > MoveToDistance)
-        {
-
-            if (config.UseCharacterInterface)
-            {
-
-                CharacterController.SimpleMove(Camera.transform.forward * config.MoveSpeed * Time.deltaTime);
-
-            }
-            else
+            if (distance > MoveToDistance)
             {
                 SourceGameObject.transform.position = Vector3.Lerp(SourceGameObject.transform.position, TargetGameObject.transform.position, config.MoveSpeed * Time.deltaTime);
             }
+
 
         }
     }

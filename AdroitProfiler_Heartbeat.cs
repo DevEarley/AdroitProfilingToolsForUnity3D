@@ -13,7 +13,8 @@ public enum AdroitProfiler_Timing
     EveryTenthSecond,
     InvokeAtTime,
     InvokeOnSignal,
-    InvokeDuringTimespan
+    InvokeDuringTimespan,
+    StartAfterTime
 
 }
 public class AdroitProfiler_Heartbeat: MonoBehaviour

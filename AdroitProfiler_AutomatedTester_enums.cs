@@ -25,7 +25,8 @@ public enum AdroitProfiler_AutomatedTester_Configuration_Type
     AutoPause,
     AutoChangeTestCase,
     AutoTest,
-    AutoUpdateWebpage
+    AutoUpdateWebpage,
+    AutoRunLua
 
 }
 

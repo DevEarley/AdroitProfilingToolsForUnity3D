@@ -18,12 +18,12 @@ public class AdroitProfiler_AutomatedTester_AutoChangeTestCase : MonoBehaviour, 
         Debug.Log("AutoChangeTestCase | " + config.name);
 
         AdroitProfiler_AutomatedTester.GotoNextTestCase();
-        config.Sent = true;
+
     }
 
     public void OnSceneLoaded(List<AdroitProfiler_AutomatedTester_Configuration> configs, UnityEngine.SceneManagement.Scene scene)
     {
-        configs.ForEach(x => x.Sent = false);
+
     }
     void Awake()
     {

@@ -33,7 +33,7 @@ public class AdroitProfiler_AutomatedTester_CharacterInterface : MonoBehaviour
 
     public void SetCharacterController()
     {
-        CharacterController = FindObjectsOfType<CharacterController>().FirstOrDefault(x => x.gameObject.activeInHierarchy);
+        CharacterController = FindObjectsByType<CharacterController>(FindObjectsSortMode.None).FirstOrDefault(x => x.gameObject.activeInHierarchy);
     }
 
     public void SetCamera()

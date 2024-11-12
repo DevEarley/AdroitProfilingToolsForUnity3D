@@ -17,14 +17,87 @@ public class AdroitProfiler_Logger : MonoBehaviour
         private static extern void downloadToFile(string content, string filename);
 #endif
 
-    public readonly static string ProfileHeader_TimeAndMessage = "Time, Name, \n ";
-    public readonly static string ProfileHeader_LFT = "Scene Time, Scene Name, Event Description, LFT: 10s, LFT: 5s, LFT: 0.5s, LFT: 0.25s, LFT: 0.1s, ";
-    public readonly static string ProfileHeader_FPS = "FPS: 10s, FPS: 5s, FPS: 0.5s, FPS: 0.25s, FPS: 0.1s, ";
-    // public readonly static string ProfileHeader_SystemMemory = "MEM: 10s, MEM: 5s, MEM: 0.5s, FPSMEM 0.25s, MEM: 0.1s, ";
-    public readonly static string ProfileHeader_DrawsCount = "Draws: 10s, Draws: 5s, Draws: 0.5s, Draws: 0.25s, Draws: 0.1s, ";
-    public readonly static string ProfileHeader_PolyCount = "Polys: 10s, Polys: 5s, Polys: 0.5s, Polys: 0.25s, Polys: 0.1s, \n ";
-    //public  readonly static string  ProfileHeader =  ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_SystemMemory  + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
-    public readonly static string ProfileHeader = ProfileHeader_LFT + ProfileHeader_FPS + ProfileHeader_DrawsCount + ProfileHeader_PolyCount;
+    public readonly static string ProfileHeader_Times = " 10s,  5s,  0.5s, 0.25s, 0.1s, ";
+    public readonly static string ProfileTitles = " , , ,Longest Frame Time,,,,," +
+                                                  "Average FPS,,,,," +
+                                                 // "App Committed Memory,,,,," +
+                                                 // "App Resident Memory,,,,," +
+                                                 // "Audio Reserved Memory,,,,," +
+                                                 // "Audio Used Memory,,,,," +
+                                                  "GC Reserved Memory,,,,," +
+                                                  "GC Used Memory,,,,," +
+                                                  "Profiler Reserved Memory,,,,," +
+                                                  "Profiler Used Memory,,,,," +
+                                                 // "System Total Used ,,,,," +
+                                                 // "System Used Memory,,,,," +
+                                                  "Total Reserved Memory,,,,," +
+                                                  "Total Used Memory,,,,," +
+                                                  // "Video Reserved Memory,,,,," +
+                                                  // /"Video Used Memory,,,,," +
+                                                  "Batches Count  ,,,,," +
+                                                  "CPU Main Thread Frame Time,,,,," +
+                                                  "CPU Render Thread Frame Time,,,,," +
+                                                  "CPU Total Frame Time,,,,," +
+                                                  "Draw Calls Count,,,,," +
+                                                  // "GPU Frame Time,,,,," +
+                                                  "Index Buffer Upload In Frame Bytes,,,,," +
+                                                  "Index Buffer Upload In Frame Count,,,,," +
+                                                  // "Bytes ,,,,," +
+                                                  "Render Textures Changes Count,,,,," +
+                                                  "Render Textures Count,,,,," +
+                                                  "SetPass Calls Count,,,,," +
+                                                 // "Shadow Casters Count,,,,," +
+                                                  "Triangles Count ,,,,," +
+                                                  "Used Buffers Bytes,,,,," +
+                                                  "Used Buffers Count,,,,," +
+                                                  "Vertex Buffer Upload In Frame Bytes,,,,," +
+                                                  "Vertex Buffer Upload In Frame Count ,,,,," +
+                                                  "Vertices Count ,,,,," +
+                                                  "Video Memory Bytes,,,,," +
+                                                  "Visible Skinned Meshes Count \n";
+
+    public readonly static string ProfileHeader = "Scene Time, Scene Name, Event Description, " +
+                                    ProfileHeader_Times + //LFT
+                                    ProfileHeader_Times + //FPS
+                                   // ProfileHeader_Times + // App Committed Memory
+                                   // ProfileHeader_Times + // App Resident Memory
+                                   // ProfileHeader_Times + // Audio Reserved Memory
+                                   // ProfileHeader_Times + // Audio Used Memory
+                                    ProfileHeader_Times + // GC Reserved Memory
+                                    ProfileHeader_Times + // GC Used Memory
+                                    ProfileHeader_Times + // Profiler Reserved Memory
+                                    ProfileHeader_Times + // Profiler Used Memory
+                                   // ProfileHeader_Times + // System Total Used
+                                   // ProfileHeader_Times + // System Used Memory
+                                    ProfileHeader_Times + // Total Reserved Memory
+                                    ProfileHeader_Times + // Total Used Memory
+                                   // ProfileHeader_Times + // Video Reserved Memory
+                                   // ProfileHeader_Times + // Video Used Memory
+                                    ProfileHeader_Times + // Batches Count
+                                    ProfileHeader_Times + // CPU Main Thread Frame Time
+                                    ProfileHeader_Times + // CPU Render Thread Frame Time
+                                    ProfileHeader_Times + // CPU Total Frame Time
+                                    ProfileHeader_Times + // Draw Calls Count
+                                    // ProfileHeader_Times + // GPU Frame Time
+                                    ProfileHeader_Times + // Index Buffer Upload In Frame Bytes
+                                    ProfileHeader_Times + // Index Buffer Upload In Frame Count
+                                    // ProfileHeader_Times + // Bytes
+                                    ProfileHeader_Times + // Render Textures Changes Count
+                                    ProfileHeader_Times + // Render Textures Count
+                                    ProfileHeader_Times + // SetPass Calls Count
+                                    // ProfileHeader_Times + // Shadow Casters Count
+                                    ProfileHeader_Times + // Triangles Count
+                                    ProfileHeader_Times + // Used Buffers Bytes
+                                    ProfileHeader_Times + // Used Buffers Count
+                                    ProfileHeader_Times + // Vertex Buffer Upload In Frame Bytes
+                                    ProfileHeader_Times + // Vertex Buffer Upload In Frame Count
+                                    ProfileHeader_Times + // Vertices Count
+                                    ProfileHeader_Times + // Video Memory Bytes
+                                    ProfileHeader_Times + "\n"; // Visible Skinned Meshes Count
+
+
+
+
     [HideInInspector]
     public int CurrentRunIndex = 0;
     public Dictionary<int, List<string>> Runs = new Dictionary<int, List<string>>();
@@ -81,13 +154,16 @@ public class AdroitProfiler_Logger : MonoBehaviour
     {
         var formattedTime = AdroitProfiler_Service.FormatTime(Time.timeSinceLevelLoad);
         var performanceEventLog = "";
-        performanceEventLog += DateTime.Today.ToString("MM/dd/yy HH:mm:ss") + " | ";
         performanceEventLog += formattedTime + ",";
         performanceEventLog += SceneManager.GetActiveScene().path + ", ";
         if (eventDescription == "" || eventDescription == null)
         {
             eventDescription = "Event @ " + formattedTime;
         }
+
+        eventDescription.Replace(',', '|');
+        eventDescription.Replace('\n', '|');
+        eventDescription.Replace('\r', '|');
         performanceEventLog += eventDescription + ", ";
 
         performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.TimePerFrame_Metrics);
@@ -98,23 +174,42 @@ public class AdroitProfiler_Logger : MonoBehaviour
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_QuarterSecond + ", ";
         performanceEventLog += AdroitProfiler_State.AverageFPSFor_TenthSecond + ", ";
 
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.DrawCalls_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.PolyCount_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.systemMemoryRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.gcMemoryRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mainThreadTimeRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mAudioClipCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mDynamicBathcedDrawCallsCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mDynamicBatchesCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mStaticBatchedDrawCallsCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mStaticBatchesCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mInstancedBatchedDrawCallsCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mInstancedBatchesCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mBatchesCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mVerticesCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mSetPassCallsCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mShadowCastersCountRecorder_Metrics);
-        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.mVisibleSkinnedMeshesCountRecorder_Metrics);
+       // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.App_Committed_Memory_Metrics);
+       // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.App_Resident_Memory_Metrics);
+       // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Audio_Reserved_Memory_Metrics);
+       // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Audio_Used_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.GC_Reserved_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.GC_Used_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Profiler_Reserved_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Profiler_Used_Memory_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.System_Total_Used_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.System_Used_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Total_Reserved_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Total_Used_Memory_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Video_Reserved_Memory_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Video_Used_Memory_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Batches_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.CPU_Main_Thread_Frame_Time_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.CPU_Render_Thread_Frame_Time_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.CPU_Total_Frame_Time_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Draw_Calls_Count_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.GPU_Frame_Time_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Index_Buffer_Upload_In_Frame_Bytes_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Index_Buffer_Upload_In_Frame_Count_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Bytes_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Render_Textures_Changes_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Render_Textures_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.SetPass_Calls_Count_Metrics);
+        // performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Shadow_Casters_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Triangles_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Used_Buffers_Bytes_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Used_Buffers_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Vertex_Buffer_Upload_In_Frame_Bytes_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Vertex_Buffer_Upload_In_Frame_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Vertices_Count_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Video_Memory_Bytes_Metrics);
+        performanceEventLog = logMetricMaxTimes(performanceEventLog, AdroitProfiler_State.Visible_Skinned_Meshes_Count_Metrics);
+
 
         performanceEventLog += "\n";
         AddLogToRun(performanceEventLog);
@@ -175,8 +270,12 @@ public class AdroitProfiler_Logger : MonoBehaviour
     public void SaveLogs()
     {
         string jsonLogData = "";
+        jsonLogData += DateTime.Today.ToString("MM/dd/yy") + "\n";
+
         foreach (var run in Runs)
         {
+            jsonLogData += ProfileTitles;
+
             jsonLogData += ProfileHeader;
             run.Value.ForEach(performanceEventLog =>
             {

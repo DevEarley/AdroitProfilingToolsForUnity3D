@@ -623,7 +623,7 @@ public class AdroitProfiler_State : MonoBehaviour
         Vertex_Buffer_Upload_In_Frame_Count_Metrics.MaxValueInLast_HalfSecond = Vertex_Buffer_Upload_In_Frame_Count_lastValue;
         Vertices_Count_Metrics.MaxValueInLast_HalfSecond = Vertices_Count_lastValue;
         Video_Memory_Bytes_Metrics.MaxValueInLast_HalfSecond = Video_Memory_Bytes_lastValue;
-        Visible_Skinned_Meshes_Count_Metrics.MaxValueInLast_HalfSecond = Visible_Skinned_Meshes_Count_la
+        Visible_Skinned_Meshes_Count_Metrics.MaxValueInLast_HalfSecond = Visible_Skinned_Meshes_Count_lastValue;
     }
 
     private void On5SecondHeartbeat()
